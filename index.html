@@ -1,0 +1,938 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mohali Belt Urban Growth</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Space+Grotesk:wght@500;700&display=swap">
+<style>
+/* Leaflet 1.9.4 stylesheet, inlined (the page may only load stylesheets from Google Fonts) */
+/* required styles */
+
+.leaflet-pane,
+.leaflet-tile,
+.leaflet-marker-icon,
+.leaflet-marker-shadow,
+.leaflet-tile-container,
+.leaflet-pane > svg,
+.leaflet-pane > canvas,
+.leaflet-zoom-box,
+.leaflet-image-layer,
+.leaflet-layer {
+	position: absolute;
+	left: 0;
+	top: 0;
+	}
+.leaflet-container {
+	overflow: hidden;
+	}
+.leaflet-tile,
+.leaflet-marker-icon,
+.leaflet-marker-shadow {
+	-webkit-user-select: none;
+	   -moz-user-select: none;
+	        user-select: none;
+	  -webkit-user-drag: none;
+	}
+/* Prevents IE11 from highlighting tiles in blue */
+.leaflet-tile::selection {
+	background: transparent;
+}
+/* Safari renders non-retina tile on retina better with this, but Chrome is worse */
+.leaflet-safari .leaflet-tile {
+	image-rendering: -webkit-optimize-contrast;
+	}
+/* hack that prevents hw layers "stretching" when loading new tiles */
+.leaflet-safari .leaflet-tile-container {
+	width: 1600px;
+	height: 1600px;
+	-webkit-transform-origin: 0 0;
+	}
+.leaflet-marker-icon,
+.leaflet-marker-shadow {
+	display: block;
+	}
+/* .leaflet-container svg: reset svg max-width decleration shipped in Joomla! (joomla.org) 3.x */
+/* .leaflet-container img: map is broken in FF if you have max-width: 100% on tiles */
+.leaflet-container .leaflet-overlay-pane svg {
+	max-width: none !important;
+	max-height: none !important;
+	}
+.leaflet-container .leaflet-marker-pane img,
+.leaflet-container .leaflet-shadow-pane img,
+.leaflet-container .leaflet-tile-pane img,
+.leaflet-container img.leaflet-image-layer,
+.leaflet-container .leaflet-tile {
+	max-width: none !important;
+	max-height: none !important;
+	width: auto;
+	padding: 0;
+	}
+
+.leaflet-container img.leaflet-tile {
+	/* See: https://bugs.chromium.org/p/chromium/issues/detail?id=600120 */
+	mix-blend-mode: plus-lighter;
+}
+
+.leaflet-container.leaflet-touch-zoom {
+	-ms-touch-action: pan-x pan-y;
+	touch-action: pan-x pan-y;
+	}
+.leaflet-container.leaflet-touch-drag {
+	-ms-touch-action: pinch-zoom;
+	/* Fallback for FF which doesn't support pinch-zoom */
+	touch-action: none;
+	touch-action: pinch-zoom;
+}
+.leaflet-container.leaflet-touch-drag.leaflet-touch-zoom {
+	-ms-touch-action: none;
+	touch-action: none;
+}
+.leaflet-container {
+	-webkit-tap-highlight-color: transparent;
+}
+.leaflet-container a {
+	-webkit-tap-highlight-color: rgba(51, 181, 229, 0.4);
+}
+.leaflet-tile {
+	filter: inherit;
+	visibility: hidden;
+	}
+.leaflet-tile-loaded {
+	visibility: inherit;
+	}
+.leaflet-zoom-box {
+	width: 0;
+	height: 0;
+	-moz-box-sizing: border-box;
+	     box-sizing: border-box;
+	z-index: 800;
+	}
+/* workaround for https://bugzilla.mozilla.org/show_bug.cgi?id=888319 */
+.leaflet-overlay-pane svg {
+	-moz-user-select: none;
+	}
+
+.leaflet-pane         { z-index: 400; }
+
+.leaflet-tile-pane    { z-index: 200; }
+.leaflet-overlay-pane { z-index: 400; }
+.leaflet-shadow-pane  { z-index: 500; }
+.leaflet-marker-pane  { z-index: 600; }
+.leaflet-tooltip-pane   { z-index: 650; }
+.leaflet-popup-pane   { z-index: 700; }
+
+.leaflet-map-pane canvas { z-index: 100; }
+.leaflet-map-pane svg    { z-index: 200; }
+
+.leaflet-vml-shape {
+	width: 1px;
+	height: 1px;
+	}
+.lvml {
+	behavior: url(#default#VML);
+	display: inline-block;
+	position: absolute;
+	}
+
+
+/* control positioning */
+
+.leaflet-control {
+	position: relative;
+	z-index: 800;
+	pointer-events: visiblePainted; /* IE 9-10 doesn't have auto */
+	pointer-events: auto;
+	}
+.leaflet-top,
+.leaflet-bottom {
+	position: absolute;
+	z-index: 1000;
+	pointer-events: none;
+	}
+.leaflet-top {
+	top: 0;
+	}
+.leaflet-right {
+	right: 0;
+	}
+.leaflet-bottom {
+	bottom: 0;
+	}
+.leaflet-left {
+	left: 0;
+	}
+.leaflet-control {
+	float: left;
+	clear: both;
+	}
+.leaflet-right .leaflet-control {
+	float: right;
+	}
+.leaflet-top .leaflet-control {
+	margin-top: 10px;
+	}
+.leaflet-bottom .leaflet-control {
+	margin-bottom: 10px;
+	}
+.leaflet-left .leaflet-control {
+	margin-left: 10px;
+	}
+.leaflet-right .leaflet-control {
+	margin-right: 10px;
+	}
+
+
+/* zoom and fade animations */
+
+.leaflet-fade-anim .leaflet-popup {
+	opacity: 0;
+	-webkit-transition: opacity 0.2s linear;
+	   -moz-transition: opacity 0.2s linear;
+	        transition: opacity 0.2s linear;
+	}
+.leaflet-fade-anim .leaflet-map-pane .leaflet-popup {
+	opacity: 1;
+	}
+.leaflet-zoom-animated {
+	-webkit-transform-origin: 0 0;
+	    -ms-transform-origin: 0 0;
+	        transform-origin: 0 0;
+	}
+svg.leaflet-zoom-animated {
+	will-change: transform;
+}
+
+.leaflet-zoom-anim .leaflet-zoom-animated {
+	-webkit-transition: -webkit-transform 0.25s cubic-bezier(0,0,0.25,1);
+	   -moz-transition:    -moz-transform 0.25s cubic-bezier(0,0,0.25,1);
+	        transition:         transform 0.25s cubic-bezier(0,0,0.25,1);
+	}
+.leaflet-zoom-anim .leaflet-tile,
+.leaflet-pan-anim .leaflet-tile {
+	-webkit-transition: none;
+	   -moz-transition: none;
+	        transition: none;
+	}
+
+.leaflet-zoom-anim .leaflet-zoom-hide {
+	visibility: hidden;
+	}
+
+
+/* cursors */
+
+.leaflet-interactive {
+	cursor: pointer;
+	}
+.leaflet-grab {
+	cursor: -webkit-grab;
+	cursor:    -moz-grab;
+	cursor:         grab;
+	}
+.leaflet-crosshair,
+.leaflet-crosshair .leaflet-interactive {
+	cursor: crosshair;
+	}
+.leaflet-popup-pane,
+.leaflet-control {
+	cursor: auto;
+	}
+.leaflet-dragging .leaflet-grab,
+.leaflet-dragging .leaflet-grab .leaflet-interactive,
+.leaflet-dragging .leaflet-marker-draggable {
+	cursor: move;
+	cursor: -webkit-grabbing;
+	cursor:    -moz-grabbing;
+	cursor:         grabbing;
+	}
+
+/* marker & overlays interactivity */
+.leaflet-marker-icon,
+.leaflet-marker-shadow,
+.leaflet-image-layer,
+.leaflet-pane > svg path,
+.leaflet-tile-container {
+	pointer-events: none;
+	}
+
+.leaflet-marker-icon.leaflet-interactive,
+.leaflet-image-layer.leaflet-interactive,
+.leaflet-pane > svg path.leaflet-interactive,
+svg.leaflet-image-layer.leaflet-interactive path {
+	pointer-events: visiblePainted; /* IE 9-10 doesn't have auto */
+	pointer-events: auto;
+	}
+
+/* visual tweaks */
+
+.leaflet-container {
+	background: #ddd;
+	outline-offset: 1px;
+	}
+.leaflet-container a {
+	color: #0078A8;
+	}
+.leaflet-zoom-box {
+	border: 2px dotted #38f;
+	background: rgba(255,255,255,0.5);
+	}
+
+
+/* general typography */
+.leaflet-container {
+	font-family: "Helvetica Neue", Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-size: 0.75rem;
+	line-height: 1.5;
+	}
+
+
+/* general toolbar styles */
+
+.leaflet-bar {
+	box-shadow: 0 1px 5px rgba(0,0,0,0.65);
+	border-radius: 4px;
+	}
+.leaflet-bar a {
+	background-color: #fff;
+	border-bottom: 1px solid #ccc;
+	width: 26px;
+	height: 26px;
+	line-height: 26px;
+	display: block;
+	text-align: center;
+	text-decoration: none;
+	color: black;
+	}
+.leaflet-bar a,
+.leaflet-control-layers-toggle {
+	background-position: 50% 50%;
+	background-repeat: no-repeat;
+	display: block;
+	}
+.leaflet-bar a:hover,
+.leaflet-bar a:focus {
+	background-color: #f4f4f4;
+	}
+.leaflet-bar a:first-child {
+	border-top-left-radius: 4px;
+	border-top-right-radius: 4px;
+	}
+.leaflet-bar a:last-child {
+	border-bottom-left-radius: 4px;
+	border-bottom-right-radius: 4px;
+	border-bottom: none;
+	}
+.leaflet-bar a.leaflet-disabled {
+	cursor: default;
+	background-color: #f4f4f4;
+	color: #bbb;
+	}
+
+.leaflet-touch .leaflet-bar a {
+	width: 30px;
+	height: 30px;
+	line-height: 30px;
+	}
+.leaflet-touch .leaflet-bar a:first-child {
+	border-top-left-radius: 2px;
+	border-top-right-radius: 2px;
+	}
+.leaflet-touch .leaflet-bar a:last-child {
+	border-bottom-left-radius: 2px;
+	border-bottom-right-radius: 2px;
+	}
+
+/* zoom control */
+
+.leaflet-control-zoom-in,
+.leaflet-control-zoom-out {
+	font: bold 18px 'Lucida Console', Monaco, monospace;
+	text-indent: 1px;
+	}
+
+.leaflet-touch .leaflet-control-zoom-in, .leaflet-touch .leaflet-control-zoom-out  {
+	font-size: 22px;
+	}
+
+
+/* layers control */
+
+.leaflet-control-layers {
+	box-shadow: 0 1px 5px rgba(0,0,0,0.4);
+	background: #fff;
+	border-radius: 5px;
+	}
+.leaflet-control-layers-toggle {
+	background-image: url(images/layers.png);
+	width: 36px;
+	height: 36px;
+	}
+.leaflet-retina .leaflet-control-layers-toggle {
+	background-image: url(images/layers-2x.png);
+	background-size: 26px 26px;
+	}
+.leaflet-touch .leaflet-control-layers-toggle {
+	width: 44px;
+	height: 44px;
+	}
+.leaflet-control-layers .leaflet-control-layers-list,
+.leaflet-control-layers-expanded .leaflet-control-layers-toggle {
+	display: none;
+	}
+.leaflet-control-layers-expanded .leaflet-control-layers-list {
+	display: block;
+	position: relative;
+	}
+.leaflet-control-layers-expanded {
+	padding: 6px 10px 6px 6px;
+	color: #333;
+	background: #fff;
+	}
+.leaflet-control-layers-scrollbar {
+	overflow-y: scroll;
+	overflow-x: hidden;
+	padding-right: 5px;
+	}
+.leaflet-control-layers-selector {
+	margin-top: 2px;
+	position: relative;
+	top: 1px;
+	}
+.leaflet-control-layers label {
+	display: block;
+	font-size: 13px;
+	font-size: 1.08333em;
+	}
+.leaflet-control-layers-separator {
+	height: 0;
+	border-top: 1px solid #ddd;
+	margin: 5px -10px 5px -6px;
+	}
+
+/* Default icon URLs */
+.leaflet-default-icon-path { /* used only in path-guessing heuristic, see L.Icon.Default */
+	background-image: url(images/marker-icon.png);
+	}
+
+
+/* attribution and scale controls */
+
+.leaflet-container .leaflet-control-attribution {
+	background: #fff;
+	background: rgba(255, 255, 255, 0.8);
+	margin: 0;
+	}
+.leaflet-control-attribution,
+.leaflet-control-scale-line {
+	padding: 0 5px;
+	color: #333;
+	line-height: 1.4;
+	}
+.leaflet-control-attribution a {
+	text-decoration: none;
+	}
+.leaflet-control-attribution a:hover,
+.leaflet-control-attribution a:focus {
+	text-decoration: underline;
+	}
+.leaflet-attribution-flag {
+	display: inline !important;
+	vertical-align: baseline !important;
+	width: 1em;
+	height: 0.6669em;
+	}
+.leaflet-left .leaflet-control-scale {
+	margin-left: 5px;
+	}
+.leaflet-bottom .leaflet-control-scale {
+	margin-bottom: 5px;
+	}
+.leaflet-control-scale-line {
+	border: 2px solid #777;
+	border-top: none;
+	line-height: 1.1;
+	padding: 2px 5px 1px;
+	white-space: nowrap;
+	-moz-box-sizing: border-box;
+	     box-sizing: border-box;
+	background: rgba(255, 255, 255, 0.8);
+	text-shadow: 1px 1px #fff;
+	}
+.leaflet-control-scale-line:not(:first-child) {
+	border-top: 2px solid #777;
+	border-bottom: none;
+	margin-top: -2px;
+	}
+.leaflet-control-scale-line:not(:first-child):not(:last-child) {
+	border-bottom: 2px solid #777;
+	}
+
+.leaflet-touch .leaflet-control-attribution,
+.leaflet-touch .leaflet-control-layers,
+.leaflet-touch .leaflet-bar {
+	box-shadow: none;
+	}
+.leaflet-touch .leaflet-control-layers,
+.leaflet-touch .leaflet-bar {
+	border: 2px solid rgba(0,0,0,0.2);
+	background-clip: padding-box;
+	}
+
+
+/* popup */
+
+.leaflet-popup {
+	position: absolute;
+	text-align: center;
+	margin-bottom: 20px;
+	}
+.leaflet-popup-content-wrapper {
+	padding: 1px;
+	text-align: left;
+	border-radius: 12px;
+	}
+.leaflet-popup-content {
+	margin: 13px 24px 13px 20px;
+	line-height: 1.3;
+	font-size: 13px;
+	font-size: 1.08333em;
+	min-height: 1px;
+	}
+.leaflet-popup-content p {
+	margin: 17px 0;
+	margin: 1.3em 0;
+	}
+.leaflet-popup-tip-container {
+	width: 40px;
+	height: 20px;
+	position: absolute;
+	left: 50%;
+	margin-top: -1px;
+	margin-left: -20px;
+	overflow: hidden;
+	pointer-events: none;
+	}
+.leaflet-popup-tip {
+	width: 17px;
+	height: 17px;
+	padding: 1px;
+
+	margin: -10px auto 0;
+	pointer-events: auto;
+
+	-webkit-transform: rotate(45deg);
+	   -moz-transform: rotate(45deg);
+	    -ms-transform: rotate(45deg);
+	        transform: rotate(45deg);
+	}
+.leaflet-popup-content-wrapper,
+.leaflet-popup-tip {
+	background: white;
+	color: #333;
+	box-shadow: 0 3px 14px rgba(0,0,0,0.4);
+	}
+.leaflet-container a.leaflet-popup-close-button {
+	position: absolute;
+	top: 0;
+	right: 0;
+	border: none;
+	text-align: center;
+	width: 24px;
+	height: 24px;
+	font: 16px/24px Tahoma, Verdana, sans-serif;
+	color: #757575;
+	text-decoration: none;
+	background: transparent;
+	}
+.leaflet-container a.leaflet-popup-close-button:hover,
+.leaflet-container a.leaflet-popup-close-button:focus {
+	color: #585858;
+	}
+.leaflet-popup-scrolled {
+	overflow: auto;
+	}
+
+.leaflet-oldie .leaflet-popup-content-wrapper {
+	-ms-zoom: 1;
+	}
+.leaflet-oldie .leaflet-popup-tip {
+	width: 24px;
+	margin: 0 auto;
+
+	-ms-filter: "progid:DXImageTransform.Microsoft.Matrix(M11=0.70710678, M12=0.70710678, M21=-0.70710678, M22=0.70710678)";
+	filter: progid:DXImageTransform.Microsoft.Matrix(M11=0.70710678, M12=0.70710678, M21=-0.70710678, M22=0.70710678);
+	}
+
+.leaflet-oldie .leaflet-control-zoom,
+.leaflet-oldie .leaflet-control-layers,
+.leaflet-oldie .leaflet-popup-content-wrapper,
+.leaflet-oldie .leaflet-popup-tip {
+	border: 1px solid #999;
+	}
+
+
+/* div icon */
+
+.leaflet-div-icon {
+	background: #fff;
+	border: 1px solid #666;
+	}
+
+
+/* Tooltip */
+/* Base styles for the element that has a tooltip */
+.leaflet-tooltip {
+	position: absolute;
+	padding: 6px;
+	background-color: #fff;
+	border: 1px solid #fff;
+	border-radius: 3px;
+	color: #222;
+	white-space: nowrap;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	pointer-events: none;
+	box-shadow: 0 1px 3px rgba(0,0,0,0.4);
+	}
+.leaflet-tooltip.leaflet-interactive {
+	cursor: pointer;
+	pointer-events: auto;
+	}
+.leaflet-tooltip-top:before,
+.leaflet-tooltip-bottom:before,
+.leaflet-tooltip-left:before,
+.leaflet-tooltip-right:before {
+	position: absolute;
+	pointer-events: none;
+	border: 6px solid transparent;
+	background: transparent;
+	content: "";
+	}
+
+/* Directions */
+
+.leaflet-tooltip-bottom {
+	margin-top: 6px;
+}
+.leaflet-tooltip-top {
+	margin-top: -6px;
+}
+.leaflet-tooltip-bottom:before,
+.leaflet-tooltip-top:before {
+	left: 50%;
+	margin-left: -6px;
+	}
+.leaflet-tooltip-top:before {
+	bottom: 0;
+	margin-bottom: -12px;
+	border-top-color: #fff;
+	}
+.leaflet-tooltip-bottom:before {
+	top: 0;
+	margin-top: -12px;
+	margin-left: -6px;
+	border-bottom-color: #fff;
+	}
+.leaflet-tooltip-left {
+	margin-left: -6px;
+}
+.leaflet-tooltip-right {
+	margin-left: 6px;
+}
+.leaflet-tooltip-left:before,
+.leaflet-tooltip-right:before {
+	top: 50%;
+	margin-top: -6px;
+	}
+.leaflet-tooltip-left:before {
+	right: 0;
+	margin-right: -12px;
+	border-left-color: #fff;
+	}
+.leaflet-tooltip-right:before {
+	left: 0;
+	margin-left: -12px;
+	border-right-color: #fff;
+	}
+
+/* Printing */
+
+@media print {
+	/* Prevent printers from removing background-images of controls. */
+	.leaflet-control {
+		-webkit-print-color-adjust: exact;
+		print-color-adjust: exact;
+		}
+	}
+
+</style>
+<style>
+/* Layout: a header band, then the map beside a control and figures panel; the panel stacks under the map on phones */
+:root {
+  --bg: #F4F7F5; --surface: #FFFFFF; --ink: #1F2A2E; --muted: #56676B; --line: #D6DFDB;
+  --accent: #B03A2E; --accent-ink: #FFFFFF; --map-ground: #E4EAE7; --focus: #2F7FB0;
+  --c-built: #B03A2E; --c-crop: #8DB63C; --c-trees: #2E6B3F; --c-bare: #D9A441; --c-both: #5F6F73;
+  --font-display: "Space Grotesk", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-body: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { --bg: #111A1C; --surface: #172225; --ink: #E5ECEA; --muted: #9DAEAB; --line: #2B3B3E; --accent: #E2705F; --accent-ink: #1A1110; --map-ground: #0C1315; --focus: #6FB3DF; color-scheme: dark; }
+}
+:root[data-theme="dark"] { --bg: #111A1C; --surface: #172225; --ink: #E5ECEA; --muted: #9DAEAB; --line: #2B3B3E; --accent: #E2705F; --accent-ink: #1A1110; --map-ground: #0C1315; --focus: #6FB3DF; color-scheme: dark; }
+
+html, body { margin: 0; }
+[hidden] { display: none !important; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 15px; line-height: 1.5; }
+.wrap { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 20px 28px; max-width: 1320px; margin: 0 auto; display: grid; gap: 18px; }
+header { display: grid; gap: 6px; }
+.eyebrow { font: 600 12px/1.2 var(--font-body); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+h1 { font: 700 clamp(24px, 3.2vw, 34px)/1.15 var(--font-display); margin: 0; text-wrap: balance; }
+.lede { margin: 0; color: var(--muted); max-width: 68ch; }
+.layout { display: grid; grid-template-columns: minmax(0, 1fr) 350px; gap: 20px; align-items: start; }
+@media (max-width: 920px) { .layout { grid-template-columns: minmax(0, 1fr); } }
+#map { height: min(74vh, 780px); min-height: 420px; border: 1px solid var(--line); border-radius: 10px; background: var(--map-ground); }
+@media (max-width: 920px) { #map { height: 62vh; min-height: 360px; } }
+.leaflet-container { font-family: var(--font-body); }
+.px { image-rendering: pixelated; }
+aside { display: grid; gap: 18px; min-width: 0; }
+section { display: grid; gap: 10px; min-width: 0; }
+section + section { border-top: 1px solid var(--line); padding-top: 16px; }
+h2 { font: 600 13px/1.2 var(--font-body); letter-spacing: .07em; text-transform: uppercase; color: var(--muted); margin: 0; }
+.seg { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+.seg button { font: 600 14px/1 var(--font-body); padding: 10px 6px; border-radius: 8px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); cursor: pointer; }
+.seg button.wide { grid-column: 1 / -1; }
+.seg button[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.row label { color: var(--muted); font-size: 14px; }
+input[type="range"] { flex: 1; min-width: 120px; accent-color: var(--accent); }
+.legend { display: grid; gap: 7px; margin: 0; padding: 0; list-style: none; }
+.legend li { display: grid; grid-template-columns: 16px minmax(0, 1fr) auto; gap: 10px; align-items: center; font-variant-numeric: tabular-nums; }
+.sw { width: 16px; height: 16px; border-radius: 3px; }
+.legend .ha { color: var(--muted); font-size: 14px; }
+.big { font: 700 28px/1.1 var(--font-display); color: var(--accent); font-variant-numeric: tabular-nums; }
+.note { color: var(--muted); font-size: 13.5px; margin: 0; }
+table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; font-size: 14px; }
+th, td { text-align: left; padding: 6px 4px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { color: var(--muted); font-weight: 600; font-size: 12.5px; }
+td.n, th.n { text-align: right; white-space: nowrap; }
+.chart svg { width: 100%; height: auto; display: block; }
+.chart text { fill: var(--ink); font: 600 12px var(--font-body); }
+.chart .axis { fill: var(--muted); font-weight: 400; }
+.town-label { background: var(--surface); color: var(--ink); border: 1px solid var(--line); box-shadow: none; font: 600 12px var(--font-body); padding: 2px 6px; }
+.town-label::before { display: none; }
+.leaflet-popup-content-wrapper, .leaflet-popup-tip { background: var(--surface); color: var(--ink); }
+.pop h3 { font: 600 14px var(--font-display); margin: 0 0 6px; }
+.pop ul { list-style: none; padding: 0; margin: 0 0 6px; display: grid; gap: 4px; }
+.pop li { display: flex; gap: 8px; align-items: center; }
+.pop small { color: var(--muted); }
+.basemap[hidden] { display: none !important; }
+select { font: 14px var(--font-body); padding: 6px 8px; border-radius: 6px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); }
+footer { color: var(--muted); font-size: 13px; display: grid; gap: 4px; }
+footer p { margin: 0; max-width: 90ch; }
+</style>
+
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">S.A.S. Nagar (Mohali) district, Punjab · Landsat 8, March 2015–2025</div>
+    <h1>Urban growth around Chandigarh, 2015–2025</h1>
+    <p class="lede">Land-cover maps of the Mohali–Kharar–Zirakpur–Dera Bassi belt. Switch between years, or show only the land that became built-up. Click any spot to see what that 30 m square was in 2015, 2020 and 2025.</p>
+  </header>
+
+  <div class="layout">
+    <div id="map" role="region" aria-label="Map of land cover in the study area"></div>
+
+    <aside>
+      <section aria-labelledby="h-view">
+        <h2 id="h-view">Show</h2>
+        <div class="seg" role="group" aria-label="Map view">
+          <button type="button" id="v2015" data-view="2015" aria-pressed="false">2015</button>
+          <button type="button" id="v2020" data-view="2020" aria-pressed="false">2020</button>
+          <button type="button" id="v2025" data-view="2025" aria-pressed="true">2025</button>
+          <button type="button" id="vchange" class="wide" data-view="change" aria-pressed="false">New built-up land, 2015 → 2025</button>
+        </div>
+        <div class="row">
+          <label for="opacity">Layer opacity</label>
+          <input type="range" id="opacity" min="20" max="100" value="90" step="5">
+        </div>
+        <div class="row">
+          <input type="checkbox" id="towns" checked>
+          <label for="towns">Town names (approximate positions)</label>
+        </div>
+        <div class="row basemap" id="basemapRow" hidden>
+          <label for="basemap">Background</label>
+          <select id="basemap">
+            <option value="none">None</option>
+            <option value="osm">Street map</option>
+            <option value="sat">Satellite photo</option>
+          </select>
+        </div>
+      </section>
+
+      <section aria-labelledby="h-legend">
+        <h2 id="h-legend">Legend</h2>
+        <ul class="legend" id="legend"></ul>
+      </section>
+
+      <section aria-labelledby="h-growth">
+        <h2 id="h-growth">Built-up land</h2>
+        <div class="big" id="bigNumber"></div>
+        <p class="note" id="growthNote"></p>
+        <div class="chart" id="chart"></div>
+      </section>
+
+      <section aria-labelledby="h-zones">
+        <h2 id="h-zones">Where it grew</h2>
+        <table>
+          <thead><tr><th>Zone</th><th class="n">2015 ha</th><th class="n">2025 ha</th><th class="n">UEII</th></tr></thead>
+          <tbody id="zones"></tbody>
+        </table>
+        <p class="note">UEII = new built-up land each year as a % of the zone’s area, so zones of different size compare fairly. The zones are the two parts of the district boundary file, not official tehsils.</p>
+      </section>
+
+      <section aria-labelledby="h-trust">
+        <h2 id="h-trust">How reliable is it?</h2>
+        <p class="note" id="trust"></p>
+      </section>
+    </aside>
+  </div>
+
+  <footer>
+    <p>Method: two clear March Landsat 8 images per year were merged into one cloud-free picture, sorted by K-means into 10 groups (trained on all <span id="nPix"></span> pixels from the three years, one model for every year), and the groups were named and merged into four land types. The analysis was run in Python; the course asked for QGIS, and the same steps can be repeated there.</p>
+    <p>Data: Landsat 8 Collection 2 (USGS/NASA) via Microsoft Planetary Computer. Accuracy check: Esri World Imagery and ESA WorldCover. Project by Supriya Mahshere and Aanya Upadhyay, November 2026.</p>
+  </footer>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script>
+const D = {"bounds":{"south":30.355160657716162,"west":76.49366990210937,"north":30.94806999413503,"east":76.94507903291846},"merc":{"minx":8515236.382411573,"miny":3549284.615155947,"maxx":8565487.016992673,"maxy":3626006.878392504},"size":{"w":1437,"h":2194},"classes":[{"name":"Built-up","code":1,"hex":"#B03A2E","rgb":[176,58,46]},{"name":"Cropland","code":2,"hex":"#8DB63C","rgb":[141,182,60]},{"name":"Trees/vegetation","code":3,"hex":"#2E6B3F","rgb":[46,107,63]},{"name":"Bare/fallow","code":5,"hex":"#D9A441","rgb":[217,164,65]}],"colors":{"built":"#B03A2E","newBuilt":"#B03A2E","both":"#5F6F73"},"area":{"2015":{"Built-up":7843.5,"Cropland":81218.2,"Trees/vegetation":14255.0,"Bare/fallow":5482.0,"Total":108798.8},"2020":{"Built-up":10033.0,"Cropland":77204.4,"Trees/vegetation":17149.8,"Bare/fallow":4438.8,"Total":108826.0},"2025":{"Built-up":14785.8,"Cropland":66728.1,"Trees/vegetation":22299.0,"Bare/fallow":4970.1,"Total":108783.0}},"builtup":{"2015":7843.5,"2020":10033.0,"2025":14785.8},"changeStats":{"2015-2020":{"increase_ha":2189.5,"ha_per_year":437.9,"pct_change":27.9,"lcr_pct_per_year":4.92},"2020-2025":{"increase_ha":4752.8,"ha_per_year":950.6,"pct_change":47.4,"lcr_pct_per_year":7.76},"2015-2025":{"increase_ha":6942.3,"ha_per_year":694.2,"pct_change":88.5,"lcr_pct_per_year":6.34}},"change":{"newBuilt":10169.7,"both":4611.7},"zones":[{"name":"West (Kharar\u2013Mohali)","b15":4336.2,"b25":9236.1,"ueii":0.688},{"name":"East (Dera Bassi\u2013Zirakpur)","b15":3507.3,"b25":5545.3,"ueii":0.542},{"name":"Whole study area","b15":7843.5,"b25":14785.8,"ueii":0.6380860818317848}],"accuracy":{"points":158,"overall":74.6,"binary":87.0,"bu_found":51.9,"adj":17706.0,"ci":4648.0},"trainingPixels":3626753,"towns":[["Mohali",30.7046,76.7179],["Kharar",30.7461,76.6457],["Kurali",30.8312,76.5776],["Zirakpur",30.6425,76.8173],["Dera Bassi",30.5872,76.8426],["Lalru",30.4858,76.8037],["Chandigarh",30.7333,76.7794]]};
+const fmt = (x) => Math.round(x).toLocaleString('en-US');
+const pct1 = (x) => (Math.round(x * 10) / 10).toFixed(1);
+const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const LAYERS = { '2015': 'layers/lulc_2015.png', '2020': 'layers/lulc_2020.png', '2025': 'layers/lulc_2025.png', change: 'layers/change_2015_2025.png' };
+const bounds = L.latLngBounds([D.bounds.south, D.bounds.west], [D.bounds.north, D.bounds.east]);
+const map = L.map('map', { zoomSnap: 0.25, minZoom: 8, maxZoom: 16, zoomAnimation: !reduce, fadeAnimation: !reduce, maxBounds: bounds.pad(0.8) });
+map.fitBounds(bounds, { padding: [6, 6] });
+map.attributionControl.setPrefix('<a href="https://leafletjs.com" target="_blank" rel="noopener">Leaflet</a>');
+map.attributionControl.addAttribution('Land cover: own analysis of Landsat 8 (USGS/NASA)');
+L.control.scale({ imperial: false, position: 'bottomleft' }).addTo(map);
+
+const overlays = {};
+for (const k in LAYERS) overlays[k] = L.imageOverlay(LAYERS[k], bounds, { opacity: 0.9, className: 'px', interactive: false });
+let current = '2025';
+overlays[current].addTo(map);
+const opacityEl = document.getElementById('opacity');
+const opacity = () => Number(opacityEl.value) / 100;
+opacityEl.addEventListener('input', () => overlays[current].setOpacity(opacity()));
+
+function setView(k) {
+  if (k === current) return;
+  map.removeLayer(overlays[current]);
+  current = k;
+  overlays[k].setOpacity(opacity()).addTo(map);
+  document.querySelectorAll('.seg button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.view === k)));
+  renderLegend();
+}
+document.querySelectorAll('.seg button').forEach((b) => b.addEventListener('click', () => setView(b.dataset.view)));
+
+function renderLegend() {
+  const ul = document.getElementById('legend');
+  let items;
+  if (current === 'change') {
+    items = [[D.colors.newBuilt, 'Became built-up, 2015 → 2025', D.change.newBuilt], [D.colors.both, 'Built-up in both years', D.change.both]];
+  } else {
+    const a = D.area[current], t = a.Total;
+    items = D.classes.map((c) => [c.hex, c.name, a[c.name], 100 * a[c.name] / t]);
+  }
+  ul.innerHTML = items.map(([col, name, ha, share]) =>
+    `<li><span class="sw" style="background:${col}"></span><span>${name}</span><span class="ha">${fmt(ha)} ha${share !== undefined ? ` · ${pct1(share)}%` : ''}</span></li>`).join('');
+}
+
+// built-up summary and chart
+(function renderGrowth() {
+  const b = D.builtup, c = D.changeStats;
+  document.getElementById('bigNumber').textContent = `+${fmt(c['2015-2025'].increase_ha)} ha`;
+  document.getElementById('growthNote').textContent =
+    `Built-up land went from ${fmt(b['2015'])} ha in 2015 to ${fmt(b['2025'])} ha in 2025 (+${Math.round(c['2015-2025'].pct_change)}%), or ${pct1(c['2015-2025'].lcr_pct_per_year)}% a year. Growth sped up after 2020: ${pct1(c['2020-2025'].lcr_pct_per_year)}% a year, up from ${pct1(c['2015-2020'].lcr_pct_per_year)}%.`;
+  const years = ['2015', '2020', '2025'], W = 320, H = 150, top = 22, base = 122, max = Math.max(...years.map((y) => b[y]));
+  const bw = 60, gap = (W - years.length * bw) / (years.length + 1);
+  let svg = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Bar chart of built-up area: ${years.map((y) => `${y} ${fmt(b[y])} hectares`).join(', ')}">`;
+  svg += `<line x1="0" x2="${W}" y1="${base}" y2="${base}" stroke="currentColor" stroke-opacity=".25"/>`;
+  years.forEach((y, i) => {
+    const h = (base - top) * b[y] / max, x = gap + i * (bw + gap);
+    svg += `<rect x="${x}" y="${base - h}" width="${bw}" height="${h}" rx="3" fill="${D.colors.built}"/>`;
+    svg += `<text x="${x + bw / 2}" y="${base - h - 6}" text-anchor="middle">${fmt(b[y])}</text>`;
+    svg += `<text class="axis" x="${x + bw / 2}" y="${base + 18}" text-anchor="middle">${y}</text>`;
+  });
+  document.getElementById('chart').innerHTML = svg + '</svg>';
+  document.getElementById('zones').innerHTML = D.zones.map((z) =>
+    `<tr><td>${z.name}</td><td class="n">${fmt(z.b15)}</td><td class="n">${fmt(z.b25)}</td><td class="n">${z.ueii.toFixed(2)}</td></tr>`).join('');
+  const a = D.accuracy;
+  document.getElementById('trust').innerHTML =
+    `Checked at ${a.points} random points on detailed satellite photos: <strong>${Math.round(a.overall)}%</strong> correct across the four land types, and <strong>${Math.round(a.binary)}%</strong> correct for built-up versus not. The map finds about ${Math.round(a.bu_found)}% of real built-up land, so it <strong>undercounts</strong>: the corrected 2025 estimate is about ${fmt(Math.round(a.adj / 100) * 100)} ± ${fmt(Math.round(a.ci / 100) * 100)} ha. Treat the hectares as conservative estimates. The photo labels were AI-assisted and are being spot-checked.`;
+  document.getElementById('nPix').textContent = fmt(D.trainingPixels);
+})();
+renderLegend();
+
+// approximate town positions, for orientation only
+const towns = L.layerGroup(D.towns.map(([name, lat, lon]) =>
+  L.circleMarker([lat, lon], { radius: 3, color: '#1F2A2E', weight: 1, fillColor: '#FFFFFF', fillOpacity: 1, interactive: false })
+    .bindTooltip(name, { permanent: true, direction: 'right', offset: [6, 0], className: 'town-label' })));
+towns.addTo(map);
+document.getElementById('towns').addEventListener('change', (e) => (e.target.checked ? towns.addTo(map) : map.removeLayer(towns)));
+
+// background maps: offered only where the tiles can actually load (blocked inside the artifact viewer)
+const bases = {
+  osm: L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '© OpenStreetMap contributors' }),
+  sat: L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', { maxZoom: 18, attribution: 'Imagery © Esri' }),
+};
+const probe = new Image();
+probe.onload = () => { document.getElementById('basemapRow').hidden = false; };
+probe.src = 'https://tile.openstreetmap.org/9/364/211.png';
+let baseOn = null;
+document.getElementById('basemap').addEventListener('change', (e) => {
+  if (baseOn) map.removeLayer(baseOn);
+  baseOn = e.target.value === 'none' ? null : bases[e.target.value].addTo(map);
+  if (baseOn) baseOn.bringToBack();
+});
+
+// click: read the class of the clicked 30 m square from each year's layer
+const samplers = {};
+['2015', '2020', '2025'].forEach((y) => { const im = new Image(); im.src = LAYERS[y]; samplers[y] = im; });
+const cv = document.createElement('canvas'); cv.width = cv.height = 1;
+const cx = cv.getContext('2d', { willReadFrequently: true });
+cx.imageSmoothingEnabled = false;
+function classAt(img, px, py) {
+  cx.clearRect(0, 0, 1, 1);
+  cx.drawImage(img, px, py, 1, 1, 0, 0, 1, 1);
+  const [r, g, b, a] = cx.getImageData(0, 0, 1, 1).data;
+  if (a < 128) return null;
+  let best = null, bd = Infinity;
+  for (const c of D.classes) { const d = (r - c.rgb[0]) ** 2 + (g - c.rgb[1]) ** 2 + (b - c.rgb[2]) ** 2; if (d < bd) { bd = d; best = c; } }
+  return best;
+}
+map.on('click', (e) => {
+  const p = L.CRS.EPSG3857.project(e.latlng), m = D.merc;
+  const px = Math.floor((p.x - m.minx) / (m.maxx - m.minx) * D.size.w);
+  const py = Math.floor((m.maxy - p.y) / (m.maxy - m.miny) * D.size.h);
+  let html;
+  const inside = px >= 0 && py >= 0 && px < D.size.w && py < D.size.h;
+  const cls = inside ? ['2015', '2020', '2025'].map((y) => [y, classAt(samplers[y], px, py)]) : [];
+  if (!inside || cls.every(([, c]) => !c)) {
+    html = '<div class="pop"><h3>Outside the study area</h3><small>Click inside the coloured area.</small></div>';
+  } else {
+    html = `<div class="pop"><h3>This 30 m square</h3><ul>${cls.map(([y, c]) => `<li><span class="sw" style="background:${c ? c.hex : 'transparent'};width:12px;height:12px"></span>${y}: ${c ? c.name : 'no data'}</li>`).join('')}</ul><small>Map estimate; about ${Math.round(D.accuracy.overall)}% of checked points are correct.</small></div>`;
+  }
+  L.popup({ maxWidth: 240 }).setLatLng(e.latlng).setContent(html).openOn(map);
+});
+</script>
+</body>
+</html>
