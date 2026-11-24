@@ -60,7 +60,7 @@ agree = sum(1 for r in labA if r["label"] == labB[r["id"]]["label"]); bagree = s
 bys = r2["model"]["builtup_ha_by_seed"]
 final = {"area": r2["area_ha"], "share": r2["share_pct"], "change": r2["builtup_change"], "zones": r2["zones"],
          "new_bu": r2["new_builtup_2015_2025_ha"], "crop_to_bu": r2["cropland_to_builtup_2015_2025_ha"], "crop_share": r2["cropland_share_of_new_builtup_pct"],
-         "lost_bu": r2["builtup_2015_not_builtup_2025_ha"], "naming": r2["model"]["naming"], "training": tj,
+         "lost_bu": r2["builtup_2015_not_builtup_2025_ha"], "from_to": r2["from_to_2015_2025_ha"], "naming": r2["model"]["naming"], "training": tj,
          "bu_by_seed": bys, "wc": r2["worldcover"]["WC2020_vs_2020"], "acc": A, "acc_points": acc["points_used"], "acc_unclear": acc["points_unclear"],
          "raters": {"agree": agree, "bin_agree": bagree, "n": len(labA)}, "kcheck": mc_["task2"],
          "sample_runs": mc_["task3"]}

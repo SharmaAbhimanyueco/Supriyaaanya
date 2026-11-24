@@ -407,5 +407,23 @@
   "cv_note": "CV uses sample std (ddof=1)",
   "comparison_reference": "saved reference centres (nearest-centre assignment); clusters are labelled in reference numbering",
   "summary_note": "'reference' in summary = refit (seed 42) with NDVI-rank naming; see task1 for saved-centre numbers"
+ },
+ "from_to": {
+  "Built-up -> Built-up": 4611.7,
+  "Built-up -> Cropland": 1310.4,
+  "Built-up -> Trees/vegetation": 1576.0,
+  "Built-up -> Bare/fallow": 339.0,
+  "Cropland -> Built-up": 6915.9,
+  "Cropland -> Cropland": 61669.3,
+  "Cropland -> Trees/vegetation": 9219.2,
+  "Cropland -> Bare/fallow": 3388.1,
+  "Trees/vegetation -> Built-up": 1293.8,
+  "Trees/vegetation -> Cropland": 1866.9,
+  "Trees/vegetation -> Trees/vegetation": 10869.7,
+  "Trees/vegetation -> Bare/fallow": 218.2,
+  "Bare/fallow -> Built-up": 1960.0,
+  "Bare/fallow -> Cropland": 1868.7,
+  "Bare/fallow -> Trees/vegetation": 629.0,
+  "Bare/fallow -> Bare/fallow": 1020.6
  }
 }
