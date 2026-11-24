@@ -1,0 +1,5 @@
+# Enough to run 05_Code/demo/recompute_areas.py and recompute_accuracy.py on a laptop.
+# Newer versions are fine; these are simply the libraries the two scripts import.
+numpy
+rasterio
+pyproj

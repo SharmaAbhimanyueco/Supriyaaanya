@@ -62,12 +62,14 @@ Run order:
 4. `train_full.py W/analysis W/analysis2`, then `results2.py W/analysis W/analysis2 <shp> W/validation`. This produces the final rasters, `results2.json` and `zones.npy`.
 5. `make_chips.py W/analysis W/validation` draws the stratified sample (50/50/30/30 from the first-run 2025 map) and the Esri chips. Label them blind, then write `reference_labels.csv` (format in `results/validation/`).
 6. `accuracy.py W/validation W/analysis/lulc_2025.tif W/analysis2/lulc_2025.tif`.
-7. `model_checks/*.py` runs the k sweep 4–16 and the seed/sample stability checks on the 300k sample.
+7. `model_checks/*.py` runs the k sweep 4–16 and the seed/sample stability checks on the 300k sample. Set `LULC_WORK=W` first (`common.py` reads it).
 8. `finalise.py W` writes the maps, `validation_examples.png` and `final.json`. Copy these to `results/results.json` and `results/maps/`.
+
+The CA-bundle setting for GDAL is applied only when `/root/.ccr/ca-bundle.crt` exists, so the scripts also run on a laptop. Quick checks that need only numpy, rasterio and pyproj: `scripts/demo/recompute_areas.py results/rasters` and `scripts/demo/recompute_accuracy.py results` (both reproduce `results.json` exactly; the second uses `results/rasters/first_run_sampling_strata/`). QGIS styles (`.qml`) sit next to every raster in `results/rasters/` and `results/images/`.
 
 ## Slides
 
-`slides/Urban_Growth_Mohali_slides.pptx` and its `.pdf` are generated. Do not hand-edit numbers in them. The source is `scripts/slides/build_deck.js`, which reads `results/results.json`, `results/maps/*.png` and `slides/assets/location_map.jpg`.
+`slides/Urban_Growth_Mohali_slides.pptx` and its `.pdf` are generated. Do not hand-edit numbers in them. The source is `scripts/slides/build_deck.js`, which reads `results/results.json`, `results/maps/*.png`, `slides/assets/location_map.jpg` and `slides/assets/webmap_dashboard.jpg` (slide 20 shows the real dashboard; its notes say it is Leaflet, not qgis2web).
 
 To rebuild:
 1. Run `npm install pptxgenjs react-icons react react-dom sharp`.
@@ -90,10 +92,16 @@ The 24 slides follow the teacher's list, plus four additions:
 - Licences: code MIT (`LICENSE`); maps and figures CC BY 4.0 (`LICENSE-DATA.md`).
 - Don't add the GADM zone polygons to the page (licence). The hexagons carry only a `z` (W/E) label.
 
+## Handover package
+
+- `handover/` holds the master document (`Master_Document_Urban_Growth_Mohali.docx/.pdf`, source `.md`), the teacher Q&A and demo pack, the screenshot checklist, `ENVIRONMENT.md`, `HOW_TO_RUN.md`, 8 charts, 6 offline web map screenshots and 16 CSV tables. `handover/README.md` maps the package layout to the repo.
+- The full private package (`00_READ_ME_FIRST.md` to `08_Project_Notes/`, about 131 MB zipped) also holds the GADM boundary, the zone mask, the 160 Esri chips and an offline web map copy with launchers. It was built in the session scratchpad and sent to the user; it is not committed.
+- Builders in `scripts/handover/`: `make_charts.py`, `make_tables.py`, `make_qgis_styles.py`, `make_true_colour.py`, `build_master.py` (pandoc + python-docx + LibreOffice), `shots.js` (Playwright screenshots). Chart colours are the map colours, with trees stepped to #2A6E3A so the palette passes the colour check.
+
 ## Git
 
 - `main` holds only the user's own README "first commit".
 - `claude/urban-growth-mapping-handover-xkppdn` holds all project work. Push with `git push origin claude/urban-growth-mapping-handover-xkppdn`.
-- `gh-pages` holds only the built site: `webmap/index.html`, `webmap/layers/*.png` and `.nojekyll`. To refresh it after rebuilding, recreate the branch from `webmap/` (build a commit from a temporary index with `git --work-tree=webmap add index.html layers`) and push.
+- `gh-pages` holds only the built site: the contents of `webmap/` (`index.html`, `layers/`, `data/`, README and licences) and `.nojekyll`. To refresh it after rebuilding, recreate the branch from `webmap/` (build a commit from a temporary index with `git --work-tree=webmap add index.html layers data`) and push.
 - The repo is public, and GitHub Pages serves `gh-pages` at https://sharmaabhimanyueco.github.io/Supriyaaanya/. The user turns Pages on in Settings → Pages.
 - Push access works since 25 Nov 2026, when the user installed the Claude GitHub App.

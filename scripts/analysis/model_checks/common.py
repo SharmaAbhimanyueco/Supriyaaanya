@@ -1,5 +1,8 @@
+import os
 import numpy as np, rasterio
-S="/tmp/claude-0/-home-user-Supriyaaanya/20e51722-c7b0-52dd-afd3-ffdd0c1c58a6/scratchpad"
+# The work folder W (it holds analysis/composite_*.tif, analysis/inside.npy and analysis/pooled_centres.npy).
+# Set it before running, e.g.  LULC_WORK=/path/to/W python run1.py
+S = os.environ.get("LULC_WORK", ".")
 YEARS=[2015,2020,2025]
 NAMES={1:"Bare",2:"Built-up",3:"Bare",4:"Trees",5:"Cropland",6:"Trees",7:"Cropland",8:"Cropland",9:"Cropland",10:"Cropland"}
 CLS=["Built-up","Cropland","Trees","Bare"]

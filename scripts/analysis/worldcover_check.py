@@ -6,8 +6,9 @@ from rasterio.enums import Resampling
 from affine import Affine
 import pystac_client, planetary_computer
 d, out = sys.argv[1], sys.argv[2]
-env = dict(GDAL_DISABLE_READDIR_ON_OPEN="EMPTY_DIR", CPL_VSIL_CURL_ALLOWED_EXTENSIONS=".TIF,.tif", CURL_CA_BUNDLE="/root/.ccr/ca-bundle.crt",
-           GDAL_HTTP_MULTIRANGE="YES", GDAL_HTTP_MERGE_CONSECUTIVE_RANGES="YES", GDAL_HTTP_MAX_RETRY="4", GDAL_HTTP_RETRY_DELAY="1")
+env = dict(GDAL_DISABLE_READDIR_ON_OPEN="EMPTY_DIR", CPL_VSIL_CURL_ALLOWED_EXTENSIONS=".TIF,.tif", GDAL_HTTP_MULTIRANGE="YES", GDAL_HTTP_MERGE_CONSECUTIVE_RANGES="YES", GDAL_HTTP_MAX_RETRY="4", GDAL_HTTP_RETRY_DELAY="1")
+if __import__("os").path.exists("/root/.ccr/ca-bundle.crt"):  # only inside the cloud container used for this project
+    env["CURL_CA_BUNDLE"] = "/root/.ccr/ca-bundle.crt"
 inside = np.load(f"{d}/inside.npy")
 with rasterio.open(f"{d}/lulc_2020.tif") as src:
     T = src.transform; crs = src.crs; H, W = src.height, src.width

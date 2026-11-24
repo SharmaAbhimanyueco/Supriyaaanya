@@ -13,6 +13,7 @@ const ROOT = path.resolve(__dirname, '..', '..');
 const { applyTheme } = require(path.join(SKILL, 'scripts/apply_theme.js'));
 const OUT = process.argv[2];
 const MAP_IMG = path.join(ROOT, 'slides', 'assets', 'location_map.jpg');
+const WEB_IMG = path.join(ROOT, 'slides', 'assets', 'webmap_dashboard.jpg');
 const RES = path.join(ROOT, 'results', 'maps');
 const F = require(path.join(ROOT, 'results', 'results.json'));
 
@@ -185,7 +186,7 @@ async function build() {
   s.addText('Study area', { placeholder: 'title' });
   kicker(s, 'S.A.S. Nagar (Mohali) district, Punjab, next to Chandigarh');
   s.addImage({ path: MAP_IMG, x: 0.6, y: 1.85, w: 6.58, h: 4.65, altText: 'Location map of the study area, S.A.S. Nagar (Mohali) district, Punjab, with an inset map of India', objectName: 'Location map' });
-  tb(s, 'Basemap © OpenStreetMap contributors. The “Kharar” and “Rajpura” labels come from an outdated boundary dataset; the study area is the Mohali, Kharar and Dera Bassi tehsils.', { x: 0.6, y: 6.52, w: 6.58, h: 0.45, fontSize: 10, color: C.accent6 });
+  tb(s, 'Basemap © OpenStreetMap contributors. The “Kharar” and “Rajpura” labels come from an outdated boundary dataset (GADM); its outline covers the Mohali, Kharar and Dera Bassi tehsils.', { x: 0.6, y: 6.52, w: 6.58, h: 0.45, fontSize: 10, color: C.accent6 });
   tb(s, `${n0(totalHa)} ha`, { x: 7.6, y: 1.85, w: 5.13, h: 0.85, fontSize: 40, bold: true, color: C.accent1, objectName: 'Area stat' });
   tb(s, 'area inside the study-area boundary (about 1,088 km²)', { x: 7.6, y: 2.7, w: 5.13, h: 0.4, fontSize: 14, color: C.accent6 });
   tb(s, bulletRuns(['Tehsils: Mohali, Kharar and Dera Bassi', 'Zirakpur: a municipal council inside Dera Bassi tehsil', 'Adjoins Chandigarh and borders Panchkula (Haryana)', 'Why this boundary: one district holds all four growing towns, so results can feed district-level planning'], { space: 10 }), { x: 7.6, y: 3.35, w: 5.13, h: 3.2 });
@@ -199,7 +200,7 @@ async function build() {
     ['FaLayerGroup', C.accent2, 'Make a map of what covers the ground for each year by sorting satellite images into groups', 'Three land-cover maps: 2015, 2020, 2025'],
     ['FaRulerCombined', C.accent1, 'Measure how much the built-up area grew between years, in hectares and as a yearly rate', 'Change table: hectares, % and yearly rate'],
     ['FaMapLocationDot', C.accent4, 'Identify where urban growth is concentrated and how much farmland it replaced', 'Zone comparison and a change map'],
-    ['FaChartColumn', C.accent5, 'Present the results as charts and an interactive web map', 'Charts now; web map next'],
+    ['FaChartColumn', C.accent5, 'Present the results as charts and an interactive web map', 'Charts and a live web map'],
   ];
   for (let i = 0; i < objectives.length; i++) {
     const x = 0.6 + i * 3.093;
@@ -467,22 +468,14 @@ async function build() {
   s = pres.addSlide({ masterName: 'CONTENT', sectionTitle: 'Outlook' });
   s.addText('Web map: what the dashboard shows', { placeholder: 'title' });
   kicker(s, 'The end product: an interactive map anyone can open in a browser');
-  s.addShape(pres.shapes.RECTANGLE, { x: 0.6, y: 1.95, w: 6.9, h: 4.65, fill: { color: C.background1 }, line: { color: C.accent6, width: 1 }, objectName: 'Mock-up frame' });
-  s.addShape(pres.shapes.RECTANGLE, { x: 0.6, y: 1.95, w: 6.9, h: 0.4, fill: { color: C.background2 }, objectName: 'Mock-up toolbar' });
-  [[0.78, C.accent1], [0.98, C.accent5], [1.18, C.accent2]].forEach(([x, f]) => s.addShape(pres.shapes.OVAL, { x, y: 2.08, w: 0.14, h: 0.14, fill: { color: f }, objectName: 'Window button' }));
-  tb(s, 'your-site.github.io/webmap', { x: 1.45, y: 1.97, w: 5.8, h: 0.36, fontSize: 11, color: C.accent6, valign: 'middle' });
-  pixelGrid(s, 0.8, 2.5, ['3322222222', '3322211222', '3222111122', '2221111152', '2241111122', '2224111222', '2222411222', '5222241222', '2222224222'], 0.4, 0.04, 'Map pixel');
-  s.addShape(pres.shapes.RECTANGLE, { x: 5.3, y: 2.5, w: 2.05, h: 3.92, fill: { color: C.background2 }, objectName: 'Mock-up layer panel' });
-  tb(s, 'Layers', { x: 5.42, y: 2.58, w: 1.8, h: 0.3, fontSize: 13, bold: true });
-  [['LULC 2015', false], ['LULC 2020', false], ['LULC 2025', true], ['New built-up', true], ['Zones', true]].forEach(([t, on], i) => { const y = 2.98 + i * 0.34; s.addShape(pres.shapes.RECTANGLE, { x: 5.45, y: y + 0.07, w: 0.16, h: 0.16, fill: { color: on ? C.accent1 : C.background1 }, line: { color: C.accent6, width: 0.75 }, objectName: 'Checkbox ' + t }); tb(s, t, { x: 5.7, y, w: 1.6, h: 0.3, fontSize: 11, valign: 'middle' }); });
-  tb(s, 'Built-up (ha)', { x: 5.42, y: 4.75, w: 1.8, h: 0.3, fontSize: 11, bold: true });
-  [[5.6, 0.45, '2015'], [6.1, 0.7, '2020'], [6.6, 1.0, '2025']].forEach(([x, h, yr]) => { s.addShape(pres.shapes.RECTANGLE, { x, y: 6.05 - h, w: 0.32, h, fill: { color: C.accent1 }, objectName: 'Mock bar ' + yr }); tb(s, yr, { x: x - 0.12, y: 6.07, w: 0.56, h: 0.25, fontSize: 10, color: C.accent6, align: 'center' }); });
-  tb(s, 'Mock-up of the planned web map', { x: 0.6, y: 6.66, w: 6.9, h: 0.26, fontSize: 10, color: C.accent6 });
-  tb(s, 'What it shows', { x: 7.85, y: 1.95, w: 4.88, h: 0.45, fontSize: 18, bold: true });
-  tb(s, bulletRuns(['Land-cover maps for 2015, 2020 and 2025, switchable', 'New built-up land, 2015–2025', 'Cropland that became built-up', 'Zone pop-ups with hectares and UEII', 'Hosted free on GitHub Pages, made with qgis2web']), { x: 7.85, y: 2.45, w: 4.88, h: 2.4 });
+  s.addImage({ path: WEB_IMG, x: 0.6, y: 1.95, w: 6.9, h: 4.31, altText: 'Screenshot of the web dashboard: the 2025 land-cover map with the search box, map filters and live figures', objectName: 'Dashboard screenshot' });
+  s.addShape(pres.shapes.RECTANGLE, { x: 0.6, y: 1.95, w: 6.9, h: 4.31, fill: { color: C.background1, transparency: 100 }, line: { color: C.accent6, width: 1 }, objectName: 'Screenshot frame' });
+  tb(s, 'Live at sharmaabhimanyueco.github.io/Supriyaaanya (2025 view)', { x: 0.6, y: 6.33, w: 6.9, h: 0.3, fontSize: 11, color: C.accent6 });
+  tb(s, 'What it does', { x: 7.85, y: 1.95, w: 4.88, h: 0.45, fontSize: 18, bold: true });
+  tb(s, bulletRuns(['Switch between 2015, 2020 and 2025, or show the change', 'Search a place and read hectares within 0.5–3 km', 'Filter by land type and by West or East zone', '1 km² grid and a top-10 ranking of growth', 'Open source (Leaflet), hosted free on GitHub Pages']), { x: 7.85, y: 2.45, w: 4.88, h: 2.4 });
   tb(s, 'Future work', { x: 7.85, y: 4.95, w: 4.88, h: 0.45, fontSize: 18, bold: true });
   tb(s, bulletRuns(['Hotspot analysis: finding where growth is bunched together (Getis-Ord Gi*)', 'Development Pressure Index: distance to built-up areas, roads, the airport and town centres']), { x: 7.85, y: 5.45, w: 4.88, h: 1.25 });
-  s.addNotes('The web map is the end goal. The mock-up shows the planned layout, not real data. Future work is mentioned only here and in the conclusion; it is not being built now.');
+  s.addNotes('The web map is live at https://sharmaabhimanyueco.github.io/Supriyaaanya/ (GitHub Pages must be switched on in the repository settings). It uses the same land-cover maps and results.json as these slides, and every figure is computed in the browser. It was built with Leaflet, an open-source map library, not with qgis2web, the tool the teacher’s plan named (UNCONFIRMED): say so if asked. Replace the screenshot with your own one of the live site, which also shows the background map. Future work is mentioned only here and in the conclusion; it is not being built now.');
 
   // ===== 21. Limitations =====
   s = pres.addSlide({ masterName: 'CONTENT', sectionTitle: 'Outlook' });
@@ -513,7 +506,7 @@ async function build() {
   tb(s, 'Why it matters', { x: 0.6, y: 4.1, w: 12.13, h: 0.4, fontSize: 18, bold: true, color: C.accent5 });
   tb(s, `Built-up land nearly doubled in ten years and grew faster after 2020 (${p1(C2025.lcr_pct_per_year)}% a year, up from ${p1(C1520.lcr_pct_per_year)}%). The map undercounts small settlements, so the true figures are likely higher. Water, roads and services need to keep pace, above all in the Kharar–Mohali corridor.`, { x: 0.6, y: 4.55, w: 12.13, h: 0.95, color: C.background1 });
   tb(s, 'Next steps', { x: 0.6, y: 5.55, w: 12.13, h: 0.4, fontSize: 18, bold: true, color: C.accent5 });
-  tb(s, bulletRuns(['Spot-check the photo labels and maps, then build the web map', 'Future work: hotspot analysis (Getis-Ord Gi*) and a Development Pressure Index']), { x: 0.6, y: 6.0, w: 12.13, h: 0.8, color: C.background1 });
+  tb(s, bulletRuns(['Spot-check the photo labels and maps; share the web map link', 'Future work: hotspot analysis (Getis-Ord Gi*) and a Development Pressure Index']), { x: 0.6, y: 6.0, w: 12.13, h: 0.8, color: C.background1 });
   s.addNotes(`Headline: built-up area grew from ${n0(BU[2015])} ha (2015) to ${n0(BU[2025])} ha (2025). The figures are conservative: the accuracy check suggests about ${n0(Math.round(ADJ.error_adjusted_ha / 100) * 100)} ha were built-up in 2025. Keep the headline on urban growth; the cropland finding supports it.`);
 
   // ===== 23. Glossary =====

@@ -2,6 +2,8 @@
 
 **Mapping Urban Growth in the Mohali–Kharar–Zirakpur–Dera Bassi Belt, Punjab, using LULC analysis**
 
+> **Status, 25 November 2026: the analysis is done.** Start with [handover/README.md](handover/README.md) and the master document in `handover/`. Results are in [results/README.md](results/README.md), the slides in `slides/`, and the live web map at https://sharmaabhimanyueco.github.io/Supriyaaanya/. The plan below is the original starting plan, kept for the record.
+
 This folder is the project's home and replaces the shared Drive folder from the handover. It contains everything that could be rebuilt from the handover note and the two files you had: the study-area boundary and the location map.
 
 ## Start here: the next 24 hours

@@ -20,8 +20,10 @@ items = {it.id: it for it in cat.search(collections=["landsat-c2-l2"], ids=sum(S
 print("items found:", len(items))
 
 env = dict(GDAL_DISABLE_READDIR_ON_OPEN="EMPTY_DIR", CPL_VSIL_CURL_ALLOWED_EXTENSIONS=".TIF,.tif",
-           CURL_CA_BUNDLE="/root/.ccr/ca-bundle.crt", GDAL_HTTP_MULTIRANGE="YES",
+           GDAL_HTTP_MULTIRANGE="YES",
            GDAL_HTTP_MERGE_CONSECUTIVE_RANGES="YES", GDAL_HTTP_MAX_RETRY="4", GDAL_HTTP_RETRY_DELAY="1")
+if __import__("os").path.exists("/root/.ccr/ca-bundle.crt"):  # only inside the cloud container used for this project
+    env["CURL_CA_BUNDLE"] = "/root/.ccr/ca-bundle.crt"
 aoi_ll = unary_union([shape(s.__geo_interface__) for s in shapefile.Reader(shp).shapes()])
 with rasterio.Env(**env):
     first = items[SCENES[2015][0]].assets["red"].href

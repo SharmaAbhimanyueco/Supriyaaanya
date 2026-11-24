@@ -1,0 +1,13 @@
+# Full analysis pipeline (scripts in 05_Code/analysis and 05_Code/webmap). Versions used for the project run:
+numpy==2.5.5
+rasterio==1.5.2
+scikit-learn==1.9.1
+scipy==1.18.1
+pystac-client==0.9.1
+planetary-computer==1.0.0
+pyshp==3.1.9
+shapely==2.2.0
+pyproj==3.8.0
+matplotlib==3.11.2
+pillow==13.0.0
+requests==2.34.2
