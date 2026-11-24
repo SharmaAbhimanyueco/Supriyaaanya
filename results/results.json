@@ -1,0 +1,115 @@
+{
+ "area_ha": {
+  "2015": {
+   "Built-up": 6609.1,
+   "Cropland": 76708.2,
+   "Trees/vegetation": 15494.5,
+   "Water": 0.0,
+   "Bare/fallow": 9987.0,
+   "Total": 108798.8
+  },
+  "2020": {
+   "Built-up": 9224.1,
+   "Cropland": 72630.3,
+   "Trees/vegetation": 17660.8,
+   "Water": 0.0,
+   "Bare/fallow": 9310.9,
+   "Total": 108826.0
+  },
+  "2025": {
+   "Built-up": 14529.4,
+   "Cropland": 62013.5,
+   "Trees/vegetation": 21598.2,
+   "Water": 0.0,
+   "Bare/fallow": 10641.9,
+   "Total": 108783.0
+  }
+ },
+ "share_pct": {
+  "2015": {
+   "Built-up": 6.07,
+   "Cropland": 70.5,
+   "Trees/vegetation": 14.24,
+   "Water": 0.0,
+   "Bare/fallow": 9.18
+  },
+  "2020": {
+   "Built-up": 8.48,
+   "Cropland": 66.74,
+   "Trees/vegetation": 16.23,
+   "Water": 0.0,
+   "Bare/fallow": 8.56
+  },
+  "2025": {
+   "Built-up": 13.36,
+   "Cropland": 57.01,
+   "Trees/vegetation": 19.85,
+   "Water": 0.0,
+   "Bare/fallow": 9.78
+  }
+ },
+ "builtup_change": {
+  "2015-2020": {
+   "increase_ha": 2615.0,
+   "ha_per_year": 523.0,
+   "pct_change": 39.6,
+   "lcr_pct_per_year": 6.67
+  },
+  "2020-2025": {
+   "increase_ha": 5305.3,
+   "ha_per_year": 1061.1,
+   "pct_change": 57.5,
+   "lcr_pct_per_year": 9.09
+  },
+  "2015-2025": {
+   "increase_ha": 7920.3,
+   "ha_per_year": 792.0,
+   "pct_change": 119.8,
+   "lcr_pct_per_year": 7.88
+  }
+ },
+ "zones": {
+  "West zone (Kharar and Mohali)": {
+   "zone_ha": 71195.2,
+   "builtup_2015_ha": 3741.8,
+   "builtup_2020_ha": 5571.9,
+   "builtup_2025_ha": 9030.2,
+   "share_2015_pct": 5.26,
+   "share_2025_pct": 12.68,
+   "ueii_2015_2025": 0.743,
+   "lcr_2015_2025": 8.81
+  },
+  "East zone (Dera Bassi, incl. Zirakpur)": {
+   "zone_ha": 37603.5,
+   "builtup_2015_ha": 2867.3,
+   "builtup_2020_ha": 3649.3,
+   "builtup_2025_ha": 5495.6,
+   "share_2015_pct": 7.63,
+   "share_2025_pct": 14.61,
+   "ueii_2015_2025": 0.699,
+   "lcr_2015_2025": 6.51
+  }
+ },
+ "from_to_2015_2025_ha": {
+  "Built-up -> Built-up": 4137.4,
+  "Built-up -> Cropland": 892.7,
+  "Built-up -> Trees/vegetation": 1017.5,
+  "Built-up -> Bare/fallow": 554.1,
+  "Cropland -> Built-up": 5409.4,
+  "Cropland -> Cropland": 56013.5,
+  "Cropland -> Trees/vegetation": 8616.6,
+  "Cropland -> Bare/fallow": 6645.3,
+  "Trees/vegetation -> Built-up": 1755.3,
+  "Trees/vegetation -> Cropland": 2247.5,
+  "Trees/vegetation -> Trees/vegetation": 10955.8,
+  "Trees/vegetation -> Bare/fallow": 530.2,
+  "Bare/fallow -> Built-up": 3223.8,
+  "Bare/fallow -> Cropland": 2848.1,
+  "Bare/fallow -> Trees/vegetation": 1003.1,
+  "Bare/fallow -> Bare/fallow": 2906.2
+ },
+ "new_builtup_2015_2025_ha": 10388.4,
+ "cropland_to_builtup_2015_2025_ha": 5409.4,
+ "cropland_share_of_new_builtup_pct": 52.1,
+ "builtup_2015_not_builtup_2025_ha": 2464.4
+}
