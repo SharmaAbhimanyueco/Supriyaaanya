@@ -1,0 +1,161 @@
+id,label,confidence,note
+P001,Bare,low,dirt road strip, cleared ground
+P002,Built-up,high,roof by road
+P003,Trees/vegetation,high,dense forest
+P004,Built-up,medium,dense village roofs
+P005,Built-up,high,dense buildings
+P006,Bare,medium,brick kiln yard
+P007,Built-up,medium,paved yard and road edge
+P008,Built-up,high,dense buildings
+P009,Cropland,high,fields with boundaries
+P010,Built-up,low,construction site with structures
+P011,Built-up,high,apartment blocks
+P012,Built-up,medium,road edge with plots
+P013,Trees/vegetation,medium,scrub and grass
+P014,Built-up,medium,building in trees
+P015,Cropland,high,harvested fields
+P016,Built-up,high,dense buildings
+P017,Built-up,medium,building near fields
+P018,Built-up,high,dense buildings
+P019,Trees/vegetation,high,dense forest
+P020,Built-up,medium,village houses
+P021,Built-up,high,dense buildings
+P022,Cropland,high,green field
+P023,Built-up,high,tree-lined road
+P024,Cropland,medium,pale field, sparse pattern
+P025,Cropland,high,harvested fields
+P026,Trees/vegetation,high,forest
+P027,Cropland,high,harvested fields
+P028,Cropland,medium,dark field near tree
+P029,Trees/vegetation,medium,dry scrub
+P030,Cropland,high,patchwork fields
+P031,Trees/vegetation,high,forest
+P032,Cropland,low,green grass or field, near construction
+P033,Cropland,high,patchwork fields
+P034,Trees/vegetation,low,marshy scrub by stream
+P035,Trees/vegetation,high,forest
+P036,Cropland,medium,green field edge
+P037,Trees/vegetation,low,grassy scrub by stream
+P038,Built-up,medium,construction yard compound
+P039,Built-up,medium,buildings under construction
+P040,Trees/vegetation,medium,grass park by road
+P041,Cropland,medium,brown ploughed field
+P042,Cropland,high,green field
+P043,Cropland,medium,small green field by canal
+P044,Cropland,medium,brown field among orchards
+P045,Cropland,high,harvested fields
+P046,Cropland,medium,small fields
+P047,Cropland,low,field edge next to road
+P048,Unclear,high,cloud covered
+P049,Cropland,medium,brown field patch
+P050,Trees/vegetation,medium,scrub beside dirt track
+P051,Trees/vegetation,high,forest
+P052,Cropland,high,brown fields
+P053,Bare,low,construction mud and pit
+P054,Cropland,medium,field with tree
+P055,Trees/vegetation,low,green scrub, road at top
+P056,Trees/vegetation,high,forest
+P057,Built-up,high,dense buildings
+P058,Trees/vegetation,medium,green scrub edge
+P059,Built-up,high,dense buildings
+P060,Unclear,high,cloud covered
+P061,Cropland,medium,green field
+P062,Cropland,high,field patterns
+P063,Built-up,high,highway road
+P064,Built-up,high,dense buildings
+P065,Trees/vegetation,low,brown grassland, sparse
+P066,Cropland,medium,field with boundaries
+P067,Bare,low,bare dirt yard
+P068,Cropland,low,fallow field edge
+P069,Built-up,medium,road and yard edge
+P070,Trees/vegetation,high,forest
+P071,Bare,medium,dusty bare site
+P072,Cropland,high,green fields
+P073,Built-up,low,paved path and plots
+P074,Trees/vegetation,high,dense trees
+P075,Built-up,high,tower blocks
+P076,Cropland,medium,field patterns
+P077,Cropland,high,green fields
+P078,Trees/vegetation,low,grass and scrub
+P079,Cropland,medium,green field edge
+P080,Built-up,medium,village houses
+P081,Built-up,medium,road and buildings
+P082,Trees/vegetation,high,tree scrub
+P083,Built-up,low,small roofs and yard
+P084,Cropland,low,green field edge near houses
+P085,Built-up,high,dense buildings
+P086,Trees/vegetation,medium,dry scrub
+P087,Built-up,high,dense buildings and road
+P088,Cropland,low,stream edge and fields
+P089,Built-up,high,dense buildings
+P090,Cropland,high,green fields
+P091,Cropland,high,harvested fields
+P092,Cropland,medium,field patches
+P093,Cropland,medium,dry field
+P094,Cropland,medium,brown harvested field
+P095,Built-up,low,tree-lined road, near 50/50
+P096,Cropland,high,green fields
+P097,Cropland,low,road edge and field
+P098,Built-up,high,dense buildings
+P099,Built-up,high,buildings and road
+P100,Cropland,high,field in rows
+P101,Cropland,medium,dark flooded-looking fields
+P102,Built-up,medium,village building
+P103,Cropland,medium,field patches
+P104,Cropland,high,green field
+P105,Trees/vegetation,high,dense trees
+P106,Cropland,high,brown field
+P107,Trees/vegetation,low,path between park trees and site
+P108,Bare,medium,edge of brick kiln yard
+P109,Trees/vegetation,high,forest
+P110,Built-up,high,buildings
+P111,Built-up,high,dense buildings
+P112,Cropland,high,green field
+P113,Bare,low,dry sparse scrub, sandy
+P114,Cropland,high,fields
+P115,Cropland,low,green field beside bare land
+P116,Cropland,medium,small field near village
+P117,Built-up,high,housing blocks
+P118,Cropland,high,fields
+P119,Cropland,low,field near road
+P120,Trees/vegetation,high,forest
+P121,Trees/vegetation,low,grass and scrub
+P122,Trees/vegetation,medium,green scrub by road
+P123,Cropland,high,flooded fields
+P124,Built-up,high,dense buildings
+P125,Built-up,medium,building in compound
+P126,Cropland,high,fields
+P127,Built-up,high,dense buildings
+P128,Built-up,high,buildings
+P129,Cropland,high,fields
+P130,Trees/vegetation,low,garden trees near building
+P131,Cropland,low,dark plot among trees
+P132,Built-up,high,large roof
+P133,Built-up,low,road edge and grass plots
+P134,Cropland,high,fields
+P135,Bare,low,fenced plot, bare ground
+P136,Cropland,high,fields
+P137,Built-up,medium,buildings and construction
+P138,Cropland,high,orchard-like field rows
+P139,Cropland,high,green field
+P140,Bare,low,dry drain, bare banks
+P141,Trees/vegetation,low,pond edge with vegetation
+P142,Built-up,low,building and bare yard
+P143,Trees/vegetation,high,forest
+P144,Cropland,low,strip field, rows
+P145,Trees/vegetation,medium,trees and clearing
+P146,Bare,low,bare dusty patch among fields
+P147,Cropland,high,fields
+P148,Cropland,high,green fields
+P149,Trees/vegetation,low,grass and scrub
+P150,Built-up,high,dense buildings
+P151,Cropland,low,cloud haze over fields
+P152,Cropland,low,field near road
+P153,Built-up,high,dense buildings
+P154,Built-up,high,buildings and parking
+P155,Built-up,high,dense buildings
+P156,Trees/vegetation,medium,scrub and forest
+P157,Built-up,low,sparse houses, bare ground
+P158,Cropland,medium,field beside bare plot
+P159,Built-up,high,building by avenue
+P160,Cropland,medium,field near river bed

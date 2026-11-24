@@ -1,0 +1,58 @@
+{
+ "WorldCover_2020": {
+  "worldcover_builtup_ha_fraction_sum": 12180.5,
+  "worldcover_builtup_ha_majority": 12033.2,
+  "vs_our_2015": {
+   "our_builtup_ha": 6609.1,
+   "agreement_pct": 90.7,
+   "pct_of_our_builtup_that_worldcover_calls_builtup": 64.5,
+   "pct_of_worldcover_builtup_that_we_call_builtup": 35.4,
+   "mean_worldcover_builtup_fraction_in_our_builtup_pixels": 62.8,
+   "mean_worldcover_builtup_fraction_in_our_other_pixels": 7.8
+  },
+  "vs_our_2020": {
+   "our_builtup_ha": 9224.1,
+   "agreement_pct": 92.14,
+   "pct_of_our_builtup_that_worldcover_calls_builtup": 68.8,
+   "pct_of_worldcover_builtup_that_we_call_builtup": 52.8,
+   "mean_worldcover_builtup_fraction_in_our_builtup_pixels": 66.7,
+   "mean_worldcover_builtup_fraction_in_our_other_pixels": 6.0
+  },
+  "vs_our_2025": {
+   "our_builtup_ha": 14529.4,
+   "agreement_pct": 89.35,
+   "pct_of_our_builtup_that_worldcover_calls_builtup": 51.5,
+   "pct_of_worldcover_builtup_that_we_call_builtup": 62.3,
+   "mean_worldcover_builtup_fraction_in_our_builtup_pixels": 50.3,
+   "mean_worldcover_builtup_fraction_in_our_other_pixels": 5.2
+  }
+ },
+ "WorldCover_2021": {
+  "worldcover_builtup_ha_fraction_sum": 12721.2,
+  "worldcover_builtup_ha_majority": 12614.2,
+  "vs_our_2015": {
+   "our_builtup_ha": 6609.1,
+   "agreement_pct": 90.35,
+   "pct_of_our_builtup_that_worldcover_calls_builtup": 65.9,
+   "pct_of_worldcover_builtup_that_we_call_builtup": 34.5,
+   "mean_worldcover_builtup_fraction_in_our_builtup_pixels": 64.8,
+   "mean_worldcover_builtup_fraction_in_our_other_pixels": 8.2
+  },
+  "vs_our_2020": {
+   "our_builtup_ha": 9224.1,
+   "agreement_pct": 91.96,
+   "pct_of_our_builtup_that_worldcover_calls_builtup": 70.9,
+   "pct_of_worldcover_builtup_that_we_call_builtup": 51.9,
+   "mean_worldcover_builtup_fraction_in_our_builtup_pixels": 69.5,
+   "mean_worldcover_builtup_fraction_in_our_other_pixels": 6.3
+  },
+  "vs_our_2025": {
+   "our_builtup_ha": 14529.4,
+   "agreement_pct": 89.41,
+   "pct_of_our_builtup_that_worldcover_calls_builtup": 53.7,
+   "pct_of_worldcover_builtup_that_we_call_builtup": 61.9,
+   "mean_worldcover_builtup_fraction_in_our_builtup_pixels": 52.8,
+   "mean_worldcover_builtup_fraction_in_our_other_pixels": 5.3
+  }
+ }
+}

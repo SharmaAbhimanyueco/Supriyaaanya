@@ -1,75 +1,112 @@
-# Results: first run (24 November 2026)
+# Results (final model, 25 November 2026)
 
-These results are **estimates**. The clusters were named from where they fall and from true-colour images, but they have **not yet been checked against high-resolution imagery**. The analysis was run in **Python, not QGIS**. If the teacher wants QGIS, the composite images in `images/` can be clustered again by following [04_qgis_steps.md](../04_qgis_steps.md).
+**Short version:** built-up land grew from **7,844 ha (2015) to 14,786 ha (2025)**, an increase of **+6,942 ha (+89%)**, or **6.3% a year**. Growth sped up after 2020: 4.9% a year in 2015–2020, then 7.8% a year in 2020–2025. The West zone (Kharar–Mohali) grew faster than the East zone (Dera Bassi–Zirakpur). Two-thirds of the new built-up land (6,916 ha, 68%) was cropland in 2015.
+
+**Read these together with the accuracy check below.** The map undercounts built-up land: it finds about half of the real built-up area. The corrected 2025 estimate is about **17,700 ± 4,600 ha**. The trend, the speed-up after 2020 and the West-versus-East pattern are the reliable findings. Treat the exact hectares as conservative estimates.
+
+Two more points to say openly in the presentation:
+- The analysis was run in **Python, not QGIS**. If the teacher wants QGIS, the composite images in `images/` can be clustered there by following [04_qgis_steps.md](../04_qgis_steps.md).
+- The photo labels used in the accuracy check came from **AI-assisted interpretation** (two independent Claude Sonnet agents). The students should spot-check a sample of them.
 
 ## How the results were made
 
-- **Images:** Landsat 8 Collection 2 Level-2 surface reflectance, path 147, row 39, downloaded from Microsoft Planetary Computer. Two clear March scenes per year: 7 and 23 March 2015, 4 and 20 March 2020, 2 and 18 March 2025.
-- **Composite:** clouds, cloud shadows and fill pixels were masked using the QA_PIXEL band. The two scenes were then combined with a median, giving one image per year with six bands (blue, green, red, NIR, SWIR1, SWIR2).
-- **Clip:** each image was cut to the study-area boundary in UTM zone 43N (EPSG:32643). That leaves 1,209,178 pixels of 30 m.
-- **Clustering:** K-means with 10 clusters (scikit-learn; 5 starts, up to 100 iterations, random seed 42). It was fitted on 100,000 sampled pixels from each year and applied to all three years, so each cluster number means the same thing in every year. Clustering each year separately had made 2020 look more built-up than 2025, which is not realistic.
+- **Images:** Landsat 8 Collection 2 Level-2 surface reflectance, path 147 row 39, downloaded from Microsoft Planetary Computer. Two clear March scenes per year: 7 and 23 March 2015, 4 and 20 March 2020, 2 and 18 March 2025.
+- **Composite:** clouds, shadows and fill were masked using QA_PIXEL, and the two scenes were combined with a median. The result is one six-band image per year.
+- **Clip:** each image was cut to the study-area boundary in UTM zone 43N (EPSG:32643). That leaves 1,209,178 pixels of 30 m, about 108,800 ha.
+- **Model:** K-means with 10 clusters (scikit-learn), **trained on all 3,626,753 valid pixels from the three years**. It used the best of 10 starts and up to 300 iterations. The same trained model was then applied to every year, so each cluster means the same thing in every year.
+- **Naming:** clusters were named from where they fall (towns, roads, the northern hills, fields) and from true-colour images. Each final cluster was matched to the nearest cluster of the first version, which had been named that way.
 - **Area:** pixel count × 0.09 ha.
 
-## Naming table
+### Naming table
 
-| Cluster | What it looks like | Class |
-|---|---|---|
-| 1 | Bright bare surfaces, scattered | Bare/fallow |
-| 2 | Towns (Kurali, Kharar, Mohali, Zirakpur, Dera Bassi, Lalru) and road corridors | **Built-up** |
-| 3 | Scattered low-vegetation fields and town edges | Bare/fallow |
-| 4 | Dark vegetation in the northern hills | Trees/vegetation |
-| 5 | Thin or young crops | Cropland |
-| 6 | Scrub in the hills, plus some crops | Trees/vegetation |
-| 7–10 | Green wheat | Cropland |
+| Cluster | Land type |
+|---|---|
+| 1 | Bare/fallow |
+| 2 | **Built-up** |
+| 3, 5 | Trees/vegetation |
+| 4, 6, 7, 8, 9, 10 | Cropland |
 
-No cluster picked out water: the water bodies are too small at 30 m.
+No cluster picked out water, because the water bodies are too small at 30 m.
 
-## Area by class (hectares)
+## Model checks: is it suitable and properly trained?
 
-| Class | 2015 | 2020 | 2025 |
+- **Training converged.** Three independent training runs on all the pixels (seeds 0, 1 and 2, each the best of 10 starts) converged in 35, 31 and 29 iterations. Their final fits (inertia) were 5243.40, 5243.77 and 5243.46, which differ by less than 0.01%. Their groupings were very similar too (adjusted Rand index 0.95–0.97).
+- **The answer is stable.** Built-up area across the three runs was 7,844–7,920 ha in 2015, 10,033–10,104 ha in 2020 and 14,737–14,841 ha in 2025, all within 1%.
+- **Why the model was retrained.** The first version was trained on a 300,000-pixel sample. Retraining it with other samples moved 2015 built-up between 6,698 and 8,177 ha, so it was replaced by the full-data model. See `model_checks/`.
+- **Number of clusters.** The elbow of the inertia curve is at k = 8, and k = 7–10 all score within about 10% of the best elbow value. The silhouette score is highest at k = 4 but nearly flat (0.29–0.33) from 5 to 16 clusters. Using more clusters than final land types is normal for unsupervised classification, because clusters are merged into land types afterwards. k = 10 is within the sensible range.
+
+## Area by land type (hectares)
+
+| Land type | 2015 | 2020 | 2025 |
 |---|---|---|---|
-| Built-up | 6,609 | 9,224 | 14,529 |
-| Cropland | 76,708 | 72,630 | 62,014 |
-| Trees/vegetation | 15,495 | 17,661 | 21,598 |
-| Bare/fallow | 9,987 | 9,311 | 10,642 |
+| Built-up | 7,844 | 10,033 | 14,786 |
+| Cropland | 81,218 | 77,204 | 66,728 |
+| Trees/vegetation | 14,255 | 17,150 | 22,299 |
+| Bare/fallow | 5,482 | 4,439 | 4,970 |
 | Total | 108,799 | 108,826 | 108,783 |
-| Built-up share | 6.1% | 8.5% | 13.4% |
-
-The totals differ by a few hectares because a handful of pixels had no clear view in that year.
+| Built-up share | 7.2% | 9.2% | 13.6% |
 
 ## Built-up change
 
-| Period | Increase (ha) | ha per year | % change | Land consumption rate (% per year) |
+| Period | Increase (ha) | ha per year | % change | Yearly rate (SDG 11.3.1 formula) |
 |---|---|---|---|---|
-| 2015–2020 | +2,615 | 523 | +39.6% | 6.67 |
-| 2020–2025 | +5,305 | 1,061 | +57.5% | 9.09 |
-| 2015–2025 | +7,920 | 792 | +119.8% | 7.88 |
-
-The land consumption rate uses the SDG 11.3.1 formula: ln(later ÷ earlier) ÷ years × 100.
+| 2015–2020 | +2,190 | 438 | +27.9% | 4.92% |
+| 2020–2025 | +4,753 | 951 | +47.4% | 7.76% |
+| 2015–2025 | +6,942 | 694 | +88.5% | 6.34% |
 
 ## By zone
 
-The two zones are the two pieces of the GADM boundary file. They are not official tehsil outlines.
+The zones are the two pieces of the GADM boundary file. They are not official tehsil outlines.
 
-| Zone | Zone area (ha) | Built-up 2015 (ha) | Built-up 2020 (ha) | Built-up 2025 (ha) | Share 2015 → 2025 | UEII 2015–2025 |
-|---|---|---|---|---|---|---|
-| West (Kharar and Mohali) | 71,195 | 3,742 | 5,572 | 9,030 | 5.3% → 12.7% | 0.74 |
-| East (Dera Bassi, incl. Zirakpur) | 37,604 | 2,867 | 3,649 | 5,496 | 7.6% → 14.6% | 0.70 |
-
-Both zones fall in the "medium" UEII band (0.59–1.05).
+| Zone | Area (ha) | Built-up 2015 | 2020 | 2025 | Share 2015 → 2025 | UEII 2015–2025 | Yearly rate |
+|---|---|---|---|---|---|---|---|
+| West (Kharar and Mohali) | 71,195 | 4,336 | 6,151 | 9,236 | 6.1% → 13.0% | 0.69 (medium) | 7.6% |
+| East (Dera Bassi, incl. Zirakpur) | 37,604 | 3,507 | 3,879 | 5,545 | 9.3% → 14.8% | 0.54 (low) | 4.6% |
+| Whole study area | 108,799 | 7,844 | 10,033 | 14,786 | 7.2% → 13.6% | 0.64 | 6.3% |
 
 ## Cropland and change noise (2015 → 2025)
 
-- 10,388 ha became built-up. Of this, **5,409 ha (52%) was cropland in 2015**.
-- 2,464 ha were mapped as built-up in 2015 but not in 2025. Built-up land rarely turns back into farmland, so this points to classification noise. The net increase is 7,920 ha.
-- Some cropland shows up as trees or bare land in other years because the crops were at different stages each March.
+- 10,170 ha became built-up. Of this, **6,916 ha (68%) was cropland in 2015**.
+- 3,225 ha were mapped as built-up in 2015 but not in 2025. Built-up land rarely turns back into farmland, so this is mostly classification noise.
+
+## Accuracy check
+
+**Photo check (2025 map).** 160 random points were drawn, stratified by map class: 50 built-up, 50 cropland, 30 trees and 30 bare. Each was cut from Esri World Imagery as a photo about 300 m across, with the 30 m pixel marked. Two independent AI-assisted interpreters labelled every point without seeing the map. They agreed on 144 of 160 points (90%), and on 152 of 160 (95%) for built-up versus not. The 16 disagreements were settled by a third look. Two points under cloud were dropped, leaving 158. Accuracies are area-weighted (Olofsson et al., 2014).
+
+| | Result |
+|---|---|
+| Overall accuracy (4 land types) | **74.6%** |
+| Built-up vs not built-up | **87.0%** |
+| Built-up: of map built-up, % really built-up (user's accuracy) | 62.0% |
+| Built-up: of real built-up, % found by the map (producer's accuracy) | 51.9% |
+| Cropland (user's / producer's) | 84.3% / 87.1% |
+| Trees/vegetation (user's / producer's) | 61.8% / 68.7% |
+| Bare/fallow (user's / producer's) | 35.7% / 27.8% |
+| Corrected built-up area 2025 (95% range) | **17,706 ± 4,648 ha** (map: 14,786 ha) |
+
+Point counts (rows = map, columns = photo):
+
+| Map \ Photo | Built-up | Cropland | Trees | Bare |
+|---|---|---|---|---|
+| Built-up | 30 | 8 | 5 | 5 |
+| Cropland | 4 | 47 | 6 | 3 |
+| Trees/vegetation | 8 | 8 | 20 | 0 |
+| Bare/fallow | 7 | 2 | 0 | 5 |
+
+**Independent map (ESA WorldCover 2020, 10 m), compared with our 2020 map:**
+- 92.8% agreement on built-up versus not.
+- 70.9% of our built-up pixels are built-up in WorldCover, and we find 59.1% of WorldCover's built-up land.
+- Our built-up pixels are on average 69% built-up in WorldCover, against 5% for all other pixels.
+- WorldCover finds 12,181 ha built-up in 2020, against our 10,033 ha. That is the same undercount the photo check shows.
 
 ## Files
 
 | Folder | Contents |
 |---|---|
-| `maps/` | LULC maps for 2015, 2020 and 2025, and the built-up change map (PNG) |
+| `maps/` | Land-cover maps for 2015, 2020 and 2025, the built-up change map, and the validation examples (PNG) |
 | `rasters/` | `lulc_YEAR.tif` (1 Built-up, 2 Cropland, 3 Trees/vegetation, 5 Bare/fallow) and `clusters_YEAR.tif` (clusters 1–10) |
 | `images/` | Landsat composites for each year: 6 bands, reflectance × 10,000, NoData −32768. Ready for QGIS |
-| `results.json` | Every number above, including the full from–to table |
-| `../scripts/analysis/` | The Python scripts that produced these results |
+| `model_checks/` | The number-of-clusters and stability checks, and the final model's training record |
+| `validation/` | Sample points, both interpreters' labels, the agreed reference labels, and the accuracy and WorldCover results |
+| `results.json` | Every number above |
+| `../scripts/analysis/` | The Python scripts. The final results come from `train_full.py`, `results2.py`, `accuracy.py` and `finalise.py`; the earlier first-run scripts are kept for the record |

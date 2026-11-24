@@ -43,8 +43,8 @@ GADM's licence allows academic use but not redistribution without permission (ch
 | `scripts/export_landsat_composites.js` | The Earth Engine script. It only downloads images and classifies nothing |
 | `04_qgis_steps.md` | QGIS steps: clip, cluster, name, reclassify, measure, change maps, web map |
 | `05_metrics_and_formulas.md` | Which numbers to report, with formulas, tables to fill in, and sources |
-| `slides/Urban_Growth_Mohali_slides.pptx` / `.pdf` | The full slide deck, with the first results filled in; speaker notes say what to check |
-| `results/` | First results: maps, LULC rasters, Landsat composites for QGIS, and all the numbers ([results/README.md](results/README.md)) |
+| `slides/Urban_Growth_Mohali_slides.pptx` / `.pdf` | The 24-slide deck: results, plain-language explainer slides, model checks, accuracy check and glossary; speaker notes say what to check |
+| `results/` | Final results: maps, land-cover rasters, Landsat composites for QGIS, model checks, accuracy check and all the numbers ([results/README.md](results/README.md)) |
 | `scripts/analysis/` | The Python scripts that produced the results |
 
 Anything marked **UNCONFIRMED** is waiting on the teacher's answers.
