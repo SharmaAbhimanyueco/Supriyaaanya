@@ -88,5 +88,9 @@ data = {
 tpl = (ROOT / "scripts" / "webmap" / "template.html").read_text()
 css = (ROOT / "scripts" / "webmap" / "leaflet-1.9.4.css").read_text()
 html = tpl.replace("/*__LEAFLET_CSS__*/", css).replace("/*__DATA__*/null", json.dumps(data, separators=(",", ":")))
+head, body = html.split("<!--BODY-->", 1)
+html = ("<!doctype html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n"
+        "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1, viewport-fit=cover\">\n"
+        + head + "</head>\n<body>" + body + "</body>\n</html>\n")
 (OUT / "index.html").write_text(html)
 print("webmap built:", OUT / "index.html", f"layers {w}x{h}px", {p.name: p.stat().st_size for p in sorted((OUT / 'layers').glob('*.png'))})
