@@ -1,0 +1,10 @@
+measure,value
+points used,158
+"points dropped (cloud, unclear)",2
+"overall accuracy, 4 classes (%)",74.6
+"built-up vs not, agreement (%)",87.0
+"built-up 2025, map (ha)",14785.8
+"built-up 2025, error-adjusted (ha)",17706.0
+"built-up 2025, 95% range +/- (ha)",4648.0
+"raters agreed, 4 classes (points of 160)",144
+"raters agreed, built-up vs not (points of 160)",152

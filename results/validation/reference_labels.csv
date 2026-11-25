@@ -1,0 +1,161 @@
+id,reference,rater_A,rater_B,how_decided
+P001,Built-up,Bare,Built-up,disagreement settled by a third look
+P002,Built-up,Built-up,Built-up,both raters agreed
+P003,Trees/vegetation,Trees/vegetation,Trees/vegetation,both raters agreed
+P004,Built-up,Built-up,Built-up,both raters agreed
+P005,Built-up,Built-up,Built-up,both raters agreed
+P006,Bare,Bare,Bare,both raters agreed
+P007,Built-up,Built-up,Built-up,both raters agreed
+P008,Built-up,Built-up,Built-up,both raters agreed
+P009,Cropland,Cropland,Cropland,both raters agreed
+P010,Bare,Built-up,Bare,disagreement settled by a third look
+P011,Built-up,Built-up,Built-up,both raters agreed
+P012,Built-up,Built-up,Built-up,both raters agreed
+P013,Trees/vegetation,Trees/vegetation,Trees/vegetation,both raters agreed
+P014,Built-up,Built-up,Built-up,both raters agreed
+P015,Cropland,Cropland,Cropland,both raters agreed
+P016,Built-up,Built-up,Built-up,both raters agreed
+P017,Built-up,Built-up,Built-up,both raters agreed
+P018,Built-up,Built-up,Built-up,both raters agreed
+P019,Trees/vegetation,Trees/vegetation,Trees/vegetation,both raters agreed
+P020,Built-up,Built-up,Built-up,both raters agreed
+P021,Built-up,Built-up,Built-up,both raters agreed
+P022,Cropland,Cropland,Cropland,both raters agreed
+P023,Built-up,Built-up,Built-up,both raters agreed
+P024,Cropland,Cropland,Cropland,both raters agreed
+P025,Cropland,Cropland,Cropland,both raters agreed
+P026,Trees/vegetation,Trees/vegetation,Trees/vegetation,both raters agreed
+P027,Cropland,Cropland,Cropland,both raters agreed
+P028,Cropland,Cropland,Cropland,both raters agreed
+P029,Trees/vegetation,Trees/vegetation,Trees/vegetation,both raters agreed
+P030,Cropland,Cropland,Cropland,both raters agreed
+P031,Trees/vegetation,Trees/vegetation,Trees/vegetation,both raters agreed
+P032,Cropland,Cropland,Cropland,both raters agreed
+P033,Cropland,Cropland,Cropland,both raters agreed
+P034,Trees/vegetation,Trees/vegetation,Trees/vegetation,both raters agreed
+P035,Trees/vegetation,Trees/vegetation,Trees/vegetation,both raters agreed
+P036,Cropland,Cropland,Cropland,both raters agreed
+P037,Trees/vegetation,Trees/vegetation,Trees/vegetation,both raters agreed
+P038,Built-up,Built-up,Built-up,both raters agreed
+P039,Built-up,Built-up,Built-up,both raters agreed
+P040,Trees/vegetation,Trees/vegetation,Trees/vegetation,both raters agreed
+P041,Cropland,Cropland,Cropland,both raters agreed
+P042,Cropland,Cropland,Cropland,both raters agreed
+P043,Cropland,Cropland,Cropland,both raters agreed
+P044,Cropland,Cropland,Cropland,both raters agreed
+P045,Cropland,Cropland,Cropland,both raters agreed
+P046,Cropland,Cropland,Cropland,both raters agreed
+P047,Cropland,Cropland,Cropland,both raters agreed
+P048,Unclear,Unclear,Unclear,both raters agreed
+P049,Cropland,Cropland,Cropland,both raters agreed
+P050,Trees/vegetation,Trees/vegetation,Trees/vegetation,both raters agreed
+P051,Trees/vegetation,Trees/vegetation,Trees/vegetation,both raters agreed
+P052,Cropland,Cropland,Cropland,both raters agreed
+P053,Bare,Bare,Bare,both raters agreed
+P054,Cropland,Cropland,Cropland,both raters agreed
+P055,Trees/vegetation,Trees/vegetation,Built-up,disagreement settled by a third look
+P056,Trees/vegetation,Trees/vegetation,Trees/vegetation,both raters agreed
+P057,Built-up,Built-up,Built-up,both raters agreed
+P058,Trees/vegetation,Trees/vegetation,Trees/vegetation,both raters agreed
+P059,Built-up,Built-up,Built-up,both raters agreed
+P060,Unclear,Unclear,Unclear,both raters agreed
+P061,Cropland,Cropland,Cropland,both raters agreed
+P062,Cropland,Cropland,Cropland,both raters agreed
+P063,Built-up,Built-up,Built-up,both raters agreed
+P064,Built-up,Built-up,Built-up,both raters agreed
+P065,Bare,Trees/vegetation,Bare,disagreement settled by a third look
+P066,Cropland,Cropland,Cropland,both raters agreed
+P067,Bare,Bare,Bare,both raters agreed
+P068,Cropland,Cropland,Bare,disagreement settled by a third look
+P069,Bare,Built-up,Bare,disagreement settled by a third look
+P070,Trees/vegetation,Trees/vegetation,Trees/vegetation,both raters agreed
+P071,Bare,Bare,Bare,both raters agreed
+P072,Cropland,Cropland,Cropland,both raters agreed
+P073,Bare,Built-up,Bare,disagreement settled by a third look
+P074,Trees/vegetation,Trees/vegetation,Trees/vegetation,both raters agreed
+P075,Built-up,Built-up,Built-up,both raters agreed
+P076,Cropland,Cropland,Cropland,both raters agreed
+P077,Cropland,Cropland,Cropland,both raters agreed
+P078,Trees/vegetation,Trees/vegetation,Bare,disagreement settled by a third look
+P079,Cropland,Cropland,Trees/vegetation,disagreement settled by a third look
+P080,Built-up,Built-up,Built-up,both raters agreed
+P081,Built-up,Built-up,Built-up,both raters agreed
+P082,Trees/vegetation,Trees/vegetation,Trees/vegetation,both raters agreed
+P083,Built-up,Built-up,Built-up,both raters agreed
+P084,Cropland,Cropland,Cropland,both raters agreed
+P085,Built-up,Built-up,Built-up,both raters agreed
+P086,Trees/vegetation,Trees/vegetation,Trees/vegetation,both raters agreed
+P087,Built-up,Built-up,Built-up,both raters agreed
+P088,Bare,Cropland,Bare,disagreement settled by a third look
+P089,Built-up,Built-up,Built-up,both raters agreed
+P090,Cropland,Cropland,Cropland,both raters agreed
+P091,Cropland,Cropland,Cropland,both raters agreed
+P092,Cropland,Cropland,Cropland,both raters agreed
+P093,Cropland,Cropland,Cropland,both raters agreed
+P094,Cropland,Cropland,Cropland,both raters agreed
+P095,Built-up,Built-up,Trees/vegetation,disagreement settled by a third look
+P096,Cropland,Cropland,Cropland,both raters agreed
+P097,Cropland,Cropland,Cropland,both raters agreed
+P098,Built-up,Built-up,Built-up,both raters agreed
+P099,Built-up,Built-up,Built-up,both raters agreed
+P100,Cropland,Cropland,Cropland,both raters agreed
+P101,Cropland,Cropland,Cropland,both raters agreed
+P102,Built-up,Built-up,Built-up,both raters agreed
+P103,Cropland,Cropland,Cropland,both raters agreed
+P104,Cropland,Cropland,Cropland,both raters agreed
+P105,Trees/vegetation,Trees/vegetation,Trees/vegetation,both raters agreed
+P106,Cropland,Cropland,Cropland,both raters agreed
+P107,Trees/vegetation,Trees/vegetation,Trees/vegetation,both raters agreed
+P108,Bare,Bare,Bare,both raters agreed
+P109,Trees/vegetation,Trees/vegetation,Trees/vegetation,both raters agreed
+P110,Built-up,Built-up,Built-up,both raters agreed
+P111,Built-up,Built-up,Built-up,both raters agreed
+P112,Cropland,Cropland,Cropland,both raters agreed
+P113,Bare,Bare,Bare,both raters agreed
+P114,Cropland,Cropland,Cropland,both raters agreed
+P115,Cropland,Cropland,Cropland,both raters agreed
+P116,Cropland,Cropland,Cropland,both raters agreed
+P117,Built-up,Built-up,Built-up,both raters agreed
+P118,Cropland,Cropland,Cropland,both raters agreed
+P119,Cropland,Cropland,Cropland,both raters agreed
+P120,Trees/vegetation,Trees/vegetation,Trees/vegetation,both raters agreed
+P121,Trees/vegetation,Trees/vegetation,Bare,disagreement settled by a third look
+P122,Trees/vegetation,Trees/vegetation,Trees/vegetation,both raters agreed
+P123,Cropland,Cropland,Cropland,both raters agreed
+P124,Built-up,Built-up,Built-up,both raters agreed
+P125,Built-up,Built-up,Built-up,both raters agreed
+P126,Cropland,Cropland,Cropland,both raters agreed
+P127,Built-up,Built-up,Built-up,both raters agreed
+P128,Built-up,Built-up,Built-up,both raters agreed
+P129,Cropland,Cropland,Cropland,both raters agreed
+P130,Built-up,Trees/vegetation,Built-up,disagreement settled by a third look
+P131,Cropland,Cropland,Cropland,both raters agreed
+P132,Built-up,Built-up,Built-up,both raters agreed
+P133,Built-up,Built-up,Built-up,both raters agreed
+P134,Cropland,Cropland,Cropland,both raters agreed
+P135,Bare,Bare,Bare,both raters agreed
+P136,Cropland,Cropland,Cropland,both raters agreed
+P137,Built-up,Built-up,Built-up,both raters agreed
+P138,Cropland,Cropland,Cropland,both raters agreed
+P139,Cropland,Cropland,Cropland,both raters agreed
+P140,Bare,Bare,Bare,both raters agreed
+P141,Trees/vegetation,Trees/vegetation,Trees/vegetation,both raters agreed
+P142,Cropland,Built-up,Cropland,disagreement settled by a third look
+P143,Trees/vegetation,Trees/vegetation,Trees/vegetation,both raters agreed
+P144,Cropland,Cropland,Trees/vegetation,disagreement settled by a third look
+P145,Trees/vegetation,Trees/vegetation,Trees/vegetation,both raters agreed
+P146,Cropland,Bare,Cropland,disagreement settled by a third look
+P147,Cropland,Cropland,Cropland,both raters agreed
+P148,Cropland,Cropland,Cropland,both raters agreed
+P149,Trees/vegetation,Trees/vegetation,Trees/vegetation,both raters agreed
+P150,Built-up,Built-up,Built-up,both raters agreed
+P151,Cropland,Cropland,Cropland,both raters agreed
+P152,Cropland,Cropland,Cropland,both raters agreed
+P153,Built-up,Built-up,Built-up,both raters agreed
+P154,Built-up,Built-up,Built-up,both raters agreed
+P155,Built-up,Built-up,Built-up,both raters agreed
+P156,Trees/vegetation,Trees/vegetation,Trees/vegetation,both raters agreed
+P157,Built-up,Built-up,Built-up,both raters agreed
+P158,Cropland,Cropland,Cropland,both raters agreed
+P159,Built-up,Built-up,Built-up,both raters agreed
+P160,Cropland,Cropland,Cropland,both raters agreed

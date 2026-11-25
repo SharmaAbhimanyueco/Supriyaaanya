@@ -1,0 +1,126 @@
+{
+ "points_used": 158,
+ "points_unclear": 2,
+ "stratum_pixels": {
+  "1": 161438,
+  "2": 689039,
+  "3": 239980,
+  "5": 118243
+ },
+ "stratum_sample": {
+  "1": 49,
+  "2": 49,
+  "3": 30,
+  "5": 30
+ },
+ "analysis/lulc_2025.tif": {
+  "overall_accuracy_pct": 77.1,
+  "counts": {
+   "Built-up": {
+    "Built-up": 32,
+    "Cropland": 8,
+    "Trees/vegetation": 8,
+    "Bare/fallow": 1
+   },
+   "Cropland": {
+    "Built-up": 2,
+    "Cropland": 44,
+    "Trees/vegetation": 1,
+    "Bare/fallow": 2
+   },
+   "Trees/vegetation": {
+    "Built-up": 1,
+    "Cropland": 8,
+    "Trees/vegetation": 21,
+    "Bare/fallow": 0
+   },
+   "Bare/fallow": {
+    "Built-up": 14,
+    "Cropland": 5,
+    "Trees/vegetation": 1,
+    "Bare/fallow": 10
+   }
+  },
+  "Built-up": {
+   "users_accuracy_pct": 65.3,
+   "producers_accuracy_pct": 53.6
+  },
+  "Cropland": {
+   "users_accuracy_pct": 89.8,
+   "producers_accuracy_pct": 84.9
+  },
+  "Trees/vegetation": {
+   "users_accuracy_pct": 70.0,
+   "producers_accuracy_pct": 79.1
+  },
+  "Bare/fallow": {
+   "users_accuracy_pct": 33.3,
+   "producers_accuracy_pct": 55.6
+  },
+  "builtup_binary": {
+   "overall_agreement_pct": 87.8,
+   "users_pct": 65.3,
+   "producers_pct": 53.6
+  },
+  "builtup_area_2025": {
+   "map_ha": 14529.4,
+   "error_adjusted_ha": 17706.0,
+   "ci95_ha": 4648.0
+  }
+ },
+ "analysis2/lulc_2025.tif": {
+  "overall_accuracy_pct": 74.6,
+  "counts": {
+   "Built-up": {
+    "Built-up": 30,
+    "Cropland": 8,
+    "Trees/vegetation": 5,
+    "Bare/fallow": 5
+   },
+   "Cropland": {
+    "Built-up": 4,
+    "Cropland": 47,
+    "Trees/vegetation": 6,
+    "Bare/fallow": 3
+   },
+   "Trees/vegetation": {
+    "Built-up": 8,
+    "Cropland": 8,
+    "Trees/vegetation": 20,
+    "Bare/fallow": 0
+   },
+   "Bare/fallow": {
+    "Built-up": 7,
+    "Cropland": 2,
+    "Trees/vegetation": 0,
+    "Bare/fallow": 5
+   }
+  },
+  "Built-up": {
+   "users_accuracy_pct": 62.0,
+   "producers_accuracy_pct": 51.9
+  },
+  "Cropland": {
+   "users_accuracy_pct": 84.3,
+   "producers_accuracy_pct": 87.1
+  },
+  "Trees/vegetation": {
+   "users_accuracy_pct": 61.8,
+   "producers_accuracy_pct": 68.7
+  },
+  "Bare/fallow": {
+   "users_accuracy_pct": 35.7,
+   "producers_accuracy_pct": 27.8
+  },
+  "builtup_binary": {
+   "overall_agreement_pct": 87.0,
+   "users_pct": 62.0,
+   "producers_pct": 51.9
+  },
+  "builtup_area_2025": {
+   "map_ha": 14785.8,
+   "error_adjusted_ha": 17706.0,
+   "ci95_ha": 4648.0
+  }
+ }
+}
