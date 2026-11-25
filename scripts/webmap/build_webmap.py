@@ -2,12 +2,17 @@
 
 Usage: python -I scripts/webmap/build_webmap.py <repo root> [<zones.npy>]
   <zones.npy> is W/analysis2/zones.npy from the analysis pipeline (West = 1, East = 2). Without it, the zone filter is
-  switched off. Needs numpy, rasterio, pyproj and pillow. All numbers come from results/results.json and
-  results/rasters/lulc_*.tif; place names come from scripts/webmap/places_wikidata_raw.json (Wikidata, CC0).
+  switched off. Needs numpy, rasterio, pyproj and pillow (with WebP). All numbers come from results/results.json and
+  results/rasters/lulc_*.tif; the satellite backgrounds from results/images/landsat_composite_*.tif; place names from
+  scripts/webmap/places_wikidata_raw.json (Wikidata, CC0).
+  Optional environment variables: WEBMAP_REPO (source-code link), WEBMAP_REPO_NAME (its label), WEBMAP_HOST (hosting credit).
 """
 import json
 import math
+import os
+import shutil
 import sys
+import zipfile
 from pathlib import Path
 
 import numpy as np
@@ -49,6 +54,20 @@ maxx, miny = tr.c + tr.a * mw, tr.f + tr.e * mh
 inv = Transformer.from_crs("EPSG:3857", "EPSG:4326", always_xy=True)
 west, south = inv.transform(minx, miny)
 east, north = inv.transform(maxx, maxy)
+# true-colour Landsat pictures on exactly the same grid: a satellite background that matches each year
+LO, HI, G = 150, 1700, 1 / 1.5  # one stretch for red, green and blue keeps natural colours (as in the handover figures)
+for yr in YEARS:
+    with rasterio.open(ROOT / "results" / "images" / f"landsat_composite_{yr}.tif") as src:
+        rgba = np.zeros((mh, mw, 4), "uint8")
+        valid = np.ones((mh, mw), bool)
+        for i, b in enumerate((3, 2, 1)):
+            band = np.full((mh, mw), -32768, "int16")
+            reproject(rasterio.band(src, b), band, src_transform=src.transform, src_crs=src.crs, dst_transform=tr, dst_crs="EPSG:3857",
+                      resampling=Resampling.bilinear, src_nodata=-32768, dst_nodata=-32768)
+            valid &= band != -32768
+            rgba[..., i] = (np.power(np.clip((band.astype("float32") - LO) / (HI - LO), 0, 1), G) * 255).astype("uint8")
+        rgba[..., 3] = np.where(valid, 255, 0)
+    Image.fromarray(rgba, "RGBA").save(OUT / "layers" / f"landsat_{yr}.webp", quality=80, method=6)
 old = OUT / "layers" / "change_2015_2025.png"
 if old.exists():
     old.unlink()  # the change view is now computed in the browser
@@ -133,6 +152,34 @@ for row in raw:
 places.sort(key=lambda p: p["n"])
 (OUT / "data" / "places.json").write_text(json.dumps(places, separators=(",", ":"), ensure_ascii=False))
 
+# ---------- 3b. downloads, and Leaflet itself (so the site needs no outside code) ----------
+dl = OUT / "downloads"
+dl.mkdir(exist_ok=True)
+credit = ("Licence: CC BY 4.0. Credit: Supriya Mahshere and Aanya Upadhyay (2026), Mapping urban growth in the "
+          "Mohali-Kharar-Zirakpur-Dera Bassi belt. Landsat data courtesy of the U.S. Geological Survey.\n")
+with zipfile.ZipFile(dl / "landcover_maps_geotiff.zip", "w", zipfile.ZIP_DEFLATED) as z:
+    for yr in YEARS:
+        for ext in ("tif", "qml"):
+            f = ROOT / "results" / "rasters" / f"lulc_{yr}.{ext}"
+            if f.exists():
+                z.write(f, f.name)
+    z.writestr("README.txt", "Land-cover maps, March 2015, 2020 and 2025 (GeoTIFF, EPSG:32643 / UTM 43N, 30 m pixels).\n"
+               "Codes: 1 Built-up, 2 Cropland, 3 Trees/vegetation, 5 Bare/fallow, 0 no data. Each .qml file is the QGIS style.\n" + credit)
+tables = sorted((ROOT / "handover" / "tables").glob("*.csv"))
+if tables:
+    with zipfile.ZipFile(dl / "result_tables_csv.zip", "w", zipfile.ZIP_DEFLATED) as z:
+        for f in tables:
+            z.write(f, f.name)
+        z.writestr("README.txt", "Every result of the project as CSV tables (open in Excel or Google Sheets).\n" + credit)
+shutil.copy(ROOT / "results" / "results.json", dl / "results.json")
+size = lambda f: f"{f.stat().st_size / 1e6:.1f} MB" if f.stat().st_size >= 1e6 else f"{max(1, round(f.stat().st_size / 1e3))} KB"
+downloads = [("downloads/landcover_maps_geotiff.zip", "Land-cover maps 2015, 2020, 2025 (GeoTIFF + QGIS styles)"),
+             ("downloads/result_tables_csv.zip", "All result tables (CSV)"), ("downloads/results.json", "Every number (JSON)"),
+             ("data/hex.geojson", "1 km² grid with hectares per year (GeoJSON)")]
+downloads = [{"href": h, "label": l, "size": size(OUT / h)} for h, l in downloads if (OUT / h).exists()]
+shutil.copy(ROOT / "scripts" / "webmap" / "leaflet-1.9.4.js", OUT / "leaflet.js")
+shutil.copy(ROOT / "scripts" / "webmap" / "LEAFLET_LICENSE.txt", OUT / "LEAFLET_LICENSE.txt")
+
 # ---------- 4. page ----------
 zw, ze = R["zones"]["West zone (Kharar and Mohali)"], R["zones"]["East zone (Dera Bassi, incl. Zirakpur)"]
 acc = R["acc"]
@@ -147,7 +194,10 @@ data = {
     "accuracy": {"points": R["acc_points"], "overall": acc["overall_accuracy_pct"], "binary": acc["builtup_binary"]["overall_agreement_pct"],
                  "found": acc["Built-up"]["producers_accuracy_pct"], "adj": acc["builtup_area_2025"]["error_adjusted_ha"], "ci": acc["builtup_area_2025"]["ci95_ha"]},
     "trainingPixels": R["training"]["training_pixels"],
-    "repo": "https://github.com/SharmaAbhimanyueco/Supriyaaanya",
+    "repo": os.environ.get("WEBMAP_REPO", "https://github.com/SharmaAbhimanyueco/Supriyaaanya"),
+    "repoName": os.environ.get("WEBMAP_REPO_NAME", "GitHub"),
+    "host": os.environ.get("WEBMAP_HOST", ""),
+    "downloads": downloads,
 }
 tpl = (ROOT / "scripts" / "webmap" / "template.html").read_text()
 css = (ROOT / "scripts" / "webmap" / "leaflet-1.9.4.css").read_text()
@@ -156,4 +206,4 @@ head, body = html.split("<!--BODY-->", 1)
 html = ("<!doctype html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n"
         "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1, viewport-fit=cover\">\n" + head + "</head>\n<body>" + body + "</body>\n</html>\n")
 (OUT / "index.html").write_text(html)
-print(f"built webmap: {len(feats)} hexagons, {len(places)} places, layers {mw}x{mh}px")
+print(f"built webmap: {len(feats)} hexagons, {len(places)} places, layers {mw}x{mh}px, {len(downloads)} downloads")

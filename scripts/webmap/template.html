@@ -49,7 +49,8 @@ h3 { font: 700 19px/1.2 var(--font-display); margin: 0; }
 .sugg li[aria-selected="true"], .sugg li:hover { background: var(--soft); }
 .row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
 .row > label, .lbl { color: var(--muted); font-size: 14px; }
-.seg { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+.seg { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
+.seg button { padding-inline: 2px; }
 .seg button, .btn { font: 600 14px/1 var(--font-body); padding: 10px 6px; border-radius: 8px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); cursor: pointer; }
 .seg button[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
 .btn.small { padding: 7px 10px; font-size: 13px; }
@@ -88,20 +89,51 @@ details p { margin: 8px 0 0; }
 footer { color: var(--muted); font-size: 13px; display: grid; gap: 4px; }
 footer p { margin: 0; max-width: 100ch; }
 footer a, .card a { color: var(--focus); }
+.dl a { color: var(--ink); }
+.facts { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; margin-top: 4px; }
+.fact { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; display: grid; gap: 2px; min-width: 0; }
+.fact b { font: 700 clamp(18px, 2vw, 22px)/1.15 var(--font-display); font-variant-numeric: tabular-nums; }
+.fact span { font-size: 12.5px; color: var(--muted); }
+.fact:first-child b { color: var(--accent); }
+@media (max-width: 760px) { .facts { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.maptools { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+.tiles-grey { filter: grayscale(1) brightness(1.04) contrast(.9); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .tiles-grey { filter: grayscale(1) invert(1) brightness(.82) contrast(.9); } }
+:root[data-theme="dark"] .tiles-grey { filter: grayscale(1) invert(1) brightness(.82) contrast(.9); }
+#map:fullscreen { height: 100vh; border-radius: 0; border: 0; }
+.fsbtn { width: 34px; height: 34px; font-size: 18px; line-height: 1; background: #fff; color: #1F2A2E; border: 2px solid rgba(0,0,0,.2) !important; border-radius: 4px; cursor: pointer; }
+.maplegend { background: rgba(255,255,255,.92); color: #1F2A2E; border-radius: 8px; padding: 7px 9px; font: 12.5px/1.35 var(--font-body); box-shadow: 0 1px 6px rgba(0,0,0,.2); display: grid; gap: 3px; max-width: 220px; }
+.maplegend div { display: flex; align-items: center; gap: 7px; }
+.maplegend i { width: 12px; height: 12px; border-radius: 3px; display: inline-block; flex: none; }
+.maplegend .lg-t { font-weight: 600; }
+.swipe { position: absolute; inset: 0; z-index: 650; pointer-events: none; }
+.swipe .divider { position: absolute; top: 0; bottom: 0; width: 3px; margin-left: -1.5px; background: #fff; box-shadow: 0 0 0 1px rgba(0,0,0,.35); }
+.swipe input[type="range"] { position: absolute; left: 0; top: 50%; width: 100%; margin: 0; height: 0; padding: 0; background: transparent; -webkit-appearance: none; appearance: none; pointer-events: none; min-width: 0; }
+.swipe input[type="range"]::-webkit-slider-runnable-track { height: 0; background: transparent; }
+.swipe input[type="range"]::-moz-range-track { height: 0; background: transparent; }
+.swipe input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; pointer-events: auto; width: 34px; height: 34px; margin-top: -17px; border-radius: 50%; background: #fff; border: 2px solid #1F2A2E; box-shadow: 0 1px 6px rgba(0,0,0,.35); cursor: ew-resize; }
+.swipe input[type="range"]::-moz-range-thumb { pointer-events: auto; width: 30px; height: 30px; border-radius: 50%; background: #fff; border: 2px solid #1F2A2E; box-shadow: 0 1px 6px rgba(0,0,0,.35); cursor: ew-resize; }
+.swipe .tag { position: absolute; top: 10px; font: 600 13px/1 var(--font-body); background: rgba(31,42,46,.85); color: #fff; padding: 6px 9px; border-radius: 6px; }
+.swipe .tag.l { left: 56px; } .swipe .tag.r { right: 10px; }
+.dl { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.dl a { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; padding: 8px 10px; border: 1px solid var(--line); border-radius: 8px; text-decoration: none; color: var(--ink); }
+.dl a:hover { border-color: var(--accent); }
+.dl small { color: var(--muted); white-space: nowrap; }
 </style>
 <!--BODY-->
 <div class="wrap">
   <header>
     <div class="eyebrow">S.A.S. Nagar (Mohali) district, Punjab · Landsat 8 · March 2015, 2020, 2025</div>
     <h1>Urban growth around Chandigarh, 2015–2025</h1>
-    <p class="lede">Search a town or village, filter the map by year, land type and zone, and read live figures for any area. Everything is computed from 30 m land-cover maps made from Landsat 8 satellite images.</p>
-    <div class="badges"><span class="badge">Open source · MIT</span><span class="badge">Data · CC BY 4.0</span><span class="badge">Free to use</span><a class="badge" id="repoLink" href="#" target="_blank" rel="noopener">Source code on GitHub</a></div>
+    <p class="lede">Search a town or village, compare years side by side, filter by land type and zone, and read live figures for any area. Everything is computed from 30 m land-cover maps made from Landsat 8 satellite images.</p>
+    <div class="badges"><span class="badge">Open source · MIT</span><span class="badge">Data · CC BY 4.0</span><span class="badge">Free to use</span><a class="badge" id="repoLink" href="#" target="_blank" rel="noopener">Source code</a><a class="badge" href="#h-dl">Download the data</a></div>
+    <div class="facts" id="facts" aria-label="Key findings"></div>
   </header>
 
   <div class="layout">
     <div class="mapcol">
       <div id="map" role="region" aria-label="Interactive land-cover map"></div>
-      <div class="status" id="status" aria-live="polite">Loading the land-cover maps…</div>
+      <div class="maptools"><div class="status" id="status" aria-live="polite">Loading the land-cover maps…</div><button class="btn small" id="share" type="button">Copy link to this view</button></div>
     </div>
 
     <aside>
@@ -131,9 +163,11 @@ footer a, .card a { color: var(--focus); }
           <button type="button" id="v2020" data-view="2020" aria-pressed="false">2020</button>
           <button type="button" id="v2025" data-view="2025" aria-pressed="true">2025</button>
           <button type="button" id="vchange" data-view="change" aria-pressed="false">Change</button>
+          <button type="button" id="vcompare" data-view="compare" aria-pressed="false">Compare</button>
         </div>
         <div class="row"><button class="btn small" id="play" type="button">▶ Play 2015 → 2025</button>
-          <label for="opacity">Opacity</label><input type="range" id="opacity" min="20" max="100" value="85" step="5"></div>
+          <label for="opacity">Opacity</label><input type="range" id="opacity" min="0" max="100" value="85" step="5"></div>
+        <div class="row" id="compareRow" hidden><label for="leftYear">Left</label><select id="leftYear"><option>2015</option><option>2020</option><option>2025</option></select><label for="rightYear">Right</label><select id="rightYear"><option>2015</option><option>2020</option><option selected>2025</option></select><span class="lbl">Drag the round handle on the map.</span></div>
         <ul class="classes" id="classes" aria-label="Land types shown"></ul>
         <div class="row" id="changeRow" hidden><label for="changeMode">Show</label>
           <select id="changeMode"><option value="all">All land that became built-up</option><option value="crop">Only farmland that became built-up</option></select></div>
@@ -146,8 +180,9 @@ footer a, .card a { color: var(--focus); }
           <div class="hexlegend" id="hexLegend"></div><div class="hexticks" id="hexTicks"></div>
         </div>
         <div class="row"><input type="checkbox" id="labels" checked><label for="labels">Place names</label></div>
-        <div class="row" id="baseRow" hidden><label for="basemap">Background</label>
-          <select id="basemap"><option value="osm">OpenStreetMap</option><option value="none">None</option><option value="sat">Satellite photo (Esri)</option></select></div>
+        <div class="row"><label for="basemap">Background</label>
+          <select id="basemap"><option value="grey" selected>Map, grey (OpenStreetMap)</option><option value="osm">Map, colour (OpenStreetMap)</option><option value="landsat">Satellite, same year (Landsat 8)</option><option value="esri">High-resolution photo (Esri)</option><option value="none">None</option></select></div>
+        <p class="note">Tip: choose the Landsat satellite background and lower the opacity to see the picture each map was made from.</p>
       </section>
 
       <section class="card" aria-labelledby="h-view">
@@ -169,6 +204,12 @@ footer a, .card a { color: var(--focus); }
         <details><summary>Method</summary><p class="note" id="method"></p></details>
         <details><summary>Open source and credits</summary><p class="note" id="credits"></p></details>
       </section>
+
+      <section class="card" aria-labelledby="h-dl">
+        <h2 id="h-dl">Download the data</h2>
+        <ul class="dl" id="downloads"></ul>
+        <p class="note">Free to reuse with credit (CC BY 4.0). The GeoTIFFs open in QGIS with their colours.</p>
+      </section>
     </aside>
   </div>
 
@@ -177,7 +218,7 @@ footer a, .card a { color: var(--focus); }
   </footer>
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="leaflet.js"></script>
 <script>
 (function () {
 const D = /*__DATA__*/null;
@@ -189,7 +230,7 @@ const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const YEARS = ['2015', '2020', '2025'];
 const CLS = {}; D.classes.forEach((c) => { CLS[c.code] = c; });
 const ZNAME = { W: 'West (Kharar–Mohali)', E: 'East (Dera Bassi–Zirakpur)' };
-const state = { view: '2025', on: { 1: true, 2: true, 3: true, 5: true }, changeMode: 'all', zone: 'all', grid: false, metric: 'growth', gmin: 0, radius: 1, sel: null };
+const state = { view: '2025', left: '2015', right: '2025', base: 'grey', on: { 1: true, 2: true, 3: true, 5: true }, changeMode: 'all', zone: 'all', grid: false, metric: 'growth', gmin: 0, radius: 1, sel: null };
 $('repoLink').href = D.repo;
 const status = (t) => { $('status').textContent = t; };
 
@@ -200,19 +241,32 @@ map.fitBounds(bounds, { padding: [6, 6] });
 map.attributionControl.setPrefix('<a href="https://leafletjs.com" target="_blank" rel="noopener">Leaflet</a>');
 map.attributionControl.addAttribution('Land cover: own analysis of Landsat 8 (USGS/NASA)');
 L.control.scale({ imperial: false, position: 'bottomleft' }).addTo(map);
+// panes, lowest first: background tiles (200), Landsat picture, land cover, 1 km² grid, markers
+[['satL', 320], ['satR', 321], ['lcL', 410], ['lcR', 411], ['hex', 440], ['top', 460]].forEach(([n, z]) => { map.createPane(n).style.zIndex = z; });
+const hexR = L.canvas({ pane: 'hex' }), topR = L.canvas({ pane: 'top' });
+const OSM = '© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors';
 const bases = {
-  osm: L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors' }),
-  sat: L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', { maxZoom: 18, attribution: 'Imagery © Esri' }),
+  grey: L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: OSM, className: 'tiles-grey' }),
+  osm: L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: OSM }),
+  esri: L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', { maxZoom: 18, attribution: 'Imagery © Esri (free to view, not open data)' }),
 };
+bases.landsat = bases.grey; // the Landsat picture covers the study area; the grey map shows around it
 let base = null;
-const probe = new Image();
-probe.onload = () => { $('baseRow').hidden = false; base = bases.osm.addTo(map); base.bringToBack(); };
-probe.src = 'https://tile.openstreetmap.org/9/364/211.png';
-$('basemap').addEventListener('change', (e) => { if (base) map.removeLayer(base); base = e.target.value === 'none' ? null : bases[e.target.value].addTo(map); if (base) base.bringToBack(); });
+function setBase(v) {
+  state.base = v;
+  const next = v === 'none' ? null : bases[v];
+  if (base !== next) { if (base) map.removeLayer(base); base = next; if (base) base.addTo(map); }
+  updateSat();
+}
+$('basemap').addEventListener('change', (e) => setBase(e.target.value));
 
 // ---------- land-cover layer: shown at once from the PNG, then redrawn in the browser for filtering ----------
 const W = D.size.w, H = D.size.h, M = D.merc, PX = (M.maxx - M.minx) / W;
-const overlay = L.imageOverlay('layers/lulc_2025.png', bounds, { opacity: 0.85, className: 'px', interactive: false }).addTo(map);
+const lcR = L.imageOverlay('layers/lulc_2025.png', bounds, { pane: 'lcR', opacity: 0.85, className: 'px', interactive: false }).addTo(map);
+const lcL = L.imageOverlay('layers/lulc_2015.png', bounds, { pane: 'lcL', opacity: 0.85, className: 'px', interactive: false });
+const SAT = 'Satellite background: Landsat 8, USGS (public domain)';
+const satR = L.imageOverlay('layers/landsat_2025.webp', bounds, { pane: 'satR', interactive: false, attribution: SAT });
+const satL = L.imageOverlay('layers/landsat_2015.webp', bounds, { pane: 'satL', interactive: false, attribution: SAT });
 const arr = {};
 const lut = new Map(D.classes.map((c) => [(c.rgb[0] << 16) | (c.rgb[1] << 8) | c.rgb[2], c.code]));
 function decode(year) {
@@ -235,14 +289,16 @@ function decode(year) {
     img.src = 'layers/lulc_' + year + '.png';
   });
 }
-const cv = document.createElement('canvas'); cv.width = W; cv.height = H;
-const cg = cv.getContext('2d');
-let url = null, ready = false;
-function render() {
-  if (!ready) { overlay.setUrl(state.view === 'change' ? 'layers/lulc_2025.png' : 'layers/lulc_' + state.view + '.png'); return; }
-  const img = cg.createImageData(W, H), p = img.data;
+let ready = false;
+const urls = { L: null, R: null };
+const compare = () => state.view === 'compare';
+const shownYear = (side) => (compare() ? (side === 'L' ? state.left : state.right) : (state.view === 'change' ? '2025' : state.view));
+function paint(what) { // what = a year or 'change'; returns the URL of a picture of the filtered layer
+  if (!ready) return Promise.resolve('layers/lulc_' + (what === 'change' ? '2025' : what) + '.png');
+  const cv = document.createElement('canvas'); cv.width = W; cv.height = H;
+  const cg = cv.getContext('2d'), img = cg.createImageData(W, H), p = img.data;
   const col = {}; D.classes.forEach((c) => { col[c.code] = c.rgb; });
-  if (state.view === 'change') {
+  if (what === 'change') {
     const a = arr['2015'], b = arr['2025'], built = CLS[1].rgb, keep = [95, 111, 115];
     for (let i = 0, j = 0; i < a.length; i++, j += 4) {
       if (b[i] !== 1 || !a[i]) continue;
@@ -251,7 +307,7 @@ function render() {
       if (c) { p[j] = c[0]; p[j + 1] = c[1]; p[j + 2] = c[2]; p[j + 3] = 255; }
     }
   } else {
-    const a = arr[state.view];
+    const a = arr[what];
     for (let i = 0, j = 0; i < a.length; i++, j += 4) {
       const k = a[i];
       if (!k || !state.on[k]) continue;
@@ -259,7 +315,79 @@ function render() {
     }
   }
   cg.putImageData(img, 0, 0);
-  cv.toBlob((blob) => { const old = url; url = URL.createObjectURL(blob); overlay.setUrl(url); if (old) setTimeout(() => URL.revokeObjectURL(old), 2000); });
+  return new Promise((res) => cv.toBlob((blob) => res(URL.createObjectURL(blob))));
+}
+function setUrl(side, u) {
+  const ov = side === 'L' ? lcL : lcR, old = urls[side];
+  urls[side] = u; ov.setUrl(u);
+  if (old && old !== u && old.startsWith('blob:')) setTimeout(() => URL.revokeObjectURL(old), 2000);
+}
+let job = 0;
+async function render() {
+  const id = ++job;
+  const [r, l] = await Promise.all([paint(compare() ? state.right : state.view), compare() ? paint(state.left) : Promise.resolve(null)]);
+  if (id !== job) { [r, l].forEach((u) => { if (u && u.startsWith('blob:')) URL.revokeObjectURL(u); }); return; }
+  setUrl('R', r);
+  if (l) { setUrl('L', l); if (!map.hasLayer(lcL)) lcL.addTo(map); } else if (map.hasLayer(lcL)) map.removeLayer(lcL);
+  updateSat(); clipPanes(); renderLegend();
+}
+function updateSat() {
+  const on = state.base === 'landsat', onL = on && compare();
+  const ur = 'layers/landsat_' + shownYear('R') + '.webp', ul = 'layers/landsat_' + shownYear('L') + '.webp';
+  if (satR._url !== ur) satR.setUrl(ur);
+  if (on !== map.hasLayer(satR)) (on ? satR.addTo(map) : map.removeLayer(satR));
+  if (onL && satL._url !== ul) satL.setUrl(ul);
+  if (onL !== map.hasLayer(satL)) (onL ? satL.addTo(map) : map.removeLayer(satL));
+}
+
+// ---------- compare: a draggable divider shows one year on the left and another on the right ----------
+const swipe = L.DomUtil.create('div', 'swipe', map.getContainer());
+swipe.innerHTML = '<div class="divider"></div><span class="tag l"></span><span class="tag r"></span><input type="range" min="0" max="1000" value="500" aria-label="Move the divider between the two years">';
+swipe.hidden = true;
+const range = swipe.querySelector('input'), divider = swipe.querySelector('.divider');
+L.DomEvent.disableClickPropagation(range); L.DomEvent.disableScrollPropagation(range);
+['pointerdown', 'touchstart'].forEach((ev) => range.addEventListener(ev, () => map.dragging.disable(), { passive: true }));
+['pointerup', 'touchend', 'change'].forEach((ev) => range.addEventListener(ev, () => map.dragging.enable()));
+range.addEventListener('input', clipPanes);
+function clipPanes() {
+  const on = compare();
+  swipe.hidden = !on;
+  if (!on) { ['satL', 'satR', 'lcL', 'lcR'].forEach((n) => { map.getPane(n).style.clip = ''; }); return; }
+  swipe.querySelector('.l').textContent = state.left; swipe.querySelector('.r').textContent = state.right;
+  const size = map.getSize(), t = 34, x = t / 2 + (size.x - t) * Number(range.value) / 1000;
+  divider.style.left = x + 'px';
+  const nw = map.containerPointToLayerPoint([0, 0]), se = map.containerPointToLayerPoint(size), cx = nw.x + x;
+  const left = `rect(${nw.y}px, ${cx}px, ${se.y}px, ${nw.x}px)`, right = `rect(${nw.y}px, ${se.x}px, ${se.y}px, ${cx}px)`;
+  map.getPane('satL').style.clip = left; map.getPane('lcL').style.clip = left;
+  map.getPane('satR').style.clip = right; map.getPane('lcR').style.clip = right;
+}
+map.on('move zoom resize', clipPanes);
+
+// ---------- on-map legend, full-screen button ----------
+const legend = L.control({ position: 'bottomright' });
+legend.onAdd = () => L.DomUtil.create('div', 'maplegend');
+legend.addTo(map);
+function renderLegend() {
+  const el = legend.getContainer();
+  if (state.view === 'change') {
+    el.innerHTML = `<div class="lg-t">Change, 2015 → 2025</div><div><i style="background:${CLS[1].hex}"></i>${state.changeMode === 'crop' ? 'Farmland that became built-up' : 'Became built-up'}</div>` +
+      (state.changeMode === 'all' ? '<div><i style="background:#5F6F73"></i>Built-up in both years</div>' : '');
+    return;
+  }
+  el.innerHTML = `<div class="lg-t">${compare() ? `Left ${esc(state.left)} · right ${esc(state.right)}` : 'Land cover, March ' + esc(state.view)}</div>` +
+    D.classes.filter((c) => state.on[c.code]).map((c) => `<div><i style="background:${c.hex}"></i>${esc(c.name)}</div>`).join('');
+}
+if (document.fullscreenEnabled) {
+  const fs = L.control({ position: 'topleft' });
+  fs.onAdd = () => {
+    const b = L.DomUtil.create('button', 'fsbtn'); b.type = 'button'; b.title = 'Full screen'; b.setAttribute('aria-label', 'Show the map full screen');
+    b.innerHTML = '<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M4 9V4h5M15 4h5v5M20 15v5h-5M9 20H4v-5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    L.DomEvent.disableClickPropagation(b);
+    L.DomEvent.on(b, 'click', () => (document.fullscreenElement ? document.exitFullscreen() : $('map').requestFullscreen()));
+    return b;
+  };
+  fs.addTo(map);
+  document.addEventListener('fullscreenchange', () => setTimeout(() => { map.invalidateSize(); clipPanes(); }, 120));
 }
 
 // ---------- legend / class filter ----------
@@ -272,19 +400,23 @@ function renderClasses() {
     return;
   }
   $('changeRow').hidden = true;
-  const a = D.area[state.view];
-  ul.innerHTML = D.classes.map((c) => `<li><input type="checkbox" id="cls${c.code}" ${state.on[c.code] ? 'checked' : ''} aria-label="Show ${esc(c.name)}"><span class="sw" style="background:${c.hex}"></span><label for="cls${c.code}">${esc(c.name)}</label><span class="ha">${fmt(a[c.name])} ha · ${f1(100 * a[c.name] / a.Total)}%</span></li>`).join('');
+  const a = D.area[compare() ? state.right : state.view], a0 = D.area[state.left];
+  const fig = (c) => (compare() ? `${fmt(a0[c.name])} → ${fmt(a[c.name])} ha` : `${fmt(a[c.name])} ha · ${f1(100 * a[c.name] / a.Total)}%`);
+  ul.innerHTML = D.classes.map((c) => `<li><input type="checkbox" id="cls${c.code}" ${state.on[c.code] ? 'checked' : ''} aria-label="Show ${esc(c.name)}"><span class="sw" style="background:${c.hex}"></span><label for="cls${c.code}">${esc(c.name)}</label><span class="ha">${fig(c)}</span></li>`).join('');
   D.classes.forEach((c) => $('cls' + c.code).addEventListener('change', (e) => { state.on[c.code] = e.target.checked; render(); }));
 }
 
 function setView(v) {
   state.view = v;
   document.querySelectorAll('.seg button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.view === v)));
+  $('compareRow').hidden = v !== 'compare';
   renderClasses(); render();
 }
+$('leftYear').addEventListener('change', (e) => { state.left = e.target.value; renderClasses(); render(); });
+$('rightYear').addEventListener('change', (e) => { state.right = e.target.value; renderClasses(); render(); });
 document.querySelectorAll('.seg button').forEach((b) => b.addEventListener('click', () => { stopPlay(); setView(b.dataset.view); }));
 $('changeMode').addEventListener('change', (e) => { state.changeMode = e.target.value; renderClasses(); render(); });
-$('opacity').addEventListener('input', (e) => overlay.setOpacity(Number(e.target.value) / 100));
+$('opacity').addEventListener('input', (e) => { const o = Number(e.target.value) / 100; lcR.setOpacity(o); lcL.setOpacity(o); });
 let timer = null;
 function stopPlay() { if (timer) { clearInterval(timer); timer = null; $('play').textContent = '▶ Play 2015 → 2025'; } }
 $('play').addEventListener('click', () => {
@@ -318,6 +450,7 @@ function drawGrid() {
   if (!state.grid || !hex) return;
   const m = METRIC[state.metric];
   hexLayer = L.geoJSON(hex, {
+    pane: 'hex', renderer: hexR,
     filter: (f) => zoneOk(f.properties) && m.get(f.properties) >= state.gmin,
     style: (f) => ({ color: '#FFFFFF', weight: 0.6, opacity: 0.7, fillColor: RAMP[bin(state.metric, m.get(f.properties))], fillOpacity: 0.78 }),
     onEachFeature: (f, l) => {
@@ -394,7 +527,7 @@ let circle = null;
 function showProfile(title, meta, latlng, extra) {
   const res = around(latlng, state.radius);
   if (circle) map.removeLayer(circle);
-  circle = L.circle(latlng, { radius: state.radius * 1000, color: '#1F2A2E', weight: 2, dashArray: '5 5', fill: false, interactive: false }).addTo(map);
+  circle = L.circle(latlng, { pane: 'top', renderer: topR, radius: state.radius * 1000, color: '#1F2A2E', weight: 2, dashArray: '5 5', fill: false, interactive: false }).addTo(map);
   $('profile').hidden = false;
   $('h-profile').textContent = title;
   if (res.inside < 1) {
@@ -486,7 +619,7 @@ function renderRank() {
 let labels = null;
 function drawLabels() {
   if (labels) map.removeLayer(labels);
-  labels = L.layerGroup(places.map((p) => L.circleMarker([p.la, p.lo], { radius: 3, color: '#1F2A2E', weight: 1, fillColor: '#FFFFFF', fillOpacity: 1 })
+  labels = L.layerGroup(places.map((p) => L.circleMarker([p.la, p.lo], { pane: 'top', renderer: topR, radius: 3, color: '#1F2A2E', weight: 1, fillColor: '#FFFFFF', fillOpacity: 1 })
     .bindTooltip(esc(p.n), { permanent: p.t === 'town', direction: 'right', offset: [6, 0] })
     .on('click', (e) => { L.DomEvent.stopPropagation(e); selectPlace(p); })));
   if ($('labels').checked) labels.addTo(map);
@@ -497,13 +630,48 @@ $('labels').addEventListener('change', (e) => (e.target.checked ? labels && labe
 const A = D.accuracy;
 $('trust').innerHTML = `The maps were checked at ${A.points} random points on detailed satellite photos: <b>${Math.round(A.overall)}%</b> correct across the four land types and <b>${Math.round(A.binary)}%</b> correct for built-up versus not. They find about ${Math.round(A.found)}% of real built-up land, so they <b>undercount</b>: the corrected 2025 built-up area is about ${fmt(Math.round(A.adj / 100) * 100)} ± ${fmt(Math.round(A.ci / 100) * 100)} ha, against ${fmt(D.area['2025']['Built-up'])} ha on the map. Treat hectares as conservative estimates. The photo labels were AI-assisted and are being spot-checked.`;
 $('method').textContent = `Two clear March Landsat 8 images per year (2015, 2020, 2025) were merged into one cloud-free picture per year. A K-means model grouped all ${fmt(D.trainingPixels)} pixels from the three years into 10 groups; the same model was used for every year, and the groups were named and merged into four land types. Areas are pixel counts × 0.09 ha. The analysis was run in Python; the same steps can be repeated in QGIS.`;
-$('credits').innerHTML = `Free and open source. Code: MIT licence. Maps and figures: CC BY 4.0. Source: <a href="${D.repo}" target="_blank" rel="noopener">GitHub</a>. Built with Leaflet (BSD-2-Clause). Satellite data: Landsat 8, USGS/NASA (public domain). Place names: Wikidata (CC0) and OpenStreetMap via Photon (ODbL). Background map © OpenStreetMap contributors. The optional satellite background is Esri World Imagery, which is free to view but not open data.`;
+$('credits').innerHTML = `Free and open source. Code: MIT licence. Maps and figures: CC BY 4.0. Source code: <a href="${D.repo}" target="_blank" rel="noopener">${esc(D.repoName)}</a>.${D.host ? ' Hosted on ' + esc(D.host) + '.' : ''} Built with Leaflet (BSD-2-Clause), included with the site. Satellite data and the Landsat background: Landsat 8, USGS/NASA (public domain). Place names: Wikidata (CC0) and OpenStreetMap via Photon (ODbL). Background map © OpenStreetMap contributors. The optional high-resolution photo background is Esri World Imagery, which is free to view but not open data.`;
+const C = D.change, B15 = D.area['2015']['Built-up'], B25 = D.area['2025']['Built-up'];
+$('facts').innerHTML = [
+  [`${fmt(B15)} → ${fmt(B25)} ha`, 'built-up land, March 2015 → 2025'],
+  [`+${C['2015-2025'].pct_change.toFixed(1)}%`, `in ten years, or ${C['2015-2025'].lcr_pct_per_year.toFixed(2)}% a year`],
+  [`${C['2020-2025'].lcr_pct_per_year.toFixed(2)}% a year`, `since 2020, up from ${C['2015-2020'].lcr_pct_per_year.toFixed(2)}% in 2015–2020`],
+  [`${Math.round(D.cropShare)}%`, `of the new built-up land was farmland (${fmt(D.cropToBuilt)} ha)`],
+].map(([v, l]) => `<div class="fact"><b>${v}</b><span>${l}</span></div>`).join('');
+$('downloads').innerHTML = (D.downloads || []).map((d) => `<li><a href="${d.href}" download><span>${esc(d.label)}</span><small>${d.size}</small></a></li>`).join('');
+const VIEWS = ['2015', '2020', '2025', 'change', 'compare'], BASES = ['grey', 'osm', 'landsat', 'esri', 'none'];
+function viewHash() {
+  const c = map.getCenter();
+  let h = `#@${c.lat.toFixed(4)},${c.lng.toFixed(4)},${map.getZoom().toFixed(2)}z,${state.view}`;
+  if (state.view === 'compare') h += `,${state.left}-${state.right}`;
+  if (state.base !== 'grey') h += `,${state.base}`;
+  return h;
+}
+$('share').addEventListener('click', async () => {
+  const h = viewHash(), u = location.href.split('#')[0] + h;
+  try { history.replaceState(null, '', h); } catch (e) { /* ignore */ }
+  try { await navigator.clipboard.writeText(u); status('Link copied: it opens this exact view.'); } catch (e) { status('Copy this link to share the view: ' + u); }
+});
+function applyHash(h) {
+  const m = /^@(-?\d+(?:\.\d+)?),(-?\d+(?:\.\d+)?),(\d+(?:\.\d+)?)z((?:,[a-z0-9-]+)*)$/.exec(h);
+  if (!m) return false;
+  for (const x of m[4].split(',').filter(Boolean)) {
+    if (VIEWS.includes(x)) state.view = x;
+    else if (/^(2015|2020|2025)-(2015|2020|2025)$/.test(x)) { [state.left, state.right] = x.split('-'); $('leftYear').value = state.left; $('rightYear').value = state.right; }
+    else if (BASES.includes(x)) { state.base = x; $('basemap').value = x; }
+  }
+  map.setView([Number(m[1]), Number(m[2])], Math.min(17, Math.max(8, Number(m[3]))), { animate: false });
+  setBase(state.base); setView(state.view);
+  return true;
+}
 
 // ---------- start ----------
-renderClasses(); setView('2025');
+renderClasses(); setView('2025'); setBase('grey');
+const startHash = decodeURIComponent(location.hash.slice(1));
+const viewFromHash = applyHash(startHash);
 Promise.all([fetch('data/hex.geojson').then((r) => r.json()), fetch('data/places.json').then((r) => r.json())])
   .then(([h, p]) => { hex = h; places = p; computeBreaks(); viewStats(); drawLabels(); })
-  .catch(() => status('Could not load the grid and place data. Open the page from a web server (for example GitHub Pages), not as a local file.'))
+  .catch(() => status('Could not load the grid and place data. Open the page from a web server (the public website, or the run_local launcher), not as a local file.'))
   .then(async () => {
     try {
       for (const y of YEARS) arr[y] = await decode(y);
@@ -511,8 +679,7 @@ Promise.all([fetch('data/hex.geojson').then((r) => r.json()), fetch('data/places
       ranks = places.map((p) => { const r = around(L.latLng(p.la, p.lo), 1); return { p, g: r.y['2025'][1] - r.y['2015'][1] }; }).sort((a, b) => b.g - a.g);
       renderRank();
       status('Ready. Search a place, change the filters, or click the map.');
-      const h = decodeURIComponent(location.hash.slice(1));
-      const hit = h && places.find((p) => p.n.toLowerCase().replace(/\s+/g, '-') === h);
+      const hit = !viewFromHash && startHash && places.find((p) => p.n.toLowerCase().replace(/\s+/g, '-') === startHash);
       if (hit) selectPlace(hit);
     } catch (err) { status('Could not read the land-cover layers: ' + err.message); }
   });
