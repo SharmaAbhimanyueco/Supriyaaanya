@@ -113,12 +113,20 @@ footer a, .card a { color: var(--focus); }
 .swipe input[type="range"]::-moz-range-track { height: 0; background: transparent; }
 .swipe input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; pointer-events: auto; width: 34px; height: 34px; margin-top: -17px; border-radius: 50%; background: #fff; border: 2px solid #1F2A2E; box-shadow: 0 1px 6px rgba(0,0,0,.35); cursor: ew-resize; }
 .swipe input[type="range"]::-moz-range-thumb { pointer-events: auto; width: 30px; height: 30px; border-radius: 50%; background: #fff; border: 2px solid #1F2A2E; box-shadow: 0 1px 6px rgba(0,0,0,.35); cursor: ew-resize; }
-.swipe .tag { position: absolute; top: 10px; font: 600 13px/1 var(--font-body); background: rgba(31,42,46,.85); color: #fff; padding: 6px 9px; border-radius: 6px; }
-.swipe .tag.l { left: 56px; } .swipe .tag.r { right: 10px; }
+.swipe .tag { position: absolute; top: calc(50% - 54px); font: 600 13px/1 var(--font-body); background: rgba(31,42,46,.85); color: #fff; padding: 6px 9px; border-radius: 6px; white-space: nowrap; }
+.swipe .tag.l { transform: translateX(-100%); }
 .dl { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
 .dl a { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; padding: 8px 10px; border: 1px solid var(--line); border-radius: 8px; text-decoration: none; color: var(--ink); }
 .dl a:hover { border-color: var(--accent); }
 .dl small { color: var(--muted); white-space: nowrap; }
+.tour { background: var(--surface); color: var(--ink); border: 1px solid var(--line); border-radius: 10px; box-shadow: 0 6px 24px rgba(0,0,0,.22); padding: 12px 14px; width: 320px; max-width: calc(100vw - 90px); display: grid; gap: 8px; font: 14px/1.45 var(--font-body); }
+.tour-h { display: flex; align-items: start; justify-content: space-between; gap: 8px; }
+.tour-h b { font: 700 16px/1.25 var(--font-display); }
+.tour p { margin: 0; }
+.tour-nav { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.tour-nav span { color: var(--muted); font-size: 12.5px; font-variant-numeric: tabular-nums; }
+.tour .x { border: 0; background: transparent; color: var(--muted); font-size: 20px; line-height: 1; cursor: pointer; padding: 0 2px; }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
 </style>
 <!--BODY-->
 <div class="wrap">
@@ -133,7 +141,7 @@ footer a, .card a { color: var(--focus); }
   <div class="layout">
     <div class="mapcol">
       <div id="map" role="region" aria-label="Interactive land-cover map"></div>
-      <div class="maptools"><div class="status" id="status" aria-live="polite">Loading the land-cover maps…</div><button class="btn small" id="share" type="button">Copy link to this view</button></div>
+      <div class="maptools"><div class="status" id="status" aria-live="polite">Loading the land-cover maps…</div><div class="row"><button class="btn small primary" id="tourBtn" type="button" disabled>▶ Guided tour</button><button class="btn small" id="share" type="button">Copy link to this view</button></div></div>
     </div>
 
     <aside>
@@ -356,6 +364,7 @@ function clipPanes() {
   swipe.querySelector('.l').textContent = state.left; swipe.querySelector('.r').textContent = state.right;
   const size = map.getSize(), t = 34, x = t / 2 + (size.x - t) * Number(range.value) / 1000;
   divider.style.left = x + 'px';
+  swipe.querySelector('.l').style.left = (x - 8) + 'px'; swipe.querySelector('.r').style.left = (x + 8) + 'px';
   const nw = map.containerPointToLayerPoint([0, 0]), se = map.containerPointToLayerPoint(size), cx = nw.x + x;
   const left = `rect(${nw.y}px, ${cx}px, ${se.y}px, ${nw.x}px)`, right = `rect(${nw.y}px, ${se.x}px, ${se.y}px, ${cx}px)`;
   map.getPane('satL').style.clip = left; map.getPane('lcL').style.clip = left;
@@ -665,6 +674,67 @@ function applyHash(h) {
   return true;
 }
 
+// ---------- guided tour: each step sets the map and explains it with the project's own numbers ----------
+const ZD = D.zones, band = (u) => (u < 0.28 ? 'slow' : u < 0.59 ? 'low' : u < 1.05 ? 'medium' : u < 1.92 ? 'high' : 'very high');
+function ui(id, v) { const el = $(id); if (el.type === 'checkbox') el.checked = v; else el.value = v; }
+function setZone(z) { state.zone = z; ui('zone', z); drawGrid(); viewStats(); renderRank(); }
+function setGrid(on, metric) { state.grid = on; ui('grid', on); if (metric) { state.metric = metric; ui('metric', metric); } state.gmin = 0; ui('gmin', 0); drawGrid(); }
+function setOpacity(v) { ui('opacity', v); lcR.setOpacity(v / 100); lcL.setOpacity(v / 100); }
+function setYears(l, r) { state.left = l; state.right = r; ui('leftYear', l); ui('rightYear', r); }
+function setMode(m) { state.changeMode = m; ui('changeMode', m); }
+function baseTo(v) { ui('basemap', v); setBase(v); }
+function clearSel() { $('profile').hidden = true; if (circle) map.removeLayer(circle); circle = null; state.sel = null; }
+function reset(view) { stopPlay(); clearSel(); setGrid(false); setZone('all'); setOpacity(85); baseTo('grey'); setMode('all'); setYears('2015', '2025'); range.value = 500; setView(view); }
+const fly = (b) => map.flyToBounds(b, { padding: [10, 10], animate: !reduce, duration: 0.9 });
+const STEPS = [
+  { t: 'The study area', x: () => `S.A.S. Nagar (Mohali) district, next to Chandigarh: ${fmt(D.area['2025'].Total)} ha mapped from Landsat 8 images at 30 m. Red is built-up land, light green cropland, dark green trees and yellow bare or fallow land.`,
+    go: () => { reset('2025'); fly(bounds); } },
+  { t: '2015 and 2025, side by side', x: () => `Left of the handle is March 2015, right is March 2025. Built-up land grew from ${fmt(D.area['2015']['Built-up'])} ha to ${fmt(D.area['2025']['Built-up'])} ha: +${D.change['2015-2025'].pct_change.toFixed(1)}% in ten years. Drag the round handle to compare.`,
+    go: () => { reset('compare'); fly(bounds); } },
+  { t: 'Growth sped up after 2020', x: () => `Red shows the ${fmt(D.newBuilt)} ha that became built-up between 2015 and 2025; grey was built-up in both years. The yearly rate rose from ${D.change['2015-2020'].lcr_pct_per_year.toFixed(2)}% (2015–2020) to ${D.change['2020-2025'].lcr_pct_per_year.toFixed(2)}% (2020–2025).`,
+    go: () => { reset('change'); fly(bounds); } },
+  { t: 'Farmland under new buildings', x: () => `${fmt(D.cropToBuilt)} ha of 2015 cropland became built-up by 2025: ${Math.round(D.cropShare)}% of all the new built-up land. Click any red patch to see what was there in each year.`,
+    go: () => { reset('change'); setMode('crop'); renderClasses(); render(); fly(bounds); } },
+  { t: 'Where growth was fastest', x: () => `Each hexagon is 1 km²; darker means more new built-up land. West zone (Kharar–Mohali): built-up ${ZD.W.s15.toFixed(1)}% → ${ZD.W.s25.toFixed(1)}% of its land, expansion intensity (UEII) ${ZD.W.ueii.toFixed(2)} (${band(ZD.W.ueii)}). East zone (Dera Bassi–Zirakpur): ${ZD.E.s15.toFixed(1)}% → ${ZD.E.s25.toFixed(1)}%, UEII ${ZD.E.ueii.toFixed(2)} (${band(ZD.E.ueii)}).`,
+    go: () => { reset('2025'); setGrid(true, 'growth'); fly(bounds); } },
+  { t: 'The fastest-growing place', x: () => { const r = ranks[0]; return r ? `${r.p.n}: +${fmt(r.g)} ha of new built-up land within 1 km between 2015 and 2025, the most of the ${ranks.length} places in the list. The panel on the right shows its figures.` : 'The place list is still loading.'; },
+    go: () => { reset('compare'); if (ranks[0]) selectPlace(ranks[0].p); } },
+  { t: 'What the satellite saw', x: () => 'Behind the maps: the Landsat 8 true-colour picture of each year. Green crops and trees, brown hills, and light brown or grey towns and roads. The land-cover colours are faded so the picture shows through. This is what the computer sorted into land types.',
+    go: () => { const c = map.getCenter(), z = map.getZoom(); reset('compare'); baseTo('landsat'); setOpacity(25); map.setView(c, Math.max(z, 12.5), { animate: !reduce }); } },
+  { t: 'How reliable is it?', x: () => `Checked at ${A.points} random points on detailed photos: ${A.overall.toFixed(1)}% correct overall and ${A.binary.toFixed(1)}% for built-up versus not. The map finds about ${Math.round(A.found)}% of real built-up land, so the true 2025 figure is probably about ${fmt(Math.round(A.adj / 100) * 100)} ± ${fmt(Math.round(A.ci / 100) * 100)} ha. Read the hectares as conservative.`,
+    go: () => { reset('2025'); fly(bounds); } },
+  { t: 'Explore it yourself', x: () => 'Search any town or village, click anywhere for local figures, switch years or compare, and download the data below the map. Close the tour to keep exploring.',
+    go: () => { reset('2025'); fly(bounds); } },
+];
+const tourCtl = L.control({ position: 'topright' });
+tourCtl.onAdd = () => {
+  const d = L.DomUtil.create('div', 'tour');
+  d.setAttribute('role', 'dialog'); d.setAttribute('aria-label', 'Guided tour'); d.hidden = true;
+  d.innerHTML = '<div class="tour-h"><b id="tourTitle"></b><button class="x" id="tourX" type="button" aria-label="Close the tour">×</button></div><p id="tourText" aria-live="polite"></p><div class="tour-nav"><button class="btn small" id="tourPrev" type="button">‹ Back</button><span id="tourStep"></span><button class="btn small primary" id="tourNext" type="button">Next ›</button></div>';
+  L.DomEvent.disableClickPropagation(d); L.DomEvent.disableScrollPropagation(d);
+  return d;
+};
+tourCtl.addTo(map);
+let step = -1;
+function showStep(i) {
+  step = Math.max(0, Math.min(STEPS.length - 1, i));
+  const s = STEPS[step];
+  tourCtl.getContainer().hidden = false;
+  s.go();
+  $('tourTitle').textContent = s.t; $('tourText').textContent = s.x();
+  $('tourStep').textContent = `${step + 1} / ${STEPS.length}`;
+  $('tourPrev').disabled = step === 0; $('tourNext').textContent = step === STEPS.length - 1 ? 'Finish' : 'Next ›';
+}
+function endTour() { tourCtl.getContainer().hidden = true; step = -1; $('tourBtn').focus(); }
+$('tourBtn').addEventListener('click', () => showStep(0));
+$('tourPrev').addEventListener('click', () => showStep(step - 1));
+$('tourNext').addEventListener('click', () => (step === STEPS.length - 1 ? endTour() : showStep(step + 1)));
+$('tourX').addEventListener('click', endTour);
+document.addEventListener('keydown', (e) => {
+  if (step < 0 || /INPUT|SELECT|TEXTAREA/.test(document.activeElement.tagName)) return;
+  if (e.key === 'ArrowRight') showStep(step + 1); else if (e.key === 'ArrowLeft') showStep(step - 1); else if (e.key === 'Escape') endTour();
+});
+
 // ---------- start ----------
 renderClasses(); setView('2025'); setBase('grey');
 const startHash = decodeURIComponent(location.hash.slice(1));
@@ -678,6 +748,7 @@ Promise.all([fetch('data/hex.geojson').then((r) => r.json()), fetch('data/places
       ready = true; render();
       ranks = places.map((p) => { const r = around(L.latLng(p.la, p.lo), 1); return { p, g: r.y['2025'][1] - r.y['2015'][1] }; }).sort((a, b) => b.g - a.g);
       renderRank();
+      $('tourBtn').disabled = false;
       status('Ready. Search a place, change the filters, or click the map.');
       const hit = !viewFromHash && startHash && places.find((p) => p.n.toLowerCase().replace(/\s+/g, '-') === startHash);
       if (hit) selectPlace(hit);
