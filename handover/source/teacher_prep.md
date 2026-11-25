@@ -134,7 +134,7 @@ Each answer is 2 to 4 sentences. Say it in your own words. **Show** tells you wh
 **Show:** Slide 9; slide 23 glossary.
 
 **Q14. What are the six bands?**
-**Say:** Blue, green, red, near-infrared, shortwave infrared 1 and shortwave infrared 2. Two are invisible to our eyes. Healthy plants reflect near-infrared strongly, which separates green wheat from concrete.
+**Say:** Blue, green, red, near-infrared, shortwave infrared 1 and shortwave infrared 2. Three are invisible to our eyes: near-infrared and the two shortwave-infrared bands. Healthy plants reflect near-infrared strongly, which separates green wheat from concrete.
 **Show:** Slide 9.
 
 **Q15. Why UTM zone 43N?**

@@ -19,7 +19,7 @@ This is a student semester project by Supriya Mahshere and Aanya Upadhyay. It ma
 
 ## Key facts
 
-- **Study area.** The GADM boundary comes from `Study_Area.zip`, which is not in the repo because GADM's licence forbids redistribution. Its two polygons are mislabelled: "Kharar" is Kharar + Mohali, and "Rajpura" is Dera Bassi including Zirakpur (Rajpura town is outside). They are used as the **West/East zones, not official tehsils**. The area is 1,209,178 pixels of 30 m, about 108,800 ha.
+- **Study area.** The GADM boundary comes from `Study_Area.zip`, which is not in the repo because GADM's licence forbids redistribution. Its two polygons are mislabelled: "Kharar" is Kharar + Mohali, and "Rajpura" is Dera Bassi including Zirakpur (Rajpura town is outside). They are used as the **West/East zones, not official tehsils**. The area is 1,209,178 pixels of 30 m = 108,826 ha (slide 4). The yearly mapped totals are 108,799 / 108,826 / 108,783 ha, because a few pixels had no clear view in 2015 and 2025.
 - **Grid.** EPSG:32643 (UTM 43N), 30 m pixels, 1 pixel = 0.09 ha. The working grid is 1409 × 2170.
 - **Scenes.** Landsat 8 Collection 2 Level-2, path 147 row 39, from Microsoft Planetary Computer: 2015-03-07 and 03-23, 2020-03-04 and 03-20, 2025-03-02 and 03-18. QA_PIXEL bits 0–4 are masked, then a median composite is taken.
 - **Codes in `lulc_*.tif`.** 1 Built-up, 2 Cropland, 3 Trees/vegetation, 5 Bare/fallow, 0 nodata. Code 4 (Water) is unused because no water cluster appeared. Colours: B03A2E, 8DB63C, 2E6B3F, (2F7FB0), D9A441.
@@ -94,6 +94,13 @@ The 24 slides follow the teacher's list, plus four additions:
 - The v1 files (`*_v1.*`) are the older static map, kept for reference.
 - Licences: code MIT (`LICENSE`); maps and figures CC BY 4.0 (`LICENSE-DATA.md`).
 - Don't add the GADM zone polygons to the page (licence). The hexagons carry only a `z` (W/E) label.
+
+## Canva deck
+
+- An editable Canva copy of the 24-slide deck ("Mohali Urban Growth", in the user's Canva account) was generated with the Canva MCP and then corrected slide by slide. Canva's generator had invented pictures, chart data, references and instruction text, so every slide now uses the real maps and charts and the text and speaker notes of `slides/`. Its layout differs from the PPTX; the numbers match.
+- Canva's tools refuse to import agent-generated files from a URL, so images go in through `create-upload-url` (raw POST to www.canva.com, an allowed host in the environment).
+- Edits run in a transaction: `read-design` with `open_transaction`, then `edit-design`, then the user's approval, then `commit`. After any Canva generation or edit, read the design back and check its numbers against `results/results.json`.
+- Don't put the Canva edit link in this public repo.
 
 ## Handover package
 

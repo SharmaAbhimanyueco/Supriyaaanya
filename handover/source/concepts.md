@@ -490,7 +490,7 @@ The QGIS guide uses five classes including water (empty in our run), so QGIS res
 ### Boundary issues
 **In plain words:** The study area is only as good as its boundary file.
 **Everyday analogy:** Measuring a field from an old, mislabelled plot map.
-**In this project:** The GADM boundary may be out of date and its labels are wrong. West and East are not tehsils. The area (108,799 ha from pixel counts; slide notes recommend checking against an official figure) is not yet confirmed.
+**In this project:** The GADM boundary may be out of date and its labels are wrong. West and East are not tehsils. The area (108,826 ha from pixel counts; slide notes recommend checking against an official figure) is not yet confirmed.
 
 ### AI-assisted labels
 **In plain words:** The photo labels for the accuracy check were made by AI-assisted interpretation, not by field survey or the students.

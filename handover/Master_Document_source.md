@@ -841,7 +841,7 @@ The QGIS guide uses five classes including water (empty in our run), so QGIS res
 
 **Everyday analogy:** Measuring a field from an old, mislabelled plot map.
 
-**In this project:** The GADM boundary may be out of date and its labels are wrong. West and East are not tehsils. The area (108,799 ha from pixel counts; slide notes recommend checking against an official figure) is not yet confirmed.
+**In this project:** The GADM boundary may be out of date and its labels are wrong. West and East are not tehsils. The area (108,826 ha from pixel counts; slide notes recommend checking against an official figure) is not yet confirmed.
 
 ### AI-assisted labels
 
@@ -1585,7 +1585,7 @@ Each answer is 2 to 4 sentences. Say it in your own words. **Show** tells you wh
 
 **Q14. What are the six bands?**
 
-**Say:** Blue, green, red, near-infrared, shortwave infrared 1 and shortwave infrared 2. Two are invisible to our eyes. Healthy plants reflect near-infrared strongly, which separates green wheat from concrete.
+**Say:** Blue, green, red, near-infrared, shortwave infrared 1 and shortwave infrared 2. Three are invisible to our eyes: near-infrared and the two shortwave-infrared bands. Healthy plants reflect near-infrared strongly, which separates green wheat from concrete.
 
 **Show:** Slide 9.
 

@@ -25,6 +25,8 @@ const SH = { 2015: F.share['2015']['Built-up'], 2025: F.share['2025']['Built-up'
 const C1525 = F.change['2015-2025'], C1520 = F.change['2015-2020'], C2025 = F.change['2020-2025'];
 const ZW = F.zones['West zone (Kharar and Mohali)'], ZE = F.zones['East zone (Dera Bassi, incl. Zirakpur)'];
 const totalHa = F.area['2015'].Total;
+// 2020 has no nodata pixels, so its total is the whole study-area boundary (1,209,178 pixels x 0.09 ha)
+const boundaryHa = F.area['2020'].Total;
 const UEII_ALL = (BU[2025] - BU[2015]) / (totalHa * 10) * 100;
 const seeds = Object.values(F.bu_by_seed);
 const rng = (y) => `${n0(Math.min(...seeds.map((s) => s[y])))}–${n0(Math.max(...seeds.map((s) => s[y])))}`;
@@ -187,8 +189,8 @@ async function build() {
   kicker(s, 'S.A.S. Nagar (Mohali) district, Punjab, next to Chandigarh');
   s.addImage({ path: MAP_IMG, x: 0.6, y: 1.85, w: 6.58, h: 4.65, altText: 'Location map of the study area, S.A.S. Nagar (Mohali) district, Punjab, with an inset map of India', objectName: 'Location map' });
   tb(s, 'Basemap © OpenStreetMap contributors. The “Kharar” and “Rajpura” labels come from an outdated boundary dataset (GADM); its outline covers the Mohali, Kharar and Dera Bassi tehsils.', { x: 0.6, y: 6.52, w: 6.58, h: 0.45, fontSize: 10, color: C.accent6 });
-  tb(s, `${n0(totalHa)} ha`, { x: 7.6, y: 1.85, w: 5.13, h: 0.85, fontSize: 40, bold: true, color: C.accent1, objectName: 'Area stat' });
-  tb(s, 'area inside the study-area boundary (about 1,088 km²)', { x: 7.6, y: 2.7, w: 5.13, h: 0.4, fontSize: 14, color: C.accent6 });
+  tb(s, `${n0(boundaryHa)} ha`, { x: 7.6, y: 1.85, w: 5.13, h: 0.85, fontSize: 40, bold: true, color: C.accent1, objectName: 'Area stat' });
+  tb(s, `area inside the study-area boundary: ${n0(boundaryHa / 0.09)} pixels of 30 m (about ${n0(boundaryHa / 100)} km²)`, { x: 7.6, y: 2.7, w: 5.13, h: 0.6, fontSize: 14, color: C.accent6 });
   tb(s, bulletRuns(['Tehsils: Mohali, Kharar and Dera Bassi', 'Zirakpur: a municipal council inside Dera Bassi tehsil', 'Adjoins Chandigarh and borders Panchkula (Haryana)', 'Why this boundary: one district holds all four growing towns, so results can feed district-level planning'], { space: 10 }), { x: 7.6, y: 3.35, w: 5.13, h: 3.2 });
   s.addNotes('Area = 1,209,178 pixels of 30 m inside the GADM boundary, measured in UTM zone 43N. Check it against the official district area, and confirm the tehsil list on an official source. Before submitting, ideally replace the map with a version without the “Kharar”/“Rajpura” labels.');
 
@@ -287,7 +289,7 @@ async function build() {
   s = pres.addSlide({ masterName: 'CONTENT', sectionTitle: 'In plain words' });
   s.addText('In plain words: what the satellite sees', { placeholder: 'title' });
   kicker(s, 'Landsat 8 photographs the ground in six kinds of light; we merge two March photos into one clean picture per year.');
-  tb(s, bulletRuns(['Landsat 8 is a free NASA and US Geological Survey satellite.', 'Each picture is made of squares called pixels: 30 m × 30 m, about a 100 ft plot.', 'Each pixel is measured in six kinds of light (bands), two of which our eyes cannot see.', 'Two clear March photos per year are merged, keeping the middle value, into one cloud-free picture.'], { space: 12 }), { x: 0.6, y: 1.95, w: 5.7, h: 3.6, fontSize: 17 });
+  tb(s, bulletRuns(['Landsat 8 is a free NASA and US Geological Survey satellite.', 'Each picture is made of squares called pixels: 30 m × 30 m, about a 100 ft plot.', 'Each pixel is measured in six kinds of light (bands), three of which our eyes cannot see.', 'Two clear March photos per year are merged, keeping the middle value, into one cloud-free picture.'], { space: 12 }), { x: 0.6, y: 1.95, w: 5.7, h: 3.6, fontSize: 17 });
   const bands = [['Blue', C.accent4], ['Green', C.accent2], ['Red', C.accent1], ['Near-infrared', C.accent6], ['Shortwave infrared 1', C.accent5], ['Shortwave infrared 2', C.text2]];
   tb(s, 'Six readings for every pixel', { x: 6.9, y: 1.95, w: 3.0, h: 0.35, fontSize: 14, bold: true });
   bands.forEach(([b, col], i) => { s.addShape(pres.shapes.RECTANGLE, { x: 6.9, y: 2.4 + i * 0.42, w: 0.9, h: 0.3, fill: { color: col }, objectName: 'Band ' + b }); tb(s, b, { x: 7.9, y: 2.4 + i * 0.42, w: 2.1, h: 0.3, fontSize: 13, valign: 'middle' }); });
