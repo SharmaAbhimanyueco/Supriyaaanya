@@ -468,14 +468,14 @@ async function build() {
   s = pres.addSlide({ masterName: 'CONTENT', sectionTitle: 'Outlook' });
   s.addText('Web map: what the dashboard shows', { placeholder: 'title' });
   kicker(s, 'The end product: an interactive map anyone can open in a browser');
-  s.addImage({ path: WEB_IMG, x: 0.6, y: 1.95, w: 6.9, h: 4.31, altText: 'Screenshot of the web dashboard: the 2025 land-cover map with the search box, map filters and live figures', objectName: 'Dashboard screenshot' });
+  s.addImage({ path: WEB_IMG, x: 0.6, y: 1.95, w: 6.9, h: 4.31, altText: 'Screenshot of the web dashboard in compare mode: 2015 left of a drag handle and 2025 right of it, with the key findings, filters and live figures', objectName: 'Dashboard screenshot' });
   s.addShape(pres.shapes.RECTANGLE, { x: 0.6, y: 1.95, w: 6.9, h: 4.31, fill: { color: C.background1, transparency: 100 }, line: { color: C.accent6, width: 1 }, objectName: 'Screenshot frame' });
-  tb(s, 'Live at sharmaabhimanyueco.github.io/Supriyaaanya (2025 view)', { x: 0.6, y: 6.33, w: 6.9, h: 0.3, fontSize: 11, color: C.accent6 });
+  tb(s, 'Live at abhimanyu04.codeberg.page/mohali-urban-growth (compare view)', { x: 0.6, y: 6.33, w: 6.9, h: 0.3, fontSize: 11, color: C.accent6 });
   tb(s, 'What it does', { x: 7.85, y: 1.95, w: 4.88, h: 0.45, fontSize: 18, bold: true });
-  tb(s, bulletRuns(['Switch between 2015, 2020 and 2025, or show the change', 'Search a place and read hectares within 0.5–3 km', 'Filter by land type and by West or East zone', '1 km² grid and a top-10 ranking of growth', 'Open source (Leaflet), hosted free on GitHub Pages']), { x: 7.85, y: 2.45, w: 4.88, h: 2.4 });
+  tb(s, bulletRuns(['A guided tour of the findings, step by step', 'Compare two years side by side with a drag handle', 'Search a place and read hectares within 0.5–3 km', 'Satellite background, filters and a 1 km² growth grid', 'Open source (Leaflet), hosted free on Codeberg Pages']), { x: 7.85, y: 2.45, w: 4.88, h: 2.4 });
   tb(s, 'Future work', { x: 7.85, y: 4.95, w: 4.88, h: 0.45, fontSize: 18, bold: true });
   tb(s, bulletRuns(['Hotspot analysis: finding where growth is bunched together (Getis-Ord Gi*)', 'Development Pressure Index: distance to built-up areas, roads, the airport and town centres']), { x: 7.85, y: 5.45, w: 4.88, h: 1.25 });
-  s.addNotes('The web map is live at https://sharmaabhimanyueco.github.io/Supriyaaanya/ (GitHub Pages must be switched on in the repository settings). It uses the same land-cover maps and results.json as these slides, and every figure is computed in the browser. It was built with Leaflet, an open-source map library, not with qgis2web, the tool the teacher’s plan named (UNCONFIRMED): say so if asked. Replace the screenshot with your own one of the live site, which also shows the background map. Future work is mentioned only here and in the conclusion; it is not being built now.');
+  s.addNotes('The web map is live at https://abhimanyu04.codeberg.page/mohali-urban-growth/, hosted free on Codeberg Pages, a non-profit, open-source service (the site files are in codeberg.org/Abhimanyu04/mohali-urban-growth). Start the demo with the Guided tour button: nine steps that move the map and explain each finding. The map uses the same land-cover maps and results.json as these slides, and every figure is computed in the browser. It was built with Leaflet, an open-source map library, not with qgis2web, the tool the teacher\u2019s plan named (UNCONFIRMED): say so if asked. You may replace the screenshot with your own of the live site. Future work is mentioned only here and in the conclusion; it is not being built now.');
 
   // ===== 21. Limitations =====
   s = pres.addSlide({ masterName: 'CONTENT', sectionTitle: 'Outlook' });

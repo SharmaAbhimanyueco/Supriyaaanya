@@ -27,7 +27,7 @@ Short definitions, A to Z. Part 2 explains each idea at length, with an everyday
 | GeoJSON | A text file format for map shapes, used for the web map's hexagon grid |
 | GeoTIFF | An image file that also knows where on Earth it lies; all the project's rasters |
 | GIS | Geographic Information System: software that stores, shows and analyses mapped data (e.g. QGIS) |
-| GitHub Pages | Free website hosting from a GitHub repository; hosts the web map |
+| Codeberg Pages | Free hosting of static websites from a Codeberg repository's `pages` branch, run by the non-profit Codeberg e.V.; hosts the web map |
 | Hectare (ha) | 100 m × 100 m = 10,000 m²; one 30 m pixel = 0.09 ha |
 | Inertia | The total squared distance from each pixel to its cluster centre; lower = tighter clusters |
 | K-means | A clustering method that sorts pixels into k groups around k centres, moving the centres until stable |
@@ -73,6 +73,7 @@ Short definitions, A to Z. Part 2 explains each idea at length, with an everyday
 - GADM, database of global administrative areas (study-area outline; no redistribution). https://gadm.org
 - Wikidata (place names and positions, CC0). https://www.wikidata.org
 - OpenStreetMap contributors (basemap of the location map and the web map, ODbL). https://www.openstreetmap.org/copyright
+- Codeberg Pages (hosting of the web map). https://docs.codeberg.org/codeberg-pages/
 
 **Methods**
 

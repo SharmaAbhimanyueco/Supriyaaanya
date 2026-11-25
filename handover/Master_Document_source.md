@@ -742,13 +742,13 @@ How to use this chapter. Each concept has up to four lines: what it means, an ev
 
 **In this project:** Built by `build_webmap.py` from the 30 m UTM rasters. It powers the colouring by growth, share, farmland built over and UEII.
 
-### Static website and GitHub Pages
+### Static website and Codeberg Pages
 
-**In plain words:** A static site is just files with no server code. GitHub Pages serves such files free from a repository branch.
+**In plain words:** A static site is just files with no server code. Codeberg Pages, run by the non-profit Codeberg e.V. on open-source software (git-pages), serves such files free from a repository's `pages` branch.
 
 **Everyday analogy:** A printed poster on a public notice board, rather than a staffed counter.
 
-**In this project:** The `gh-pages` branch holds `index.html`, `layers/*.png` and `.nojekyll`. Site: https://sharmaabhimanyueco.github.io/Supriyaaanya/. The user turns Pages on in Settings → Pages. Locally, use `python -m http.server`, since browsers block `file://` fetches.
+**In this project:** The `pages` branch of https://codeberg.org/Abhimanyu04/mohali-urban-growth holds `index.html`, `leaflet.js`, `layers/`, `data/` and `downloads/`, and a webhook republishes the site on every push. Site: https://abhimanyu04.codeberg.page/mohali-urban-growth/. Locally, use `python -m http.server`, since browsers block `file://` fetches.
 
 ### Search: Wikidata places and Photon
 
@@ -792,7 +792,7 @@ The teacher asked for QGIS. The results came from Python. This table maps each s
 | Area (pixels × 0.09) | Raster layer unique values report | ha = m² ÷ 10,000. |
 | New built-up, cropland to built-up, from–to | Raster Calculator | Code `2015 × 10 + 2025`. |
 | Growth by zone, UEII | Zonal histogram | Zones are West/East, not tehsils. |
-| Web map (`build_webmap.py`) | Polygonize, Extract by attribute, Simplify (about 15 m), then qgis2web (Leaflet) | Publish with GitHub Pages. |
+| Web map (`build_webmap.py`) | Polygonize, Extract by attribute, Simplify (about 15 m), then qgis2web (Leaflet) | Publish on a static host (this project uses Codeberg Pages). |
 | Colours | Save Style / Load Style | Same colours as the slides. |
 
 The QGIS guide uses five classes including water (empty in our run), so QGIS results will not match the Python numbers exactly.
@@ -885,7 +885,7 @@ External pages relied on (via search results; direct page fetches were blocked, 
 - scikit-learn clustering evaluation: https://scikit-learn.org/stable/modules/clustering.html#clustering-performance-evaluation
 - Olofsson et al. (2014), https://doi.org/10.1016/j.rse.2014.02.015
 - STAC and Planetary Computer: https://learn.microsoft.com/en-us/azure/planetary-computer/stac-overview and https://planetarycomputer.microsoft.com/api/stac/v1/collections/landsat-c2-l2
-- GitHub Pages: https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site
+- Codeberg Pages: https://docs.codeberg.org/codeberg-pages/-site
 
 
 ```{=openxml}
@@ -1163,26 +1163,30 @@ ESA WorldCover is a global land-cover map at 10 m made by the European Space Age
 
 # Part 9 — The web map
 
-**What it is.** An interactive dashboard that anyone can open in a browser, free, with no login: **https://sharmaabhimanyueco.github.io/Supriyaaanya/**. The teacher called the web map the end goal of the project.
+**What it is.** An interactive dashboard that anyone can open in a browser, free, with no login: **https://abhimanyu04.codeberg.page/mohali-urban-growth/**. The teacher called the web map the end goal of the project.
 
-![The dashboard, 2025 view (screenshot taken offline, so the background map is missing; online it shows streets and place names underneath).](03_Maps_and_Charts/screenshots/webmap_01_overview_2025.png){width=6.2in}
+![The dashboard in compare mode: 2015 left of the handle, 2025 right of it, over the Landsat satellite picture (screenshot of the live site; the street background map did not load on the computer that took it).](03_Maps_and_Charts/screenshots/webmap_02_compare_2015_2025.png){width=6.2in}
 
 **What it does**
 
-- **Search** towns and villages from a built-in list (Wikidata), or any other place through an online search when connected. The map flies there and shows the built-up land within 0.5–3 km for each year. Links can be shared, for example `…/#kharar`.
-- **Filter** by year (2015, 2020, 2025), by land type and by zone (West or East). It can also show only land that became built-up, either all of it or farmland only. A play button animates 2015 → 2025.
+- **Guided tour:** nine steps fly the map to each finding and explain it with the project's numbers. It is the easiest way to present the map.
+- **Compare:** drag a round handle to see one year on the left and another on the right (2015 and 2025 by default).
+- **Backgrounds:** a grey or colour street map (OpenStreetMap), the Landsat 8 true-colour picture of the same year (open data), Esri's high-resolution photo (free to view, not open data), or none. With the Landsat background and low opacity you see the picture each map was made from.
+- **Search** towns and villages from a built-in list (Wikidata), or any other place through an online search when connected. The map flies there and shows the built-up land within 0.5–3 km for each year.
+- **Filter** by year, by land type and by zone (West or East), or show only land that became built-up, either all of it or farmland only. A play button animates 2015 → 2025.
 - **1 km² hexagon grid** coloured by built-up growth, built-up share, farmland built over, or growth intensity (UEII), with a slider to hide small values.
-- **Live figures** for whatever is on screen, a ranking of the fastest-growing places, and click-anywhere profiles showing what each 30 m square was in each year.
+- **Live figures** for whatever is on screen, a ranking of the fastest-growing places, click-anywhere profiles, an on-map legend and a full-screen button.
+- **Share and download:** "Copy link to this view" makes a link that reopens the exact view, and a downloads panel offers the land-cover maps (GeoTIFF with QGIS styles), all result tables (CSV), every number (JSON) and the grid (GeoJSON).
 
-**How it was built.** The script `05_Code/webmap/build_webmap.py` turns the final land-cover maps into three PNG picture layers in Web Mercator, the projection web maps use. It builds the hexagon grid with hectares per land type for each year (computed on the 30 m UTM maps, so the areas are correct), and the list of places. The page uses Leaflet, a free open-source map library. All filtering and counting happens in the visitor's browser: the page decodes the picture layers back into land-type codes. There is no server code, database or API key.
+**How it was built.** The script `05_Code/webmap/build_webmap.py` turns the final land-cover maps and the Landsat composites into picture layers in Web Mercator, the projection web maps use. It builds the hexagon grid with hectares per land type for each year (computed on the 30 m UTM maps, so the areas are correct), the list of places, and the downloads. The page uses Leaflet, a free open-source map library, and a copy of Leaflet ships with the site, so it loads no outside code. All filtering and counting happens in the visitor's browser: the page decodes the picture layers back into land-type codes. There is no server code, database or API key.
 
-**Why not qgis2web?** The teacher's plan named qgis2web (UNCONFIRMED). qgis2web exports a QGIS project as a simple map with layers and pop-ups. A custom Leaflet page was chosen to add the search, filters, live hectare figures and rankings described above, all computed from the land-cover data in the browser. Say so openly if asked.
+**Why not qgis2web?** The teacher's plan named qgis2web (UNCONFIRMED). qgis2web exports a QGIS project as a map with layers and pop-ups. A custom Leaflet page was chosen to add the tour, compare, search, live hectare figures and rankings described above, all computed from the land-cover data in the browser. Say so openly if asked.
 
-**Hosting.** GitHub Pages serves the site for free from the `gh-pages` branch of the public repository https://github.com/SharmaAbhimanyueco/Supriyaaanya. If the link ever shows "404", switch Pages on: repository → Settings → Pages → Deploy from a branch → `gh-pages`, folder `/ (root)`.
+**Hosting.** The site is hosted free on **Codeberg Pages**. Codeberg is a non-profit service (Codeberg e.V.), and its Pages server, git-pages, is free/open-source software. The site files live on the `pages` branch of the public repository https://codeberg.org/Abhimanyu04/mohali-urban-growth, which also holds a copy of the project's code. A webhook republishes the site whenever that branch changes. It is not hosted on GitHub Pages.
 
-**Offline.** `06_Web_Map/` holds the same site plus a local copy of Leaflet, and one-click launchers (`run_local_windows.bat`, `run_local_mac_linux.sh`). Without internet everything works except the background map and the online search.
+**Offline.** `06_Web_Map/` holds the same site and one-click launchers (`run_local_windows.bat`, `run_local_mac_linux.sh`). Without internet everything works except the street background map and the online search.
 
-**Licences.** Code MIT; maps and figures CC BY 4.0; place names from Wikidata (CC0); background map © OpenStreetMap contributors. The GADM zone outlines are not on the page (licence); each hexagon carries only a West/East label.
+**Licences.** Code MIT; maps and figures CC BY 4.0; Leaflet BSD-2-Clause; place names from Wikidata (CC0); street map © OpenStreetMap contributors; Landsat imagery courtesy of the U.S. Geological Survey. The GADM zone outlines are not on the page (licence); each hexagon carries only a West/East label.
 
 # Part 10 — Limitations
 
@@ -1228,7 +1232,7 @@ Every important choice, the options, what was chosen and why. "UNCONFIRMED" mean
 | 18 | Accuracy check | None; visual; sample-based | Stratified random sample (50/50/30/30), blind photo labels, Olofsson area weighting (validation level UNCONFIRMED) | The recognised good practice; gives accuracy and a corrected area with a ± range |
 | 19 | Who labelled the photos | Students; AI-assisted | AI-assisted, two blind raters plus a third look | Needed overnight; disclosed, and students should spot-check |
 | 20 | Second opinion | None; ESA WorldCover | WorldCover 2020 comparison | An independent 10 m map from a space agency |
-| 21 | Web map tool | qgis2web; custom Leaflet | Custom Leaflet page on GitHub Pages (UNCONFIRMED) | Search, filters, measurement and ranking; free open hosting |
+| 21 | Web map tool and host | qgis2web on GitHub Pages; custom Leaflet page on an open-source host | Custom Leaflet page on Codeberg Pages (tool UNCONFIRMED) | Tour, compare, search, filters and rankings; free hosting on a non-profit, open-source service |
 | 22 | Licences | — | Code MIT; maps and figures CC BY 4.0; GADM and Esri photos kept private | Open where allowed; respects third-party terms |
 
 # Part 12 — Where the code ran, and how to run it again
@@ -1256,7 +1260,8 @@ All the analysis, the slides and the web map were produced on **24 November 2026
 | ESA WorldCover on Planetary Computer storage (ai4edataeuwest.blob.core.windows.net) | WorldCover 2020 and 2021 built-up maps (10 m) | `analysis/worldcover_check.py` |
 | Esri World Imagery (server.arcgisonline.com) | Photo chips for the accuracy check (kept private, not published) | `analysis/make_chips.py` |
 | Wikidata Query Service (query.wikidata.org) | Names and positions of towns and villages for the web map search (CC0) | `webmap/fetch_places_wikidata.py` |
-| GitHub (github.com, GitHub Pages) | Code repository and free hosting of the web map | git |
+| GitHub (github.com) | Code repository | git |
+| Codeberg (codeberg.org, Codeberg Pages) | A copy of the code, and free hosting of the web map | git, Codeberg API |
 
 ### What was not used
 
@@ -1340,9 +1345,9 @@ The totals differ slightly between years (108,783–108,826 ha) because a few pi
 ### B. The web map without internet
 
 - **Windows:** double-click `06_Web_Map/run_local_windows.bat`. **Mac/Linux:** run `sh 06_Web_Map/run_local_mac_linux.sh`. Either one starts a small local web server and opens http://localhost:8000 in the browser. Keep the window open while you use the map; close it (or press Ctrl+C) to stop.
-- Offline, these all work: the land-cover layers, filters, live figures, the 1 km² grid, the rankings, and search over the built-in place list. Only the background map and the online search for other places need internet.
+- Offline, these all work: the guided tour, compare, the land-cover layers, the Landsat satellite background, filters, live figures, the 1 km² grid, the rankings, and search over the built-in place list. Only the street background map and the online search for other places need internet.
 - Don't double-click `index.html` directly. Browsers block a page opened as a file from reading its data files, so the grid and the place list would not load.
-- The live copy is at https://sharmaabhimanyueco.github.io/Supriyaaanya/ (see `06_Web_Map/LIVE_URL.txt`).
+- The live copy is at https://abhimanyu04.codeberg.page/mohali-urban-growth/ (see `06_Web_Map/LIVE_URL.txt`).
 
 ### C. Open the results in QGIS
 
@@ -1392,7 +1397,9 @@ git checkout claude/urban-growth-mapping-handover-xkppdn
 python -I scripts/webmap/build_webmap.py . <path to 04_Data/study_area/zones_west1_east2.npy>
 ```
 
-It rewrites `webmap/index.html`, `webmap/layers/` and `webmap/data/`. To publish, copy the contents of `webmap/` to the `gh-pages` branch and push. GitHub Pages serves that branch.
+It rewrites `webmap/index.html`, `webmap/layers/`, `webmap/data/` and `webmap/downloads/`. Set `WEBMAP_REPO=https://codeberg.org/Abhimanyu04/mohali-urban-growth`, `WEBMAP_REPO_NAME=Codeberg` and `WEBMAP_HOST="Codeberg Pages"` first, so the page links to its Codeberg home.
+
+To publish, push the contents of `webmap/` (plus `LICENSE` and `LICENSE-DATA.md`) to the `pages` branch of https://codeberg.org/Abhimanyu04/mohali-urban-growth. The repository has a webhook that tells Codeberg Pages to republish whenever `pages` changes, and the site appears at https://abhimanyu04.codeberg.page/mohali-urban-growth/ within a minute. The Codeberg documentation (https://docs.codeberg.org/codeberg-pages/) explains the `pages` branch and the git-pages webhook.
 
 ### F. The slides and this package's charts
 
@@ -1794,19 +1801,19 @@ Each answer is 2 to 4 sentences. Say it in your own words. **Show** tells you wh
 
 **Q48. What can the web map do?**
 
-**Say:** It switches between 2015, 2020, 2025 and a change view, with a play button. You can filter land types and zones, show only land that became built-up, and colour a 1 km² hexagon grid by growth, share, farmland built over or UEII. You can search a town, see a figure within 0.5 to 3 km, click any 30 m square for its history, and see a ranking of the fastest-growing places.
+**Say:** A guided tour steps through the findings. You can switch between 2015, 2020, 2025 and a change view, or compare two years side by side with a drag handle, and a play button animates the years. The background can be the Landsat picture of the same year, so you see what each map was made from. You can filter land types and zones, show only land that became built-up, and colour a 1 km² hexagon grid by growth, share, farmland built over or UEII. You can search a town, see figures within 0.5 to 3 km, click any 30 m square for its history, rank the fastest-growing places, copy a link to the exact view, and download the data.
 
 **Show:** Live site; demo 4.1; `03_Maps_and_Charts/screenshots/`.
 
 **Q49. Is it made with qgis2web, as planned?**
 
-**Say:** No. It is a static site we built with Python and the open-source Leaflet library. The plan was qgis2web on GitHub Pages. We chose a custom page so users can filter, search and rank. Whether she accepts this is **UNCONFIRMED**.
+**Say:** No. It is a static site we built with Python and the open-source Leaflet library. The plan was qgis2web on GitHub Pages. We chose a custom page so users can compare, filter, search and rank, and we host it free on Codeberg Pages, a non-profit, open-source service. Whether she accepts this is **UNCONFIRMED**.
 
 **Show:** `05_Code/webmap/`; `06_Web_Map/site/`. Slide 20 shows a screenshot of the real dashboard; its speaker notes say it was built with Leaflet, not qgis2web.
 
 **Q50. Does it work offline? Is it safe to publish?**
 
-**Say:** Yes, offline with limits. The land-cover layers and statistics work. Background map tiles and online search need internet. The site publishes only our results, not the GADM polygons, because of licence. Code is MIT and maps and figures are CC BY 4.0.
+**Say:** Yes, offline with limits. The land-cover layers, the Landsat satellite background, the tour and the statistics work. The street background map and online search need internet. The site publishes only our results, not the GADM polygons, because of licence. Code is MIT and maps and figures are CC BY 4.0.
 
 **Show:** Demo 4.1b; `06_Web_Map/LIVE_URL.txt`.
 
@@ -1870,24 +1877,24 @@ Practise each demo once on your own laptop. Keep it short. If something fails, s
 
 ### 4.1 The live web map, and the offline copy (3 to 4 minutes)
 
-**Live site** (needs internet): https://sharmaabhimanyueco.github.io/Supriyaaanya/
+**Live site** (needs internet): https://abhimanyu04.codeberg.page/mohali-urban-growth/
 
-1. Open the site. Say: "This is open source and free to use. It shows the 2025 land cover."
-2. Click **2015**, then **2025**, then **Change**. Say: "Red is built-up land. In Change, we see the land that became built-up between 2015 and 2025."
-3. In **Map filters**, set **Show** to "Only farmland that became built-up". Say: "This is the 6,916 ha of cropland that became built-up."
-4. Press **Play 2015 → 2025**. Say: "Watch the red spread."
-5. In **Search a place**, type **Kharar** and pick it. Say: "The map flies there and shows built-up land within 1 km, by year." Change **Figures within** to 2 km.
-6. Tick **1 km² grid coloured by** and pick "built-up growth (ha)". Move **Hide cells below** up to show only the strongest cells.
-7. Set **Zone** to East. Say: "The ranking now shows the fastest-growing places in the East zone."
-8. Click any point on the map. Say: "Each 30 m square has its own profile, what it was in 2015, 2020 and 2025."
-9. Scroll to **How reliable is it?** Say: "The page states the undercount openly."
+1. Open the site. Say: "This is open source and free to use. The strip at the top gives the four key findings."
+2. Click **▶ Guided tour** and press **Next** through the nine steps. Each step moves the map and explains one finding with our numbers. Close it with ×.
+3. Click **Compare** and drag the round handle. Say: "Left is 2015, right is 2025."
+4. Set **Background** to "Satellite, same year (Landsat 8)" and lower **Opacity**. Say: "This is the satellite picture each map was made from."
+5. Click **Change**, then set **Show** to "Only farmland that became built-up". Say: "This is the 6,916 ha of cropland that became built-up."
+6. In **Search a place**, type **Kharar** and pick it. Say: "The map flies there and shows built-up land within 1 km, by year." Change **Figures within** to 2 km.
+7. Tick **1 km² grid coloured by** and pick "built-up growth (ha)". Set **Zone** to East. Say: "The ranking now shows the fastest-growing places in the East zone."
+8. Click any point on the map. Say: "Each 30 m square has its own history: 2015, 2020 and 2025."
+9. Click **Copy link to this view**, then scroll to **How reliable is it?** and **Download the data**. Say: "The page states the undercount openly, and anyone can download the maps."
 
 **Offline copy** (no internet needed):
 
 - Windows: double-click `06_Web_Map/run_local_windows.bat`.
 - Mac or Linux: run `sh 06_Web_Map/run_local_mac_linux.sh`.
 - It starts a local server and opens http://localhost:8000.
-- Without internet, land-cover layers and statistics still work. Background tiles and online search do not. Say that before she asks. Use the built-in place list, for example Kharar, which still works.
+- Without internet, the land-cover layers, the Landsat background, the tour and the statistics still work. The street background map and online search do not. Say that before she asks. Use the built-in place list, for example Kharar, which still works.
 - Do not open `index.html` by double-clicking. The grid and place data will not load.
 - Close the black window when done.
 
@@ -2057,11 +2064,12 @@ Take these on your own laptop. They prove hands-on work and you can paste them i
 | `charts/chart_06_k_selection.png` | 18 Model checks |
 | `charts/chart_07_stability.png` | 18 Model checks |
 | `screenshots/webmap_01_overview_2025.png` | 20 Web map |
-| `screenshots/webmap_02_change_2015_2025.png` | 20 or 16 |
+| `screenshots/webmap_02_compare_2015_2025.png` | 20, or 15 (how much and how fast) |
 | `screenshots/webmap_03_search_kharar.png` | 20 |
-| `screenshots/webmap_04_hex_grid.png` | 20 or 16 |
-| `screenshots/webmap_05_east_zone_ranking.png` | 16 (zone comparison) |
+| `screenshots/webmap_04_hex_grid.png` | 16 (where growth happened) |
+| `screenshots/webmap_05_tour_change.png` | 20 (the guided tour) |
 | `screenshots/webmap_06_phone.png` | 20 (works on a phone) |
+| `screenshots/webmap_07_satellite_compare.png` | 9 (what the satellite sees) |
 
 ---
 
@@ -2146,7 +2154,7 @@ Short definitions, A to Z. Part 2 explains each idea at length, with an everyday
 | GeoJSON | A text file format for map shapes, used for the web map's hexagon grid |
 | GeoTIFF | An image file that also knows where on Earth it lies; all the project's rasters |
 | GIS | Geographic Information System: software that stores, shows and analyses mapped data (e.g. QGIS) |
-| GitHub Pages | Free website hosting from a GitHub repository; hosts the web map |
+| Codeberg Pages | Free hosting of static websites from a Codeberg repository's `pages` branch, run by the non-profit Codeberg e.V.; hosts the web map |
 | Hectare (ha) | 100 m × 100 m = 10,000 m²; one 30 m pixel = 0.09 ha |
 | Inertia | The total squared distance from each pixel to its cluster centre; lower = tighter clusters |
 | K-means | A clustering method that sorts pixels into k groups around k centres, moving the centres until stable |
@@ -2192,6 +2200,7 @@ Short definitions, A to Z. Part 2 explains each idea at length, with an everyday
 - GADM, database of global administrative areas (study-area outline; no redistribution). https://gadm.org
 - Wikidata (place names and positions, CC0). https://www.wikidata.org
 - OpenStreetMap contributors (basemap of the location map and the web map, ODbL). https://www.openstreetmap.org/copyright
+- Codeberg Pages (hosting of the web map). https://docs.codeberg.org/codeberg-pages/
 
 **Methods**
 
@@ -2218,8 +2227,8 @@ Every file in the package, with its size. Folders of many similar files are summ
 | File | Size | What it is |
 |----------------------------------------------------------|---------|---------------------------------|
 | 00_READ_ME_FIRST.md | 3 KB | One-page guide to the package |
-| 01_Master_Document/​Master_Document_Urban_Growth_Mohali.docx | 6.9 MB | This document |
-| 01_Master_Document/​Master_Document_Urban_Growth_Mohali.pdf | 4.0 MB | This document |
+| 01_Master_Document/​Master_Document_Urban_Growth_Mohali.docx | 7.4 MB | This document |
+| 01_Master_Document/​Master_Document_Urban_Growth_Mohali.pdf | 4.1 MB | This document |
 | 01_Master_Document/​Master_Document_source.md | 161 KB | This document |
 | 02_Presentation/​Urban_Growth_Mohali_slides.pdf | 1.9 MB | The 24-slide deck |
 | 02_Presentation/​Urban_Growth_Mohali_slides.pptx | 2.8 MB | The 24-slide deck |
@@ -2255,12 +2264,13 @@ Every file in the package, with its size. Folders of many similar files are summ
 | 03_Maps_and_Charts/​maps/​map_lulc_2025.png | 164 KB | Map (PNG/JPG) |
 | 03_Maps_and_Charts/​maps/​validation_examples.png | 1.0 MB | Map (PNG/JPG) |
 | 03_Maps_and_Charts/​screenshots/​README.md | 1 KB | Web map screenshot (taken offline, no background map) |
-| 03_Maps_and_Charts/​screenshots/​webmap_01_overview_2025.png | 630 KB | Web map screenshot (taken offline, no background map) |
-| 03_Maps_and_Charts/​screenshots/​webmap_02_change_2015_2025.png | 519 KB | Web map screenshot (taken offline, no background map) |
-| 03_Maps_and_Charts/​screenshots/​webmap_03_search_kharar.png | 417 KB | Web map screenshot (taken offline, no background map) |
-| 03_Maps_and_Charts/​screenshots/​webmap_04_hex_grid.png | 913 KB | Web map screenshot (taken offline, no background map) |
-| 03_Maps_and_Charts/​screenshots/​webmap_05_east_zone_ranking.png | 726 KB | Web map screenshot (taken offline, no background map) |
-| 03_Maps_and_Charts/​screenshots/​webmap_06_phone.png | 260 KB | Web map screenshot (taken offline, no background map) |
+| 03_Maps_and_Charts/​screenshots/​webmap_01_overview_2025.png | 1.4 MB | Web map screenshot (taken offline, no background map) |
+| 03_Maps_and_Charts/​screenshots/​webmap_02_compare_2015_2025.png | 1.2 MB | Web map screenshot (taken offline, no background map) |
+| 03_Maps_and_Charts/​screenshots/​webmap_03_search_kharar.png | 2.0 MB | Web map screenshot (taken offline, no background map) |
+| 03_Maps_and_Charts/​screenshots/​webmap_04_hex_grid.png | 1.3 MB | Web map screenshot (taken offline, no background map) |
+| 03_Maps_and_Charts/​screenshots/​webmap_05_tour_change.png | 628 KB | Web map screenshot (taken offline, no background map) |
+| 03_Maps_and_Charts/​screenshots/​webmap_06_phone.png | 375 KB | Web map screenshot (taken offline, no background map) |
+| 03_Maps_and_Charts/​screenshots/​webmap_07_satellite_compare.png | 2.8 MB | Web map screenshot (taken offline, no background map) |
 | 04_Data/​RESULTS_README.md | 8 KB | The results write-up |
 | 04_Data/​landsat_composites/​landsat_composite_2015.qml | 2 KB | Landsat 8 March composite, 6 bands, reflectance × 10,000 (GeoTIFF + style) |
 | 04_Data/​landsat_composites/​landsat_composite_2015.tif | 12.0 MB | Landsat 8 March composite, 6 bands, reflectance × 10,000 (GeoTIFF + style) |
@@ -2325,7 +2335,7 @@ Every file in the package, with its size. Folders of many similar files are summ
 | 04_Data/​validation/​sheets/​ (10 files) | 24.3 MB | 10 contact sheets of 16 chips (PRIVATE: Esri imagery) |
 | 04_Data/​validation/​worldcover_check.json | 2 KB | Accuracy-check data |
 | 05_Code/​ENVIRONMENT.md | 3 KB | Code |
-| 05_Code/​HOW_TO_RUN.md | 8 KB | Code |
+| 05_Code/​HOW_TO_RUN.md | 9 KB | Code |
 | 05_Code/​README.md | 5 KB | Code |
 | 05_Code/​analysis/​accuracy.py | 3 KB | Code |
 | 05_Code/​analysis/​build_composites.py | 4 KB | Code |
@@ -2349,7 +2359,7 @@ Every file in the package, with its size. Folders of many similar files are summ
 | 05_Code/​handover_tools/​make_qgis_styles.py | 4 KB | Code |
 | 05_Code/​handover_tools/​make_tables.py | 6 KB | Code |
 | 05_Code/​handover_tools/​make_true_colour.py | 2 KB | Code |
-| 05_Code/​handover_tools/​shots.js | 2 KB | Code |
+| 05_Code/​handover_tools/​shots.js | 3 KB | Code |
 | 05_Code/​helpers/​export_box.py | under 1 KB | Code |
 | 05_Code/​helpers/​fetch_places.py | under 1 KB | Code |
 | 05_Code/​helpers/​fetch_wikidata.py | under 1 KB | Code |
@@ -2363,30 +2373,39 @@ Every file in the package, with its size. Folders of many similar files are summ
 | 05_Code/​requirements.txt | under 1 KB | Code |
 | 05_Code/​slides/​build_deck.js | 63 KB | Code |
 | 05_Code/​superseded/​cluster_per_year.py | 3 KB | Code |
-| 05_Code/​webmap/​build_webmap.py | 9 KB | Code |
+| 05_Code/​webmap/​LEAFLET_LICENSE.txt | 1 KB | Code |
+| 05_Code/​webmap/​build_webmap.py | 12 KB | Code |
 | 05_Code/​webmap/​build_webmap_v1.py | 5 KB | Code |
 | 05_Code/​webmap/​fetch_places_wikidata.py | under 1 KB | Code |
 | 05_Code/​webmap/​leaflet-1.9.4.css | 15 KB | Code |
+| 05_Code/​webmap/​leaflet-1.9.4.js | 148 KB | Code |
 | 05_Code/​webmap/​places_wikidata_raw.json | 45 KB | Code |
-| 05_Code/​webmap/​template.html | 37 KB | Code |
+| 05_Code/​webmap/​template.html | 58 KB | Code |
 | 05_Code/​webmap/​template_v1.html | 17 KB | Code |
 | 06_Web_Map/​LIVE_URL.txt | under 1 KB | Web map (offline copy and launchers) |
 | 06_Web_Map/​run_local_mac_linux.sh | under 1 KB | Web map (offline copy and launchers) |
 | 06_Web_Map/​run_local_windows.bat | under 1 KB | Web map (offline copy and launchers) |
 | 06_Web_Map/​site/​LEAFLET_LICENSE.txt | 1 KB | Web map (offline copy and launchers) |
+| 06_Web_Map/​site/​README.md | 2 KB | Web map (offline copy and launchers) |
 | 06_Web_Map/​site/​data/​hex.geojson | 509 KB | Web map (offline copy and launchers) |
 | 06_Web_Map/​site/​data/​places.json | 3 KB | Web map (offline copy and launchers) |
-| 06_Web_Map/​site/​index.html | 53 KB | Web map (offline copy and launchers) |
+| 06_Web_Map/​site/​downloads/​landcover_maps_geotiff.zip | 501 KB | Web map (offline copy and launchers) |
+| 06_Web_Map/​site/​downloads/​result_tables_csv.zip | 44 KB | Web map (offline copy and launchers) |
+| 06_Web_Map/​site/​downloads/​results.json | 9 KB | Web map (offline copy and launchers) |
+| 06_Web_Map/​site/​index.html | 75 KB | Web map (offline copy and launchers) |
+| 06_Web_Map/​site/​layers/​landsat_2015.webp | 283 KB | Web map (offline copy and launchers) |
+| 06_Web_Map/​site/​layers/​landsat_2020.webp | 252 KB | Web map (offline copy and launchers) |
+| 06_Web_Map/​site/​layers/​landsat_2025.webp | 281 KB | Web map (offline copy and launchers) |
 | 06_Web_Map/​site/​layers/​lulc_2015.png | 157 KB | Web map (offline copy and launchers) |
 | 06_Web_Map/​site/​layers/​lulc_2020.png | 155 KB | Web map (offline copy and launchers) |
 | 06_Web_Map/​site/​layers/​lulc_2025.png | 192 KB | Web map (offline copy and launchers) |
 | 06_Web_Map/​site/​leaflet.js | 148 KB | Web map (offline copy and launchers) |
 | 07_Teacher_Prep/​Screenshot_Checklist.docx | 14 KB | Teacher prep |
 | 07_Teacher_Prep/​Screenshot_Checklist.md | 5 KB | Teacher prep |
-| 07_Teacher_Prep/​Screenshot_Checklist.pdf | 91 KB | Teacher prep |
+| 07_Teacher_Prep/​Screenshot_Checklist.pdf | 119 KB | Teacher prep |
 | 07_Teacher_Prep/​Teacher_QA_and_Demo.docx | 31 KB | Teacher prep |
-| 07_Teacher_Prep/​Teacher_QA_and_Demo.md | 39 KB | Teacher prep |
-| 07_Teacher_Prep/​Teacher_QA_and_Demo.pdf | 236 KB | Teacher prep |
+| 07_Teacher_Prep/​Teacher_QA_and_Demo.md | 40 KB | Teacher prep |
+| 07_Teacher_Prep/​Teacher_QA_and_Demo.pdf | 300 KB | Teacher prep |
 | 08_Project_Notes/​01_message_to_teacher.md | 2 KB | Planning notes |
 | 08_Project_Notes/​02_teacher_brief_and_slide_list.md | 3 KB | Planning notes |
 | 08_Project_Notes/​03_get_satellite_images.md | 4 KB | Planning notes |

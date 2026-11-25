@@ -67,9 +67,9 @@ The totals differ slightly between years (108,783–108,826 ha) because a few pi
 ## B. The web map without internet
 
 - **Windows:** double-click `06_Web_Map/run_local_windows.bat`. **Mac/Linux:** run `sh 06_Web_Map/run_local_mac_linux.sh`. Either one starts a small local web server and opens http://localhost:8000 in the browser. Keep the window open while you use the map; close it (or press Ctrl+C) to stop.
-- Offline, these all work: the land-cover layers, filters, live figures, the 1 km² grid, the rankings, and search over the built-in place list. Only the background map and the online search for other places need internet.
+- Offline, these all work: the guided tour, compare, the land-cover layers, the Landsat satellite background, filters, live figures, the 1 km² grid, the rankings, and search over the built-in place list. Only the street background map and the online search for other places need internet.
 - Don't double-click `index.html` directly. Browsers block a page opened as a file from reading its data files, so the grid and the place list would not load.
-- The live copy is at https://sharmaabhimanyueco.github.io/Supriyaaanya/ (see `06_Web_Map/LIVE_URL.txt`).
+- The live copy is at https://abhimanyu04.codeberg.page/mohali-urban-growth/ (see `06_Web_Map/LIVE_URL.txt`).
 
 ## C. Open the results in QGIS
 
@@ -119,7 +119,9 @@ git checkout claude/urban-growth-mapping-handover-xkppdn
 python -I scripts/webmap/build_webmap.py . <path to 04_Data/study_area/zones_west1_east2.npy>
 ```
 
-It rewrites `webmap/index.html`, `webmap/layers/` and `webmap/data/`. To publish, copy the contents of `webmap/` to the `gh-pages` branch and push. GitHub Pages serves that branch.
+It rewrites `webmap/index.html`, `webmap/layers/`, `webmap/data/` and `webmap/downloads/`. Set `WEBMAP_REPO=https://codeberg.org/Abhimanyu04/mohali-urban-growth`, `WEBMAP_REPO_NAME=Codeberg` and `WEBMAP_HOST="Codeberg Pages"` first, so the page links to its Codeberg home.
+
+To publish, push the contents of `webmap/` (plus `LICENSE` and `LICENSE-DATA.md`) to the `pages` branch of https://codeberg.org/Abhimanyu04/mohali-urban-growth. The repository has a webhook that tells Codeberg Pages to republish whenever `pages` changes, and the site appears at https://abhimanyu04.codeberg.page/mohali-urban-growth/ within a minute. The Codeberg documentation (https://docs.codeberg.org/codeberg-pages/) explains the `pages` branch and the git-pages webhook.
 
 ## F. The slides and this package's charts
 

@@ -93,11 +93,12 @@ Take these on your own laptop. They prove hands-on work and you can paste them i
 | `charts/chart_06_k_selection.png` | 18 Model checks |
 | `charts/chart_07_stability.png` | 18 Model checks |
 | `screenshots/webmap_01_overview_2025.png` | 20 Web map |
-| `screenshots/webmap_02_change_2015_2025.png` | 20 or 16 |
+| `screenshots/webmap_02_compare_2015_2025.png` | 20, or 15 (how much and how fast) |
 | `screenshots/webmap_03_search_kharar.png` | 20 |
-| `screenshots/webmap_04_hex_grid.png` | 20 or 16 |
-| `screenshots/webmap_05_east_zone_ranking.png` | 16 (zone comparison) |
+| `screenshots/webmap_04_hex_grid.png` | 16 (where growth happened) |
+| `screenshots/webmap_05_tour_change.png` | 20 (the guided tour) |
 | `screenshots/webmap_06_phone.png` | 20 (works on a phone) |
+| `screenshots/webmap_07_satellite_compare.png` | 9 (what the satellite sees) |
 
 ---
 

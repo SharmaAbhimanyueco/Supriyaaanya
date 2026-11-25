@@ -7,7 +7,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 This is a student semester project by Supriya Mahshere and Aanya Upadhyay. It maps urban growth (land use / land cover, LULC) in S.A.S. Nagar (Mohali) district, Punjab, covering Mohali, Kharar, Zirakpur and Dera Bassi. It uses Landsat 8 images from March 2015, 2020 and 2025, classified with unsupervised K-means.
 
 - **Theme:** urbanisation. Farmland loss is a supporting finding only.
-- **Deliverables:** the slide deck (`slides/`), the results (`results/`), and the web map (`webmap/`, see below). The teacher's plan was qgis2web on GitHub Pages.
+- **Deliverables:** the slide deck (`slides/`), the results (`results/`), and the web map (`webmap/`, see below). The teacher's plan was qgis2web on GitHub Pages; the user does **not** want GitHub Pages, so the map is hosted on Codeberg Pages.
 - **Audience:** the students are beginners. Explain technical terms in plain words with an everyday analogy, and pace advice one step at a time.
 
 ## Sources of truth (read these instead of re-deriving)
@@ -85,9 +85,12 @@ The 24 slides follow the teacher's list, plus four additions:
 ## Web map (open-source dashboard)
 
 `webmap/` is a static site built by `python -I scripts/webmap/build_webmap.py <repo root> <W/analysis2/zones.npy>`. It regenerates `index.html`, `layers/lulc_YYYY.png` (EPSG:3857), `data/hex.geojson` (1 km² hexagons with land-cover hectares per year) and `data/places.json` (Wikidata places, CC0; raw copy in `scripts/webmap/places_wikidata_raw.json`).
-- The layout lives in `scripts/webmap/template.html`. Leaflet 1.9.4 loads from cdnjs, and its CSS is inlined from `scripts/webmap/leaflet-1.9.4.css`.
+- The layout lives in `scripts/webmap/template.html`. Leaflet 1.9.4 is bundled (`scripts/webmap/leaflet-1.9.4.js` → `webmap/leaflet.js`, BSD licence in `LEAFLET_LICENSE.txt`), and its CSS is inlined from `scripts/webmap/leaflet-1.9.4.css`.
+- Features: a 9-step guided tour (text built from `D`, i.e. results.json), compare mode (a swipe handle clips the `satL/satR/lcL/lcR` panes with CSS `clip`), backgrounds (grey or colour OSM, `layers/landsat_YYYY.webp` true-colour Landsat on the same grid, Esri, none), on-map legend, full screen, share links (`#@lat,lng,zoomz,view[,L-R][,base]`), and `downloads/` (GeoTIFF zip, CSV zip, results.json).
+- Build with `WEBMAP_REPO=https://codeberg.org/Abhimanyu04/mohali-urban-growth WEBMAP_REPO_NAME=Codeberg WEBMAP_HOST="Codeberg Pages"` so the page links to its Codeberg home.
 - Everything is computed in the browser: it decodes the PNG layers into class arrays for filtering, radius statistics and rankings. Online search uses Photon (photon.komoot.io), which only works when the site is hosted.
 - To test locally, serve the folder over HTTP (`python -m http.server`), because `file://` blocks fetch.
+- **Hosting: Codeberg Pages** (git-pages), live at https://abhimanyu04.codeberg.page/mohali-urban-growth/. The site is the `pages` branch of the public repo https://codeberg.org/Abhimanyu04/mohali-urban-growth (`main` there mirrors the project branch). A forgejo-type push webhook (branch filter `pages`) to the site URL republishes on every push. New Codeberg accounts cannot use the old Pages v2 server. To publish: build `webmap/`, make a site-only commit (temporary `GIT_INDEX_FILE`; `git --work-tree=webmap add -A .` plus `LICENSE` and `LICENSE-DATA.md`; `git write-tree`; `git commit-tree`) and push it to `refs/heads/pages`; or POST `{"ref":"refs/heads/pages","repository":{"clone_url":"https://codeberg.org/Abhimanyu04/mohali-urban-growth.git"}}` to the site URL. The Codeberg token is a network secret on the "Supriyaaanya" environment (the proxy injects it for codeberg.org); codeberg.org and abhimanyu04.codeberg.page are allowed hosts.
 - The v1 files (`*_v1.*`) are the older static map, kept for reference.
 - Licences: code MIT (`LICENSE`); maps and figures CC BY 4.0 (`LICENSE-DATA.md`).
 - Don't add the GADM zone polygons to the page (licence). The hexagons carry only a `z` (W/E) label.
@@ -102,6 +105,6 @@ The 24 slides follow the teacher's list, plus four additions:
 
 - `main` holds only the user's own README "first commit".
 - `claude/urban-growth-mapping-handover-xkppdn` holds all project work. Push with `git push origin claude/urban-growth-mapping-handover-xkppdn`.
-- `gh-pages` holds only the built site: the contents of `webmap/` (`index.html`, `layers/`, `data/`, README and licences) and `.nojekyll`. To refresh it after rebuilding, recreate the branch from `webmap/` (build a commit from a temporary index with `git --work-tree=webmap add index.html layers data`) and push.
-- The repo is public, and GitHub Pages serves `gh-pages` at https://sharmaabhimanyueco.github.io/Supriyaaanya/. The user turns Pages on in Settings → Pages.
+- `gh-pages` holds an old copy of the site from before the move to Codeberg. The user does not want GitHub Pages: don't refresh it or point anyone to it.
+- The repo is public. Code is also mirrored to Codeberg (`main` of Abhimanyu04/mohali-urban-growth); push the project branch there with `git push https://codeberg.org/Abhimanyu04/mohali-urban-growth.git claude/urban-growth-mapping-handover-xkppdn:main`.
 - Push access works since 25 Nov 2026, when the user installed the Claude GitHub App.

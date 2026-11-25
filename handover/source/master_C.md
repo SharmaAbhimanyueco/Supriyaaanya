@@ -4,26 +4,30 @@
 
 # Part 9 — The web map
 
-**What it is.** An interactive dashboard that anyone can open in a browser, free, with no login: **https://sharmaabhimanyueco.github.io/Supriyaaanya/**. The teacher called the web map the end goal of the project.
+**What it is.** An interactive dashboard that anyone can open in a browser, free, with no login: **https://abhimanyu04.codeberg.page/mohali-urban-growth/**. The teacher called the web map the end goal of the project.
 
-![The dashboard, 2025 view (screenshot taken offline, so the background map is missing; online it shows streets and place names underneath).](03_Maps_and_Charts/screenshots/webmap_01_overview_2025.png){width=6.2in}
+![The dashboard in compare mode: 2015 left of the handle, 2025 right of it, over the Landsat satellite picture (screenshot of the live site; the street background map did not load on the computer that took it).](03_Maps_and_Charts/screenshots/webmap_02_compare_2015_2025.png){width=6.2in}
 
 **What it does**
 
-- **Search** towns and villages from a built-in list (Wikidata), or any other place through an online search when connected. The map flies there and shows the built-up land within 0.5–3 km for each year. Links can be shared, for example `…/#kharar`.
-- **Filter** by year (2015, 2020, 2025), by land type and by zone (West or East). It can also show only land that became built-up, either all of it or farmland only. A play button animates 2015 → 2025.
+- **Guided tour:** nine steps fly the map to each finding and explain it with the project's numbers. It is the easiest way to present the map.
+- **Compare:** drag a round handle to see one year on the left and another on the right (2015 and 2025 by default).
+- **Backgrounds:** a grey or colour street map (OpenStreetMap), the Landsat 8 true-colour picture of the same year (open data), Esri's high-resolution photo (free to view, not open data), or none. With the Landsat background and low opacity you see the picture each map was made from.
+- **Search** towns and villages from a built-in list (Wikidata), or any other place through an online search when connected. The map flies there and shows the built-up land within 0.5–3 km for each year.
+- **Filter** by year, by land type and by zone (West or East), or show only land that became built-up, either all of it or farmland only. A play button animates 2015 → 2025.
 - **1 km² hexagon grid** coloured by built-up growth, built-up share, farmland built over, or growth intensity (UEII), with a slider to hide small values.
-- **Live figures** for whatever is on screen, a ranking of the fastest-growing places, and click-anywhere profiles showing what each 30 m square was in each year.
+- **Live figures** for whatever is on screen, a ranking of the fastest-growing places, click-anywhere profiles, an on-map legend and a full-screen button.
+- **Share and download:** "Copy link to this view" makes a link that reopens the exact view, and a downloads panel offers the land-cover maps (GeoTIFF with QGIS styles), all result tables (CSV), every number (JSON) and the grid (GeoJSON).
 
-**How it was built.** The script `05_Code/webmap/build_webmap.py` turns the final land-cover maps into three PNG picture layers in Web Mercator, the projection web maps use. It builds the hexagon grid with hectares per land type for each year (computed on the 30 m UTM maps, so the areas are correct), and the list of places. The page uses Leaflet, a free open-source map library. All filtering and counting happens in the visitor's browser: the page decodes the picture layers back into land-type codes. There is no server code, database or API key.
+**How it was built.** The script `05_Code/webmap/build_webmap.py` turns the final land-cover maps and the Landsat composites into picture layers in Web Mercator, the projection web maps use. It builds the hexagon grid with hectares per land type for each year (computed on the 30 m UTM maps, so the areas are correct), the list of places, and the downloads. The page uses Leaflet, a free open-source map library, and a copy of Leaflet ships with the site, so it loads no outside code. All filtering and counting happens in the visitor's browser: the page decodes the picture layers back into land-type codes. There is no server code, database or API key.
 
-**Why not qgis2web?** The teacher's plan named qgis2web (UNCONFIRMED). qgis2web exports a QGIS project as a simple map with layers and pop-ups. A custom Leaflet page was chosen to add the search, filters, live hectare figures and rankings described above, all computed from the land-cover data in the browser. Say so openly if asked.
+**Why not qgis2web?** The teacher's plan named qgis2web (UNCONFIRMED). qgis2web exports a QGIS project as a map with layers and pop-ups. A custom Leaflet page was chosen to add the tour, compare, search, live hectare figures and rankings described above, all computed from the land-cover data in the browser. Say so openly if asked.
 
-**Hosting.** GitHub Pages serves the site for free from the `gh-pages` branch of the public repository https://github.com/SharmaAbhimanyueco/Supriyaaanya. If the link ever shows "404", switch Pages on: repository → Settings → Pages → Deploy from a branch → `gh-pages`, folder `/ (root)`.
+**Hosting.** The site is hosted free on **Codeberg Pages**. Codeberg is a non-profit service (Codeberg e.V.), and its Pages server, git-pages, is free/open-source software. The site files live on the `pages` branch of the public repository https://codeberg.org/Abhimanyu04/mohali-urban-growth, which also holds a copy of the project's code. A webhook republishes the site whenever that branch changes. It is not hosted on GitHub Pages.
 
-**Offline.** `06_Web_Map/` holds the same site plus a local copy of Leaflet, and one-click launchers (`run_local_windows.bat`, `run_local_mac_linux.sh`). Without internet everything works except the background map and the online search.
+**Offline.** `06_Web_Map/` holds the same site and one-click launchers (`run_local_windows.bat`, `run_local_mac_linux.sh`). Without internet everything works except the street background map and the online search.
 
-**Licences.** Code MIT; maps and figures CC BY 4.0; place names from Wikidata (CC0); background map © OpenStreetMap contributors. The GADM zone outlines are not on the page (licence); each hexagon carries only a West/East label.
+**Licences.** Code MIT; maps and figures CC BY 4.0; Leaflet BSD-2-Clause; place names from Wikidata (CC0); street map © OpenStreetMap contributors; Landsat imagery courtesy of the U.S. Geological Survey. The GADM zone outlines are not on the page (licence); each hexagon carries only a West/East label.
 
 # Part 10 — Limitations
 
@@ -69,7 +73,7 @@ Every important choice, the options, what was chosen and why. "UNCONFIRMED" mean
 | 18 | Accuracy check | None; visual; sample-based | Stratified random sample (50/50/30/30), blind photo labels, Olofsson area weighting (validation level UNCONFIRMED) | The recognised good practice; gives accuracy and a corrected area with a ± range |
 | 19 | Who labelled the photos | Students; AI-assisted | AI-assisted, two blind raters plus a third look | Needed overnight; disclosed, and students should spot-check |
 | 20 | Second opinion | None; ESA WorldCover | WorldCover 2020 comparison | An independent 10 m map from a space agency |
-| 21 | Web map tool | qgis2web; custom Leaflet | Custom Leaflet page on GitHub Pages (UNCONFIRMED) | Search, filters, measurement and ranking; free open hosting |
+| 21 | Web map tool and host | qgis2web on GitHub Pages; custom Leaflet page on an open-source host | Custom Leaflet page on Codeberg Pages (tool UNCONFIRMED) | Tour, compare, search, filters and rankings; free hosting on a non-profit, open-source service |
 | 22 | Licences | — | Code MIT; maps and figures CC BY 4.0; GADM and Esri photos kept private | Open where allowed; respects third-party terms |
 
 # Part 12 — Where the code ran, and how to run it again

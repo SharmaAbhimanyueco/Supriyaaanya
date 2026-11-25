@@ -282,15 +282,15 @@ Each answer is 2 to 4 sentences. Say it in your own words. **Show** tells you wh
 ### 3.9 Web map
 
 **Q48. What can the web map do?**
-**Say:** It switches between 2015, 2020, 2025 and a change view, with a play button. You can filter land types and zones, show only land that became built-up, and colour a 1 km² hexagon grid by growth, share, farmland built over or UEII. You can search a town, see a figure within 0.5 to 3 km, click any 30 m square for its history, and see a ranking of the fastest-growing places.
+**Say:** A guided tour steps through the findings. You can switch between 2015, 2020, 2025 and a change view, or compare two years side by side with a drag handle, and a play button animates the years. The background can be the Landsat picture of the same year, so you see what each map was made from. You can filter land types and zones, show only land that became built-up, and colour a 1 km² hexagon grid by growth, share, farmland built over or UEII. You can search a town, see figures within 0.5 to 3 km, click any 30 m square for its history, rank the fastest-growing places, copy a link to the exact view, and download the data.
 **Show:** Live site; demo 4.1; `03_Maps_and_Charts/screenshots/`.
 
 **Q49. Is it made with qgis2web, as planned?**
-**Say:** No. It is a static site we built with Python and the open-source Leaflet library. The plan was qgis2web on GitHub Pages. We chose a custom page so users can filter, search and rank. Whether she accepts this is **UNCONFIRMED**.
+**Say:** No. It is a static site we built with Python and the open-source Leaflet library. The plan was qgis2web on GitHub Pages. We chose a custom page so users can compare, filter, search and rank, and we host it free on Codeberg Pages, a non-profit, open-source service. Whether she accepts this is **UNCONFIRMED**.
 **Show:** `05_Code/webmap/`; `06_Web_Map/site/`. Slide 20 shows a screenshot of the real dashboard; its speaker notes say it was built with Leaflet, not qgis2web.
 
 **Q50. Does it work offline? Is it safe to publish?**
-**Say:** Yes, offline with limits. The land-cover layers and statistics work. Background map tiles and online search need internet. The site publishes only our results, not the GADM polygons, because of licence. Code is MIT and maps and figures are CC BY 4.0.
+**Say:** Yes, offline with limits. The land-cover layers, the Landsat satellite background, the tour and the statistics work. The street background map and online search need internet. The site publishes only our results, not the GADM polygons, because of licence. Code is MIT and maps and figures are CC BY 4.0.
 **Show:** Demo 4.1b; `06_Web_Map/LIVE_URL.txt`.
 
 **Q51. How are the hexagon numbers made?**
@@ -337,23 +337,23 @@ Practise each demo once on your own laptop. Keep it short. If something fails, s
 
 ### 4.1 The live web map, and the offline copy (3 to 4 minutes)
 
-**Live site** (needs internet): https://sharmaabhimanyueco.github.io/Supriyaaanya/
+**Live site** (needs internet): https://abhimanyu04.codeberg.page/mohali-urban-growth/
 
-1. Open the site. Say: "This is open source and free to use. It shows the 2025 land cover."
-2. Click **2015**, then **2025**, then **Change**. Say: "Red is built-up land. In Change, we see the land that became built-up between 2015 and 2025."
-3. In **Map filters**, set **Show** to "Only farmland that became built-up". Say: "This is the 6,916 ha of cropland that became built-up."
-4. Press **Play 2015 → 2025**. Say: "Watch the red spread."
-5. In **Search a place**, type **Kharar** and pick it. Say: "The map flies there and shows built-up land within 1 km, by year." Change **Figures within** to 2 km.
-6. Tick **1 km² grid coloured by** and pick "built-up growth (ha)". Move **Hide cells below** up to show only the strongest cells.
-7. Set **Zone** to East. Say: "The ranking now shows the fastest-growing places in the East zone."
-8. Click any point on the map. Say: "Each 30 m square has its own profile, what it was in 2015, 2020 and 2025."
-9. Scroll to **How reliable is it?** Say: "The page states the undercount openly."
+1. Open the site. Say: "This is open source and free to use. The strip at the top gives the four key findings."
+2. Click **▶ Guided tour** and press **Next** through the nine steps. Each step moves the map and explains one finding with our numbers. Close it with ×.
+3. Click **Compare** and drag the round handle. Say: "Left is 2015, right is 2025."
+4. Set **Background** to "Satellite, same year (Landsat 8)" and lower **Opacity**. Say: "This is the satellite picture each map was made from."
+5. Click **Change**, then set **Show** to "Only farmland that became built-up". Say: "This is the 6,916 ha of cropland that became built-up."
+6. In **Search a place**, type **Kharar** and pick it. Say: "The map flies there and shows built-up land within 1 km, by year." Change **Figures within** to 2 km.
+7. Tick **1 km² grid coloured by** and pick "built-up growth (ha)". Set **Zone** to East. Say: "The ranking now shows the fastest-growing places in the East zone."
+8. Click any point on the map. Say: "Each 30 m square has its own history: 2015, 2020 and 2025."
+9. Click **Copy link to this view**, then scroll to **How reliable is it?** and **Download the data**. Say: "The page states the undercount openly, and anyone can download the maps."
 
 **Offline copy** (no internet needed):
 - Windows: double-click `06_Web_Map/run_local_windows.bat`.
 - Mac or Linux: run `sh 06_Web_Map/run_local_mac_linux.sh`.
 - It starts a local server and opens http://localhost:8000.
-- Without internet, land-cover layers and statistics still work. Background tiles and online search do not. Say that before she asks. Use the built-in place list, for example Kharar, which still works.
+- Without internet, the land-cover layers, the Landsat background, the tour and the statistics still work. The street background map and online search do not. Say that before she asks. Use the built-in place list, for example Kharar, which still works.
 - Do not open `index.html` by double-clicking. The grid and place data will not load.
 - Close the black window when done.
 
@@ -507,11 +507,12 @@ Take these on your own laptop. They prove hands-on work and you can paste them i
 | `charts/chart_06_k_selection.png` | 18 Model checks |
 | `charts/chart_07_stability.png` | 18 Model checks |
 | `screenshots/webmap_01_overview_2025.png` | 20 Web map |
-| `screenshots/webmap_02_change_2015_2025.png` | 20 or 16 |
+| `screenshots/webmap_02_compare_2015_2025.png` | 20, or 15 (how much and how fast) |
 | `screenshots/webmap_03_search_kharar.png` | 20 |
-| `screenshots/webmap_04_hex_grid.png` | 20 or 16 |
-| `screenshots/webmap_05_east_zone_ranking.png` | 16 (zone comparison) |
+| `screenshots/webmap_04_hex_grid.png` | 16 (where growth happened) |
+| `screenshots/webmap_05_tour_change.png` | 20 (the guided tour) |
 | `screenshots/webmap_06_phone.png` | 20 (works on a phone) |
+| `screenshots/webmap_07_satellite_compare.png` | 9 (what the satellite sees) |
 
 ---
 

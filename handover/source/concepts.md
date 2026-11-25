@@ -417,10 +417,10 @@ How to use this chapter. Each concept has up to four lines: what it means, an ev
 **Everyday analogy:** A honeycomb: fair, equal cells, no skinny corners.
 **In this project:** Built by `build_webmap.py` from the 30 m UTM rasters. It powers the colouring by growth, share, farmland built over and UEII.
 
-### Static website and GitHub Pages
-**In plain words:** A static site is just files with no server code. GitHub Pages serves such files free from a repository branch.
+### Static website and Codeberg Pages
+**In plain words:** A static site is just files with no server code. Codeberg Pages, run by the non-profit Codeberg e.V. on open-source software (git-pages), serves such files free from a repository's `pages` branch.
 **Everyday analogy:** A printed poster on a public notice board, rather than a staffed counter.
-**In this project:** The `gh-pages` branch holds `index.html`, `layers/*.png` and `.nojekyll`. Site: https://sharmaabhimanyueco.github.io/Supriyaaanya/. The user turns Pages on in Settings → Pages. Locally, use `python -m http.server`, since browsers block `file://` fetches.
+**In this project:** The `pages` branch of https://codeberg.org/Abhimanyu04/mohali-urban-growth holds `index.html`, `leaflet.js`, `layers/`, `data/` and `downloads/`, and a webhook republishes the site on every push. Site: https://abhimanyu04.codeberg.page/mohali-urban-growth/. Locally, use `python -m http.server`, since browsers block `file://` fetches.
 
 ### Search: Wikidata places and Photon
 **In plain words:** Search finds a town and flies the map there.
@@ -457,7 +457,7 @@ The teacher asked for QGIS. The results came from Python. This table maps each s
 | Area (pixels × 0.09) | Raster layer unique values report | ha = m² ÷ 10,000. |
 | New built-up, cropland to built-up, from–to | Raster Calculator | Code `2015 × 10 + 2025`. |
 | Growth by zone, UEII | Zonal histogram | Zones are West/East, not tehsils. |
-| Web map (`build_webmap.py`) | Polygonize, Extract by attribute, Simplify (about 15 m), then qgis2web (Leaflet) | Publish with GitHub Pages. |
+| Web map (`build_webmap.py`) | Polygonize, Extract by attribute, Simplify (about 15 m), then qgis2web (Leaflet) | Publish on a static host (this project uses Codeberg Pages). |
 | Colours | Save Style / Load Style | Same colours as the slides. |
 
 The QGIS guide uses five classes including water (empty in our run), so QGIS results will not match the Python numbers exactly.
@@ -525,4 +525,4 @@ External pages relied on (via search results; direct page fetches were blocked, 
 - scikit-learn clustering evaluation: https://scikit-learn.org/stable/modules/clustering.html#clustering-performance-evaluation
 - Olofsson et al. (2014), https://doi.org/10.1016/j.rse.2014.02.015
 - STAC and Planetary Computer: https://learn.microsoft.com/en-us/azure/planetary-computer/stac-overview and https://planetarycomputer.microsoft.com/api/stac/v1/collections/landsat-c2-l2
-- GitHub Pages: https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site
+- Codeberg Pages: https://docs.codeberg.org/codeberg-pages/-site

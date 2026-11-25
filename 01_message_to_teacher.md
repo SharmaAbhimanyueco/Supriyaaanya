@@ -15,7 +15,7 @@ I have taken over the project on urban growth in the Mohali–Kharar–Zirakpur�
 3. **Clustering:** Should I use K-means or ISODATA, and which QGIS tool: the SCP plugin or the GRASS tools? I plan to use 10 clusters per year, merged into 5 classes: built-up, cropland, water, trees/vegetation and bare/fallow.
 4. **Validation:** Is a visual check of the named clusters against high-resolution imagery enough? Or should I also calculate accuracy using check points?
 5. **Study area:** My district boundary is from GADM and its tehsil names are out of date. Is it acceptable for the outline, or should I use an official source? Should the analysis include a 5 km buffer, or stay within the district?
-6. **Web map:** Is a web map made with the qgis2web plugin and hosted on GitHub Pages acceptable?
+6. **Web map:** I made the web map with the open-source Leaflet library instead of the qgis2web plugin, and host it free on Codeberg Pages, an open-source service. Is that acceptable?
 7. **Submission:** What is the deadline, and what should I submit (slides, report, web-map link)? Is there a marking rubric I could see? My slide list goes from slide 15 to slide 17. Is something meant to be slide 16? Could you also resend your earlier instructions, so that I have them in your own words?
 
 Thank you,

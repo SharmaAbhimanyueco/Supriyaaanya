@@ -26,7 +26,7 @@ The documents were written for a complete handover package (a zip with folders `
 | `03_Maps_and_Charts/charts/`, `screenshots/` | `handover/charts/`, `handover/screenshots/` |
 | `04_Data/` | `results/`: `results.json`, `rasters/`, `images/` (the Landsat composites), `validation/`, `model_checks/`; the CSV tables are in `handover/tables/` |
 | `05_Code/` | `scripts/`: `analysis/`, `demo/`, `handover/`, `slides/`, `webmap/` |
-| `06_Web_Map/` | `webmap/`; live at https://sharmaabhimanyueco.github.io/Supriyaaanya/ |
+| `06_Web_Map/` | `webmap/`; live at https://abhimanyu04.codeberg.page/mohali-urban-growth/ (hosted on Codeberg Pages) |
 | `08_Project_Notes/` | The numbered notes `01_…` to `05_…` in the repository root |
 
 **Not in this public repository, for licence reasons:** the study-area boundary and its zone mask (GADM does not allow redistribution) and the 160 photo chips and contact sheets of the accuracy check (Esri imagery). They are only in the private package.

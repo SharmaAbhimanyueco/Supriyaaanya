@@ -21,7 +21,8 @@ All the analysis, the slides and the web map were produced on **24 November 2026
 | ESA WorldCover on Planetary Computer storage (ai4edataeuwest.blob.core.windows.net) | WorldCover 2020 and 2021 built-up maps (10 m) | `analysis/worldcover_check.py` |
 | Esri World Imagery (server.arcgisonline.com) | Photo chips for the accuracy check (kept private, not published) | `analysis/make_chips.py` |
 | Wikidata Query Service (query.wikidata.org) | Names and positions of towns and villages for the web map search (CC0) | `webmap/fetch_places_wikidata.py` |
-| GitHub (github.com, GitHub Pages) | Code repository and free hosting of the web map | git |
+| GitHub (github.com) | Code repository | git |
+| Codeberg (codeberg.org, Codeberg Pages) | A copy of the code, and free hosting of the web map | git, Codeberg API |
 
 ## What was not used
 
